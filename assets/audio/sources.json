@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "totalBytes": 2174372,
+  "auditionedByHuman": false,
+  "validation": "Source descriptions and CC0 licence links inspected; all files decoded successfully with ffmpeg/ffprobe. No listening/audition tool was available. No generated engine oscillator or synthetic drone was used.",
+  "recommendedEngineFormat": "wav",
+  "assets": [
+    {
+      "layer": "engine-idle",
+      "title": "Động Cơ Xe Cần Cẩu - Excavator Engine",
+      "author": "SieuAmThanh",
+      "sourcePage": "https://freesound.org/people/SieuAmThanh/sounds/770430/",
+      "sourceId": "770430",
+      "license": "CC0 1.0 Universal",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerifiedOnSourcePage": true,
+      "retrievedAt": "2026-11-01",
+      "sourceExcerptSeconds": {
+        "start": 20,
+        "length": 12
+      },
+      "recordingDescription": "Smartphone field recording of an excavator engine. Steady excerpt chosen as idle bed; original page does not specify RPM or isolate idle state.",
+      "processing": "Mono conversion, highpass, loudness normalization, 200ms equal-power wrap splice, PCM16 WAV engine option and 96kbps MP3 encoding. Static post-splice peak attenuation where needed; no clipping or generated tones.",
+      "files": [
+        {
+          "path": "engine-idle.mp3",
+          "bytes": 142604,
+          "durationSeconds": 11.844,
+          "sha256": "f5d3b2831dda94046a8855b4b6d3d28864f4ae8c4375f3daf07372e89e38b9c6",
+          "codec": "mp3",
+          "sampleRate": 32000,
+          "channels": 1,
+          "decodedSeconds": 11.8,
+          "peak": 0.3655675947666168,
+          "rms": 0.09641213801564824
+        },
+        {
+          "path": "engine-idle.wav",
+          "bytes": 755278,
+          "durationSeconds": 11.8,
+          "sha256": "87331339a0b9f6e030bc78099c567125165629d6ec55418e1257bca1efe7b679",
+          "codec": "pcm_s16le",
+          "sampleRate": 32000,
+          "channels": 1,
+          "decodedSeconds": 11.8,
+          "peak": 0.38629150390625,
+          "rms": 0.10147709787423981
+        }
+      ]
+    },
+    {
+      "layer": "engine-load",
+      "title": "Excavator 4.wav",
+      "author": "eZZin",
+      "sourcePage": "https://freesound.org/people/eZZin/sounds/606943/",
+      "sourceId": "606943",
+      "license": "CC0 1.0 Universal",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerifiedOnSourcePage": true,
+      "retrievedAt": "2026-11-01",
+      "sourceExcerptSeconds": {
+        "start": 2,
+        "length": 12
+      },
+      "recordingDescription": "Recorded excavator digging in sand, including working engine and occasional falling rocks. Work layer, not a separately isolated motor stem.",
+      "processing": "Mono conversion, highpass, loudness normalization, 200ms equal-power wrap splice, PCM16 WAV engine option and 96kbps MP3 encoding. Static post-splice peak attenuation where needed; no clipping or generated tones.",
+      "files": [
+        {
+          "path": "engine-load.mp3",
+          "bytes": 142604,
+          "durationSeconds": 11.844,
+          "sha256": "4d33ed70beaba4b84d98794d3fb1792b7483d8c24ed2c5496af5ea13d25e883b",
+          "codec": "mp3",
+          "sampleRate": 32000,
+          "channels": 1,
+          "decodedSeconds": 11.8,
+          "peak": 0.7891252636909485,
+          "rms": 0.06525883563315503
+        },
+        {
+          "path": "engine-load.wav",
+          "bytes": 755278,
+          "durationSeconds": 11.8,
+          "sha256": "be50ab2dcc40fa386331038ff4147b66159d35f7b82ae70b590a69ac298839e9",
+          "codec": "pcm_s16le",
+          "sampleRate": 32000,
+          "channels": 1,
+          "decodedSeconds": 11.8,
+          "peak": 0.850006103515625,
+          "rms": 0.06868314855006101
+        }
+      ]
+    },
+    {
+      "layer": "hydraulic",
+      "title": "hydraulics.wav",
+      "author": "nuckan",
+      "sourcePage": "https://freesound.org/people/nuckan/sounds/212941/",
+      "sourceId": "212941",
+      "license": "CC0 1.0 Universal",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerifiedOnSourcePage": true,
+      "retrievedAt": "2026-11-01",
+      "sourceExcerptSeconds": {
+        "start": 0.3,
+        "length": 8.2
+      },
+      "recordingDescription": "Actual forklift hydraulics, recorded by uploader at work; uploader cut/muted most ambience.",
+      "processing": "Mono conversion, highpass, loudness normalization, 200ms equal-power wrap splice, PCM16 WAV engine option and 96kbps MP3 encoding. Static post-splice peak attenuation where needed; no clipping or generated tones.",
+      "files": [
+        {
+          "path": "hydraulic.mp3",
+          "bytes": 95948,
+          "durationSeconds": 7.956,
+          "sha256": "4bc2aa29cb6b3e99b7e94af7f246aa1d94e4a0550328ca00a6f65a440f945e25",
+          "codec": "mp3",
+          "sampleRate": 32000,
+          "channels": 1,
+          "decodedSeconds": 7.91028125,
+          "peak": 0.46333539485931396,
+          "rms": 0.05481300001982315
+        }
+      ]
+    },
+    {
+      "layer": "rock-contact",
+      "title": "Crackling | Rock Movement",
+      "author": "IESP",
+      "sourcePage": "https://freesound.org/people/IESP/sounds/337702/",
+      "sourceId": "337702",
+      "license": "CC0 1.0 Universal",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerifiedOnSourcePage": true,
+      "retrievedAt": "2026-11-01",
+      "sourceExcerptSeconds": {
+        "start": 2,
+        "length": 12
+      },
+      "recordingDescription": "Unprocessed footsteps/rock movement recorded by The IntraEnvrionmental Sound Project in Lethbridge, Alberta with Sound Devices recorder and Rode NT4.",
+      "processing": "Mono conversion, highpass, loudness normalization, 200ms equal-power wrap splice, PCM16 WAV engine option and 96kbps MP3 encoding. Static post-splice peak attenuation where needed; no clipping or generated tones.",
+      "files": [
+        {
+          "path": "rock-contact.mp3",
+          "bytes": 142604,
+          "durationSeconds": 11.844,
+          "sha256": "be99a8cc5c9a71f550cf2c5e15b647f64edc8888dad748995764b015d439efe6",
+          "codec": "mp3",
+          "sampleRate": 32000,
+          "channels": 1,
+          "decodedSeconds": 11.8,
+          "peak": 0.7745646238327026,
+          "rms": 0.07279696524555528
+        }
+      ]
+    },
+    {
+      "layer": "rock-fall",
+      "title": "Bricks/Stones/Rocks/Gravel Falling",
+      "author": "iwanPlays",
+      "sourcePage": "https://freesound.org/people/iwanPlays/sounds/567249/",
+      "sourceId": "567249",
+      "license": "CC0 1.0 Universal",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerifiedOnSourcePage": true,
+      "retrievedAt": "2026-11-01",
+      "sourceExcerptSeconds": {
+        "start": 0,
+        "length": 3.8
+      },
+      "recordingDescription": "CC0 edited mix of stone/brick falls; source page names CC0 originals adamgryu336023, alancat389303, spookymodem202098.",
+      "processing": "Mono conversion, highpass, loudness normalization, short onset/tail fades and 96kbps MP3 encoding. Static post-splice peak attenuation where needed; no clipping or generated tones.",
+      "files": [
+        {
+          "path": "rock-fall.mp3",
+          "bytes": 45404,
+          "durationSeconds": 3.744,
+          "sha256": "a471ac24a7c5c673e94a699111d4d999425cc60a19a2c030cf2811c226a4e486",
+          "codec": "mp3",
+          "sampleRate": 32000,
+          "channels": 1,
+          "decodedSeconds": 3.7019375,
+          "peak": 0.7583381533622742,
+          "rms": 0.08959584858685309
+        }
+      ]
+    },
+    {
+      "layer": "metal-scrape",
+      "title": "Metal Pipe Scraped on Concrete in Basement.aif",
+      "author": "RutgerMuller",
+      "sourcePage": "https://freesound.org/people/RutgerMuller/sounds/104361/",
+      "sourceId": "104361",
+      "license": "CC0 1.0 Universal",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "licenseVerifiedOnSourcePage": true,
+      "retrievedAt": "2026-11-01",
+      "sourceExcerptSeconds": {
+        "start": 1,
+        "length": 8
+      },
+      "recordingDescription": "Actual metallic pipe dragged on concrete, stereo Zoom H4 and Rode NT4 recording. Foley analogue of teeth on rock, not an excavator recording.",
+      "processing": "Mono conversion, highpass, loudness normalization, 200ms equal-power wrap splice, PCM16 WAV engine option and 96kbps MP3 encoding. Static post-splice peak attenuation where needed; no clipping or generated tones.",
+      "files": [
+        {
+          "path": "metal-scrape.mp3",
+          "bytes": 94652,
+          "durationSeconds": 7.848,
+          "sha256": "51fd82fab0f4731e103500b4fb87f0984abeb6f144b779823b3b2575e8db40a4",
+          "codec": "mp3",
+          "sampleRate": 32000,
+          "channels": 1,
+          "decodedSeconds": 7.8,
+          "peak": 0.38974273204803467,
+          "rms": 0.0392842976866372
+        }
+      ]
+    }
+  ]
+}

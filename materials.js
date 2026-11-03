@@ -1,0 +1,10 @@
+import * as T from './three.module.js';
+export function terrainMaps(kind){
+ const n=512,canvas=document.createElement('canvas');canvas.width=canvas.height=n;const c=canvas.getContext('2d'),image=c.createImageData(n,n),heights=new Float32Array(n*n);
+ const hash=(x,y)=>{const t=Math.sin(x*127.1+y*311.7)*43758.5453;return t-Math.floor(t)};
+ function noise(x,y,s){const ax=Math.floor(x/s),ay=Math.floor(y/s),fx=x/s-ax,fy=y/s-ay,u=fx*fx*(3-2*fx),v=fy*fy*(3-2*fy);return T.MathUtils.lerp(T.MathUtils.lerp(hash(ax,ay),hash(ax+1,ay),u),T.MathUtils.lerp(hash(ax,ay+1),hash(ax+1,ay+1),u),v)}
+ for(let y=0;y<n;y++)for(let x=0;x<n;x++){let h=noise(x,y,110)*.4+noise(x,y,40)*.3+noise(x,y,9)*.2+noise(x,y,2)*.1;if(kind==='wall')h=h*.75+Math.sin(y*.12+noise(x,y,80)*5)*.12;heights[y*n+x]=h;const i=(y*n+x)*4;const color=kind==='wall'?[121,112,98]:[133,122,103];for(let j=0;j<3;j++)image.data[i+j]=color[j]+(h-.5)*100;image.data[i+3]=255}
+ c.putImageData(image,0,0);const color=new T.CanvasTexture(canvas);color.colorSpace=T.SRGBColorSpace;color.wrapS=color.wrapT=T.RepeatWrapping;
+ const normalCanvas=document.createElement('canvas');normalCanvas.width=normalCanvas.height=n;const ctx=normalCanvas.getContext('2d'),normal=ctx.createImageData(n,n);for(let y=0;y<n;y++)for(let x=0;x<n;x++){const i=(y*n+x)*4,dx=heights[y*n+(x+1)%n]-heights[y*n+(x+n-1)%n],dy=heights[((y+1)%n)*n+x]-heights[((y+n-1)%n)*n+x],v=new T.Vector3(-dx*7,-dy*7,1).normalize();normal.data[i]=(v.x*.5+.5)*255;normal.data[i+1]=(v.y*.5+.5)*255;normal.data[i+2]=(v.z*.5+.5)*255;normal.data[i+3]=255}ctx.putImageData(normal,0,0);const map=new T.CanvasTexture(normalCanvas);map.wrapS=map.wrapT=T.RepeatWrapping;return {color,normal:map};
+}
+export function pileGeometry(width=4.2,depth=2.9){const g=new T.PlaneGeometry(width,depth,20,14);g.rotateX(-Math.PI/2);const p=g.attributes.position;for(let i=0;i<p.count;i++){const x=p.getX(i)/(width*.5),z=p.getZ(i)/(depth*.5),h=Math.max(0,1-Math.pow(Math.abs(x),2)-Math.pow(Math.abs(z),2));p.setY(i,.08+h*.34+(Math.sin(i*23)*.04*h))}g.computeVertexNormals();return g}
