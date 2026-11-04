@@ -10,5 +10,13 @@ export function dumpGround(x,z,original=0){
  // approach ramps north/east of it. Haulers never drive across that face.
  const north=smooth(-25,-21,z),westA=23+(10-23)*north,westB=30+(38-30)*north;
  const pad=DUMP.height*smooth(westA,westB,x)*(1-smooth(44,62,x))*smooth(-52,-43,z)*(1-smooth(-24,4,z));
- return original*(1-area)+pad*area;
+ return original*(1-area)+pad*area+dumpBermHeight(x,z);
+}
+
+// A low rock safety windrow replaces fabricated wheel stops and marker posts.
+export function dumpBermHeight(x,z){
+ const ends=smooth(-42.5,-41,z)*(1-smooth(-25,-23.5,z));
+ const centre=32.70+.08*Math.sin(z*1.37)+.04*Math.sin(z*3.1);
+ const section=Math.max(0,1-Math.abs(x-centre)/.95);
+ return ends*section*(.52+.075*Math.sin(z*.93)+.035*Math.sin(z*2.43));
 }

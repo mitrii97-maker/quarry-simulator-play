@@ -1,6 +1,6 @@
 import * as T from '../three.module.js';
 import {HAULER_BODY as B} from './hauler-body-config.js';
-export const HOIST={baseX:-2.2,baseY:1.65,anchorX:.85,anchorY:B.floor-.28,side:.88,sleeve:2.25};
+export const HOIST={baseX:-2.2,baseY:1.65,anchorX:.30,anchorY:B.floor-.28,side:.88,sleeve:2.25};
 export function hoistAnchor(angle,out={}){const x=HOIST.anchorX-B.hingeX,y=HOIST.anchorY-B.hingeY,c=Math.cos(angle),s=Math.sin(angle);out.x=B.hingeX+x*c-y*s;out.y=B.hingeY+x*s+y*c;return out;}
 export function makeTruckHoist(root,M){
  const unit=new T.CylinderGeometry(1,1,1,12),sleeves=new T.InstancedMesh(unit,M.bodyDark,2),rods=new T.InstancedMesh(unit,M.chrome,2),glands=new T.InstancedMesh(unit,M.steel,2),dummy=new T.Object3D(),up=new T.Vector3(0,1,0),direction=new T.Vector3(),anchor={};

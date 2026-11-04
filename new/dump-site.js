@@ -2,7 +2,7 @@ import * as T from '../three.module.js';
 import {GranularGrid} from './granular.js';
 import {chunkBatch,packHeightField} from './chunk-packing.js';
 import {createHeightFines} from './dry-fines.js';
-import {DUMP} from './dump-layout.js';
+import {DUMP,dumpBermHeight} from './dump-layout.js';
 import {ORE} from './material-volume.js';
 import {recordDump} from './levels.js';
 import {ground} from './world.js';
@@ -18,12 +18,13 @@ export function makeDumpSite(scene,M){
  const fines=createHeightFines(scene,M.freshRock,{nx:61,nz:91,x:DUMP.x-DUMP.width/2,z:DUMP.z-DUMP.depth/2,dx:DUMP.width/60,dz:DUMP.depth/90,signed:true,depth:0}),heights=new Float32Array(61*91),cover=new Uint8Array(61*91),radius=Math.hypot(DUMP.width/2,DUMP.depth/2,12);fines.mesh.name='Continuous dry dump mass shared by every truck';fines.mesh.castShadow=false;fines.mesh.frustumCulled=true;fines.mesh.geometry.boundingSphere=new T.Sphere(V(DUMP.x,3,DUMP.z),radius);
  const pieces=chunkBatch(scene,M.freshRock,10000,'Haul-road dump: retained angular rock'),dress=new T.Group();dress.name='Tipping apron and edge markers';scene.add(dress);
  pieces.mesh.boundingSphere=new T.Sphere(V(DUMP.x,3,DUMP.z),radius);pieces.mesh.frustumCulled=true;
- // Wheel stops leave the centre and tail opening clear. No floating labels.
- for(const z of DUMP.bays)for(const side of [-1,1]){
-  const zz=z+side*2.15;block(dress,M.track,[1.5,.3,.27],[33.65,ground(33.65,zz)+.15,zz],.07);
-  rod(dress,M.steel,V(32.75,ground(32.75,zz),zz),V(32.75,ground(32.75,zz)+1.05,zz),.045);
-  block(dress,M.paint,[.12,.33,.2],[32.75,ground(32.75,zz)+.92,zz],.03);
- }
+ // Dense fine aggregate and embedded angular clasts share the real berm surface.
+ const berm=createHeightFines(dress,M.freshRock,{nx:19,nz:77,x:31.2,z:-42.5,dx:3/18,dz:19/76,signed:true,depth:0});
+ const bermY=new Float32Array(19*77),bermCover=new Float32Array(19*77);
+ for(let j=0;j<77;j++)for(let i=0;i<19;i++){const x=31.2+i*3/18,z=-42.5+j*19/76,k=j*19+i,h=dumpBermHeight(x,z);bermY[k]=ground(x,z)+.008;bermCover[k]=Math.min(1,h/.035);}
+ berm.update(bermY,bermCover);berm.mesh.name='Continuous irregular safety berm made of rock';
+ const bermStones=chunkBatch(dress,M.freshRock,2400,'Angular clasts embedded in safety berm');
+ packHeightField(bermStones,{nx:12,nz:76,cell:.25,x:31.2,z:-42.5,floor:(x,z)=>ground(x,z)-dumpBermHeight(x,z),height:dumpBermHeight,seed:981,layers:2});
  batchMeshes(dress);let revision=-1,clock=0,quiet=0,cursor=0;const slots=new Map();let clearTime=0;
  const contains=(x,z)=>Math.abs(x-DUMP.x)<DUMP.width/2&&Math.abs(z-DUMP.z)<DUMP.depth/2;
  function height(x,z){return contains(x,z)?floorAt(x,z)+field.heightAt(x-DUMP.x,z-DUMP.z):-Infinity}

@@ -1,10 +1,10 @@
 // One envelope for the steel body, visible ore, receivers and tipping hinge.
 // +X faces the cab. Rated payload/settling calibration remains 100 tonnes.
 export const HAULER_BODY=Object.freeze({
- width:5.2,depth:3.3,centerX:-1,floor:2.98,floorThickness:.18,
- rim:3.94,frontRim:4.40,topDepth:4.74,rearStretch:.26,frontStretch:.44,
- wallThickness:.13,hingeX:-3.41,hingeY:2.78,
- canopyFront:4.22,canopyY:4.64,canopyDepth:4.98,
+ width:5.2,depth:3.3,centerX:-1.55,floor:2.98,floorThickness:.18,
+ rim:4.08,frontRim:4.40,topDepth:4.16,rearStretch:1.18,frontStretch:.10,
+ wallThickness:.13,hingeX:-3.96,hingeY:2.78,
+ canopyFront:3.07,canopyY:4.64,canopyDepth:4.62,
  settlingRim:1.73,heapHeight:1.50
 });
 export const bodyRear=HAULER_BODY.centerX-HAULER_BODY.width/2;

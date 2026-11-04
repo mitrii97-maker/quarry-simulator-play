@@ -3,16 +3,18 @@ import {V,add,block,pin,rod} from './geometry.js';
 import {roundedOutline,roundedPlate,curvedShell} from './sculpted.js';
 import {batchMeshes} from '../batching.js';
 import {BUCKET} from './bucket-config.js';
-import {BUCKET_INNER_WIDTH,BUCKET_CUT_HALF_WIDTH} from './material-volume.js';
+import {BUCKET_INNER_WIDTH,MACHINE} from './material-volume.js';
 
 // A heavy, open-mouth excavator bucket in the existing metre-scale envelope.
 // Its local -X cutting edge, pin and interior remain aligned with the simulation.
 export function makeBucketShell(bucket,materials){
- const steel=materials.bucket.clone();steel.color.set('#717571');steel.normalMap=null;steel.roughness=.68;steel.metalness=.57;
+ const steel=materials.bucket.clone();steel.color.set(MACHINE.id==='hitachi'?'#4b504d':MACHINE.id==='komatsu'?'#555b57':'#717571');steel.normalMap=null;steel.roughness=.68;steel.metalness=.57;
  const edge=materials.steel.clone();edge.color.set('#a2a6a2');edge.roughness=.44;edge.metalness=.78;
  const dark=materials.bucket.clone();dark.color.set('#3c4240');dark.normalMap=null;dark.roughness=.80;dark.metalness=.36;
  const sideWear=steel.clone();sideWear.color.set('#616660');sideWear.roughness=.78;
- const drop=BUCKET.drop,width=BUCKET_INNER_WIDTH,outer=BUCKET_CUT_HALF_WIDTH;
+ // Shell dimensions are local: root.scale applies the machine size once.
+ const mining=MACHINE.id==='hitachi'||MACHINE.id==='komatsu';
+ const drop=BUCKET.drop,width=BUCKET_INNER_WIDTH,outer=width/2+.08;
  const body=new T.Group(),teeth=new T.Group(),mounts=new T.Group();
  body.name='Rounded reference bucket bowl';teeth.name='Five tapered cutting teeth';mounts.name='Paired bored bucket mounting ears';
  teeth.userData.toothCount=5;mounts.userData.mainBoreRadius=.158;mounts.userData.linkBoreRadius=.105;
@@ -21,15 +23,15 @@ export function makeBucketShell(bucket,materials){
  const profile=raw.map(([x,y])=>[x,y-drop]);
  // The section is deliberately open from its top rim to its cutting lip.
  // Only the curved back and sole are swept across the width.
- curvedShell(body,steel,profile,width+.17,.18).name='Open curved bucket back and sole';
+ curvedShell(body,steel,profile,width+.17,mining?.21:.18).name='Open curved bucket back and sole';
  for(const side of [-1,1]){
   const z=side*outer;
-  const cheek=roundedPlate(body,steel,profile,.12,z,{corner:.18,bevel:.018});cheek.name=side<0?'Left thick rounded cheek':'Right thick rounded cheek';
+  const cheek=roundedPlate(body,steel,profile,mining?.16:.12,z,{corner:.12,bevel:.018});cheek.name=side<0?'Left thick rounded cheek':'Right thick rounded cheek';
   const inset=[[.43,.02],[.72,-.29],[.72,-.84],[.43,-1.13],[.08,-1.22],[-.42,-1.19],[-.88,-.98],[-1.02,-.76]].map(([x,y])=>[x,y-drop]);
-  roundedPlate(body,sideWear,inset,.014,z+side*.069,{corner:.17,bevel:.002}).name='Recessed outer cheek wear plate';
+  roundedPlate(body,sideWear,inset,.014,z+side*(mining?.095:.069),{corner:.17,bevel:.002}).name='Recessed outer cheek wear plate';
   // Rolled mouth edge and the side cutter weld. Nothing bridges the opening.
-  rod(body,edge,V(.45,.13-drop,z+side*.064),V(-1.22,-.71-drop,z+side*.064),.023);
-  roundedPlate(body,edge,[[-1.31,-.79],[-1.04,-1.05],[-.99,-1.10],[-1.28,-.83]].map(([x,y])=>[x,y-drop]),.028,z+side*.075,{corner:.025,bevel:.004});
+  rod(body,edge,V(.45,.13-drop,z+side*(mining?.092:.064)),V(-1.22,-.71-drop,z+side*(mining?.092:.064)),.023);
+  roundedPlate(body,edge,[[-1.31,-.79],[-1.04,-1.05],[-.99,-1.10],[-1.28,-.83]].map(([x,y])=>[x,y-drop]),.028,z+side*(mining?.105:.075),{corner:.025,bevel:.004});
   for(const [x,y]of [[.51,-.20],[-.82,-1.03]])pin(body,dark,x,y-drop,z+side*.081,.026,.015);
  }
  // Broad bevelled cutting bar, independent bolted tooth adapters and pointed
@@ -68,6 +70,11 @@ export function makeBucketShell(bucket,materials){
    const ring=add(mounts,new T.TorusGeometry(r+.017,.018,8,28),edge,x,y,z+side*.075);ring.name='Machined mounting bore collar';
    const inner=add(mounts,new T.TorusGeometry(r-.004,.006,6,24),dark,x,y,z-side*.061);inner.name='Dark inside bore edge';
   }
+ }
+ if(mining){
+  // A compact reinforced top saddle ties the pin ears into the bucket back.
+  for(const z of [-.43,.43])roundedPlate(mounts,steel,[[.10,-.48],[.43,-.40],[.78,-.72-drop],[.69,-.91-drop],[.34,-.75]],.14,z,{corner:.055,bevel:.012});
+  block(body,dark,[.24,.12,width+.16],[.65,-.38-drop,0],.025);
  }
  body.userData.profile=profile.map(p=>[...p]);teeth.userData.tipCenters=tipCenters.map(p=>p.toArray());mounts.userData.earCenters=[-.43,.43];
  for(const group of [body,teeth,mounts])batchMeshes(group);
