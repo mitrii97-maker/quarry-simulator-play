@@ -13,9 +13,9 @@ export function quarryOutcrops(scene,M,coarseHeight){
  const shale = T.MathUtils.smoothstep(Math.cos(bed*1.24 + .45*Math.sin(bed*.67)), .08, .91);
  const iron = T.MathUtils.smoothstep(Math.cos(bed*2.38 + .8*Math.sin(x*.054)), .70, .97);
  const chip = .95 + .05*Math.sin(x*1.7 + z*.47)*Math.sin(z*1.23);
- colors.push((.94 - shale*.32 - iron*.055)*chip,
-             (.91 - shale*.25 - iron*.18)*chip,
-             (.88 - shale*.16 - iron*.27)*chip);
+ colors.push((.56 - shale*.43 - iron*.015)*chip,
+             (.59 - shale*.44 - iron*.025)*chip,
+             (.62 - shale*.44 - iron*.035)*chip);
  }
  geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));geometry.computeVertexNormals();geometry.computeBoundingSphere();const material=(M.rock||M.ground).clone();material.vertexColors=true;snowOnRock(material);const uv=geometry.attributes.uv;for(let i=0;i<p.count;i++)uv.setXY(i,p.getX(i)*.23,p.getY(i)*.23+(p.getZ(i)+GRID.z)*.16);const mesh=new T.Mesh(geometry,material);mesh.position.z=GRID.z;mesh.castShadow=mesh.receiveShadow=true;mesh.name='Continuous terraced quarry wall';scene.add(mesh);
  return {mesh,height(x,z){if(x< -66||x>66||z<27||z>72)return undefined;return heightMeshSample(geometry,GRID,x,z)}};

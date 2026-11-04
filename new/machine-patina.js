@@ -36,15 +36,15 @@ const coatings={
  paint:`float deposit=smoothstep(.46,.80,wear.r+.12*wear.g);
         float runoff=smoothstep(.48,.87,wear.g)*deposit;
         float bare=smoothstep(.74,.89,wear.b)*smoothstep(.43,.68,wear.r);
-        diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.104,.085,.060),deposit*.32+runoff*.22);
+        diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.046,.052,.058),deposit*.32+runoff*.22);
         diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.28,.27,.24),bare*.90);`,
  bucket:`float deposit=smoothstep(.38,.73,wear.r+.12*wear.g);
          float bare=smoothstep(.51,.87,wear.b)*(1.0-deposit*.63);
-         diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.095,.079,.061),deposit*.74);
+         diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.042,.048,.054),deposit*.74);
          diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.38,.36,.31),bare*.82);`,
  rubber:`float deposit=smoothstep(.34,.82,wear.r+.10*wear.g);
          float bare=0.0;
-         diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.107,.088,.064),deposit*.61);`
+         diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.052,.057,.062),deposit*.61);`
 };
 
 export function applyMachineWear(material,kind){

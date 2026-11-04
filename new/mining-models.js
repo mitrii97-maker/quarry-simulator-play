@@ -40,13 +40,15 @@ export function miningHouse(house,M,machine){
   lettering(house,hitachi?'EX1200':shovel?'R 9200':'PC1200',{x:-.18,y:shovel?.84:.68,z:z+side*.023,width:.95,height:.22,font:'900 150px Arial',side,color:shovel?'#343738':'#f4ecdb'});
   const deck=shovel?1.88:1.55;
   block(house,M.dark,[4.85,.09,.39],[-.75,deck,z+side*.07],.02);
-  for(const x of [-2.9,-1.5,-.1,1.26])rod(house,M.warning,V(x,deck,z),V(x,deck+.67,z),.027);
-  rod(house,M.warning,V(-2.9,deck+.67,z),V(1.26,deck+.67,z),.027);
-  rod(house,M.warning,V(-2.9,deck+.32,z),V(1.26,deck+.32,z),.023);
+  // The left cab occupies x=-.64..1.34: terminate its deck rail behind it.
+  const end=side<0?-1.05:1.26;
+  for(const x of [-2.9,-1.9,end])rod(house,M.warning,V(x,deck,z),V(x,deck+.67,z),.027);
+  rod(house,M.warning,V(-2.9,deck+.67,z),V(end,deck+.67,z),.027);
+  rod(house,M.warning,V(-2.9,deck+.32,z),V(end,deck+.32,z),.023);
  }
- const accessZ=-width/2-.14;
- for(let i=0;i<6;i++)block(house,M.steel,[.54,.065,.27],[.7,-.22+i*.29,accessZ],.012);
- for(const x of [.4,1.0])rod(house,M.warning,V(x,-.17,accessZ-.05),V(x,1.65,accessZ-.05),.03);
+ const accessZ=-2.52;
+ for(let i=0;i<6;i++)block(house,M.steel,[.54,.065,.27],[-1.03,-.22+i*.29,accessZ],.012);
+ for(const x of [-1.34,-.72])rod(house,M.warning,V(x,-.17,accessZ-.05),V(x,1.65,accessZ-.05),.03);
  const exhaust=shovel?1.92:1.5;
  rod(house,M.dark,V(-1.2,exhaust,.62),V(-1.2,exhaust+.54,.62),.09);
  add(house,new T.CylinderGeometry(.14,.14,.08,16),M.dark,-1.2,exhaust+.58,.62);

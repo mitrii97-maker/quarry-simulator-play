@@ -1,3 +1,4 @@
+import {addCounterweight} from './counterweight.js';
 import {MACHINE} from './material-volume.js';
 import {miningHouse,miningCab,miningArm,makeFaceShovel} from './mining-models.js';
 import {applyMachineWear} from './machine-patina.js';
@@ -40,7 +41,7 @@ export function makeExcavator(scene,materials){
  const rollers=makeRollerFaces(root,M.steel);
  block(root,M.dark,[3.8,.4,2.1],[0,1.04,0]);const race=add(root,new T.CylinderGeometry(1.22,1.3,.36,48),M.steel,0,1.38,0);
  const house=new T.Group();house.position.y=1.58;root.add(house);
- if(MACHINE.id==='volvo')volvoBody(house,M);else miningHouse(house,M,MACHINE);
+ if(MACHINE.id==='volvo')volvoBody(house,M);else miningHouse(house,M,MACHINE);addCounterweight(house,M,MACHINE);
  // Full cabin frame, thin glass panes and a clear front windscreen.
  const cab=new T.Group();cab.position.set(.35,MACHINE.kind==='face-shovel'?1.9:MACHINE.id==='volvo'?1.08:1.35,MACHINE.id==='volvo'?-1.05:-1.36);house.add(cab);
  if(MACHINE.id==='volvo')volvoCab(cab,M);else miningCab(cab,M,MACHINE);
