@@ -15,3 +15,5 @@ export function recordTransportSpill(tonnes){if(current.status!=='playing'||!Num
 export function recordDump(tonnes){if(current.status!=='playing'||!Number.isFinite(tonnes)||tonnes<=0)return 0;const amount=Math.min(tonnes,LEVEL_TONNES-current.dumped);current.dumped+=amount;return amount;}
 export function finishIfReady(payload,inFlight){if(current.status==='playing'&&current.remaining<=EPS&&current.dumped>=LEVEL_TONNES-EPS&&payload<=.0001&&inFlight<=.0001){current.status='complete';return true}return false}
 export function nextLevel(){if(current.status!=='complete')return false;current=fresh(current.number+1);return true}
+
+export function restoreLevel(saved){if(!saved||!Number.isSafeInteger(saved.number)||saved.number<1)throw Error('Invalid saved level');for(const k of ['remaining','excavated','shipped','dumped','trips'])if(!Number.isFinite(saved[k])||saved[k]<0)throw Error('Invalid saved counters');current={...fresh(saved.number),...saved};}

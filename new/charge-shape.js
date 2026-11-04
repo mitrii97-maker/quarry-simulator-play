@@ -1,4 +1,4 @@
-import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP,BUCKET_VOLUME,BUCKET_VISUAL_VOLUME} from './material-volume.js';
+import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP,BUCKET_VOLUME,BUCKET_VISUAL_VOLUME,MACHINE} from './material-volume.js';
 const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],sub=(a,b)=>a.map((x,i)=>x-b[i]),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
 export const unit=a=>{const n=Math.hypot(...a)||1;return a.map(x=>x/n)};
 const points=BUCKET_CONTAINER.map(([x,y])=>[x,y-BUCKET_SHELL_DROP]);
@@ -21,6 +21,7 @@ export function chargeShape(fill,normal=[0,1,0]){
 }
 export function bucketUp(s){
  const a=s.boom+s.stick+s.curl,r=s.roll||0,p=s.pitch||0,y=s.yaw||0,k=Math.cos(y)*Math.sin(p)+Math.sin(y)*Math.sin(r)*Math.cos(p),j=Math.cos(r)*Math.cos(p);
- return [Math.cos(a)*k+Math.sin(a)*j,-Math.sin(a)*k+Math.cos(a)*j,Math.sin(y)*Math.sin(p)-Math.cos(y)*Math.sin(r)*Math.cos(p)];
+ const mirror=MACHINE.kind==='face-shovel'?-1:1;
+ return [mirror*(Math.cos(a)*k+Math.sin(a)*j),-Math.sin(a)*k+Math.cos(a)*j,mirror*(Math.sin(y)*Math.sin(p)-Math.cos(y)*Math.sin(r)*Math.cos(p))];
 }
 export function retainedVolume(s){const normal=bucketUp({...s,curl:s.curl-32*Math.PI/180}),lip=points[points.length-1],height=normal[0]*lip[0]+normal[1]*lip[1]-Math.abs(normal[2])*BUCKET_INNER_WIDTH/2;return Math.min(BUCKET_VOLUME,clipCharge(normal,height+.04).volume/BUCKET_VISUAL_VOLUME*BUCKET_VOLUME)}

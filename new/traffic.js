@@ -16,12 +16,15 @@ export function createTraffic(){let clock=1;const point=new Vector3(),out={waiti
   for(const t of trucks)if(t.route)for(let j=0;j<count;j++)for(let i=1;i<SIZE;i++)if(conflict(t.trafficPath,i,blockers[j],0))limit(t,t.trafficPath[i*5+4]);
   for(let a=0;a<trucks.length;a++)for(let b=a+1;b<trucks.length;b++){const A=trucks[a],B=trucks[b],pa=A.trafficPath,pb=B.trafficPath;let aNow=Infinity,bNow=Infinity,bestA=Infinity,bestB=Infinity;
    for(let i=1;i<SIZE;i++){if(A.route&&conflict(pa,i,pb,0))aNow=Math.min(aNow,pa[i*5+4]);if(B.route&&conflict(pb,i,pa,0))bNow=Math.min(bNow,pb[i*5+4]);}
-   if(Number.isFinite(aNow))limit(A,aNow);if(Number.isFinite(bNow))limit(B,bNow);
+   if(Number.isFinite(aNow)&&Number.isFinite(bNow)&&A.route&&B.route){
+    const aClears=A.state==='returning'&&B.state!=='returning'||A.state===B.state&&(A.index??a)<(B.index??b);
+    if(aClears)limit(B,bNow);else limit(A,aNow);
+   }else{if(Number.isFinite(aNow))limit(A,aNow);if(Number.isFinite(bNow))limit(B,bNow);}
    if(!A.route||!B.route)continue;
    for(let i=1;i<SIZE;i++)for(let j=1;j<SIZE;j++)if(conflict(pa,i,pb,j)){const da=pa[i*5+4],db=pb[j*5+4],ta=da/Math.max(2,A.route.speed),tb=db/Math.max(2,B.route.speed);if(Math.abs(ta-tb)>4)continue;if(da+db<bestA+bestB){bestA=da;bestB=db;}}
    if(!Number.isFinite(bestA))continue;
    // A vehicle already occupying the other's corridor must clear first.
-   let aFirst=Number.isFinite(bNow)&&!Number.isFinite(aNow)?true:Number.isFinite(aNow)&&!Number.isFinite(bNow)?false:Math.abs(bestA-bestB)>4?bestA<bestB:(A.tonnes||0)!==(B.tonnes||0)?(A.tonnes||0)>(B.tonnes||0):(A.index??a)<(B.index??b);
+   let aFirst=Number.isFinite(aNow)&&Number.isFinite(bNow)?(A.state==='returning'&&B.state!=='returning'||A.state===B.state&&(A.index??a)<(B.index??b)):Number.isFinite(bNow)&&!Number.isFinite(aNow)?true:Number.isFinite(aNow)&&!Number.isFinite(bNow)?false:Math.abs(bestA-bestB)>4?bestA<bestB:(A.tonnes||0)!==(B.tonnes||0)?(A.tonnes||0)>(B.tonnes||0):(A.index??a)<(B.index??b);
    if(aFirst)limit(B,bestB);else limit(A,bestA);
   }
   for(const t of trucks){if(t.trafficWaiting)out.waiting++;if(t.route)out.moving++;}return out;

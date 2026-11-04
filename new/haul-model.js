@@ -9,9 +9,9 @@ import {makeTruckHoist} from './truck-hoist.js';
 const cache=new WeakMap();
 function haulerMaterials(source){
  if(cache.has(source))return cache.get(source);
- const M={...source};M.paint=source.paint.clone();M.paint.color.set('#f0b926');M.paint.roughness=.52;M.paint.metalness=.12;
+ const M={...source};M.paint=source.paint.clone();M.paint.color.set('#e7b332');M.paint.roughness=.52;M.paint.metalness=.12;
  M.bodyDark=source.dark.clone();M.bodyDark.color.set('#24292b');M.bodyDark.roughness=.48;
- M.rail=new T.MeshStandardMaterial({color:'#ce602e',metalness:.42,roughness:.43});
+ M.rail=new T.MeshStandardMaterial({color:'#d0a82e',metalness:.42,roughness:.43});
  M.tire=source.rubber.clone();M.tire.color.set('#141719');M.tire.roughness=.87;
  M.tread=M.tire.clone();M.tread.color.set('#202324');
  M.bodyPlate=M.paint.clone();M.bodyPlate.vertexColors=true;M.bodyPlate.roughness=.69;M.bodyPlate.metalness=.21;
@@ -110,7 +110,7 @@ function makeBed(root,M){
 }
 
 export function makeHauler(root,materials,index){
- const M={...haulerMaterials(materials)};M.red=M.red.clone();const reverse=M.lamp.clone();reverse.color.set('#6d7880');reverse.emissive.set('#fff1cf');reverse.emissiveIntensity=0;root.name=`Volvo style quarry hauler ${index+1}`;
+ const M={...haulerMaterials(materials)};M.red=M.red.clone();const reverse=M.lamp.clone();reverse.color.set('#6d7880');reverse.emissive.set('#fff1cf');reverse.emissiveIntensity=0;root.name=`Volvo R100E ${index+1}`;
  roundedBlock(root,M.bodyDark,[6.25,.44,2.7],[-.03,1.18,0],.18);
  // The raised tray rests on real inboard frame rails and saddle pads. These
  // stay on the chassis when tipping, clear of the rear twin-tyre envelopes.
@@ -121,7 +121,7 @@ export function makeHauler(root,materials,index){
   roundedPlate(root,M.bodyDark,[[B.hingeX-.21,2.17],[B.hingeX+.21,2.17],[B.hingeX+.22,2.82],[B.hingeX,2.96],[B.hingeX-.22,2.82]],.18,z,{corner:.06,bevel:.015});
  }
  for(const x of [-2.18,2.08]){pin(root,M.dark,x,1.1,0,.23,3.5);for(const z of [-1.04,1.04]){rod(root,M.chrome,V(x-.25,1.16,z),V(x-.11,1.96,z),.095);rod(root,M.bodyDark,V(x-.17,1.3,z),V(x,2.05,z),.15)}}
- roundedBlock(root,M.bodyDark,[1.76,1.02,2.75],[2.4,1.95,0],.19);
+ roundedBlock(root,M.paint,[1.76,1.02,2.75],[2.4,1.95,0],.19);
  // Slanted radiator face and a broad catwalk ahead of the engine.
  roundedPlate(root,M.bodyDark,[[2.96,1.21],[3.63,1.21],[3.42,1.86],[2.91,2.62]],2.93,0,{corner:.09,bevel:.05});
  for(const z of [-1.53,1.53])roundedPlate(root,M.paint,[[1.1,1.62],[2.22,1.57],[3.28,2.44],[2.95,2.59],[1.37,2.59]],.14,z,{corner:.12,bevel:.035});
@@ -130,6 +130,12 @@ export function makeHauler(root,materials,index){
  for(let i=0;i<12;i++){const y=1.4+i*.075,x=(y<1.86?3.63-(y-1.21)*.323:3.42-(y-1.86)*.671)+.045;rod(root,M.track,V(x,y,-.9),V(x,y,.9),.023)}
  for(const z of [-1.28,1.28]){roundedBlock(root,M.dark,[.16,.28,.52],[3.46,1.43,z],.06);roundedBlock(root,M.lamp,[.025,.17,.17],[3.55,1.46,z-.11],.02);roundedBlock(root,M.lamp,[.025,.17,.17],[3.55,1.46,z+.11],.02)}
  makeCab(root,M);
+ const badge=new T.Group();badge.position.set(3.56,1.89,0);badge.rotation.y=Math.PI/2;root.add(badge);
+ rod(badge,M.steel,V(-.72,-.34,.02),V(.72,.34,.02),.027);
+ const emblem=add(badge,new T.TorusGeometry(.18,.028,8,32),M.steel,0,0,.035);
+ lettering(root,'VOLVO',{x:3.62,y:2.30,z:0,width:1.22,height:.20,side:1,color:'#e5e9e7'}).rotation.y=Math.PI/2;
+ for(const side of [-1,1])lettering(root,'R100E',{x:2.12,y:2.22,z:side*1.60,width:.68,height:.20,side,color:'#eee9da'});
+
  // Keeping the authored body coordinates under an inverse offset preserves
  // every closed-bed vertex while providing a real rear tipping hinge.
  const bedPivot=new T.Group();bedPivot.name='Rear dump-body hinge';bedPivot.position.set(B.hingeX,B.hingeY,0);root.add(bedPivot);

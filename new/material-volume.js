@@ -1,14 +1,17 @@
+import {currentMachine} from './machine-config.js';
 // One length unit is one metre. Loose ore expands when cut out of the bank.
+export const MACHINE = currentMachine();
 export const ORE={bankDensity:6.4,looseDensity:5.2};
 // Interior cross-section follows the rendered shell, with space for its steel
 // walls and the open lip. A closed bucket carries material below that lip.
 export const BUCKET_INTERIOR=[[.38,.04],[.72,-.3],[.66,-.88],[.17,-1.19],[-.58,-1.13],[-1.13,-.71]];
-export const BUCKET_VOLUME=7;
+export const BUCKET_VOLUME=MACHINE.capacity;
 // Rated gameplay capacity is independent of the retained compact visual model.
 export const BUCKET_INNER_WIDTH=1.48;
 export const BUCKET_VISUAL_VOLUME=polygonArea(BUCKET_INTERIOR)*BUCKET_INNER_WIDTH;
-export const BUCKET_CUT_HALF_WIDTH=BUCKET_INNER_WIDTH/2+.08;
-export const BUCKET_STREAM_WIDTH=1.3;
+export const BUCKET_WORKING_WIDTH=BUCKET_INNER_WIDTH*MACHINE.scale;
+export const BUCKET_CUT_HALF_WIDTH=(BUCKET_INNER_WIDTH/2+.08)*MACHINE.scale;
+export const BUCKET_STREAM_WIDTH=1.3*MACHINE.scale;
 export const BUCKET_SHELL_DROP=.75;
 // Retained compact steel bowl; its complete clear space and crown are mapped
 // to the independent nominal capacity by heaped-charge.js.

@@ -44,7 +44,7 @@ function wakeMaterial(x,z,kind){if(kind==='loose')clampTucked(x,z,4.4);const cx=
 export function digZone(x,z){return x> -25&&x<10&&Math.abs(z)<6.8}
 // Two continuous working terraces, in metres. Their dimensions determine the
 // reserve, rather than scaling a fixed 1000 tonnes into a small isolated heap.
-function benchUnit(x,z){return smooth(-25,-23.4,x)*(1-smooth(6.2,9.5,x))*(1-smooth(4.8,6.8,Math.abs(z)));}
+function benchUnit(x,z){return smooth(-25,-23.4,x)*(1-smooth(3.8,15,x))*(1-smooth(4.8,6.8,Math.abs(z)));}
 export const BENCH_HEIGHT=2.0604548638391544;
 function baseGround(x,z){let h=benchUnit(x,z)*BENCH_HEIGHT;const r=Math.hypot(x,z);if(r>38){const angle=Math.atan2(z,x),ridge=20+Math.sin(angle*5)*9+Math.sin(angle*11+.5)*5+Math.sin(angle*21)*2;h+=smooth(38,73,r)*ridge*(1-smooth(120,180,r));}if(r>28)h+=(Math.sin(x*.3)*Math.cos(z*.27)+Math.sin(x*.73+z*.33)*.35)*smooth(28,45,r);return dumpGround(x,z,h);}
 // Only a thin firm floor is protected; the extended lower platform and entire
@@ -261,4 +261,13 @@ export function makeWorld(scene,M){
  // The continuous far-wall patch is created with the terrain above.
 
  return {update,height:visualGround,terrain,stones,distantStones,spoil,loosePieces,rockBank,frontSurface,face,metrics};
+}
+
+export function saveTerrain(){return {bank:Array.from(field.heights),loose:Array.from(loose.heights),tucked:Array.from(tucked),pages:[...frontBank.pages].map(([i,p])=>({i,ranges:Array.from(p.ranges),counts:Array.from(p.counts),edited:p.edited,delay:Array.from(p.delay),speed:Array.from(p.speed)}))};}
+export function restoreTerrain(data){
+ for(const [grid,values] of [[field,data.bank],[loose,data.loose]]){if(!Array.isArray(values)||values.length!==grid.heights.length||values.some(v=>!Number.isFinite(v)||v<0||v>100))throw Error('Invalid saved terrain');}
+ frontBank.reset();for(const [grid,values] of [[field,data.bank],[loose,data.loose]]){grid.heights.set(values);grid.mass=values.reduce((a,b)=>a+b,0)*grid.area*grid.density;grid.revision++;grid.dirty=true;}
+ if(data.tucked?.length===tucked.length)tucked.set(data.tucked);tuckedVolume=tucked.reduce((a,b)=>a+b,0)*loose.area;
+ for(const item of data.pages||[]){if(!Number.isInteger(item.i)||item.i<0||item.i>=field.heights.length)continue;const p=frontBank.ensure(item.i);if(!p||item.ranges?.length!==p.ranges.length||item.counts?.length!==p.counts.length)continue;p.ranges.set(item.ranges);p.counts.set(item.counts);p.edited=item.edited===true;p.expected=field.heights[item.i];p.delay.set(item.delay);p.speed.set(item.speed);frontBank.updateFixed(p);}frontBank.revision++;
+ bankBounds={minX:-26,maxX:11,minZ:-8,maxZ:8};looseBounds={minX:-48,maxX:56,minZ:-52,maxZ:28};materialDirty=true;wakeMaterial(-8,0,'bank');updateExposure();
 }

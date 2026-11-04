@@ -1,3 +1,4 @@
+import {MACHINE} from './material-volume.js';
 import * as T from '../three.module.js';
 import {V,add,block,rod} from './geometry.js';
 import {roundedBlock} from './sculpted.js';
@@ -7,9 +8,19 @@ import {batchMeshes} from '../batching.js';
 // instruments sit on the low sill/right console, never on the windscreen.
 export function makeCabinInterior(cab,M){
  const cockpit=new T.Group();cockpit.name='Operator cockpit';cab.add(cockpit);
- const trim=M.dark.clone();trim.color.set('#414b50');trim.roughness=.92;trim.metalness=.03;trim.envMapIntensity=.65;
- const soft=M.seat.clone();soft.color.set('#353e41');soft.roughness=.98;soft.metalness=0;
+ const trim=M.dark.clone();trim.color.set(MACHINE.id==='hitachi'?'#514b42':MACHINE.id==='komatsu'?'#243c49':MACHINE.id==='liebherr'?'#66645a':'#414b50');trim.roughness=.92;trim.metalness=.03;trim.envMapIntensity=.65;
+ const soft=M.seat.clone();soft.color.set(MACHINE.id==='hitachi'?'#3e4144':MACHINE.id==='komatsu'?'#243246':MACHINE.id==='liebherr'?'#544c40':'#353e41');soft.roughness=.98;soft.metalness=0;
  const mat=M.rubber.clone();mat.color.set('#171e22');mat.roughness=1;mat.metalness=0;
+ if(MACHINE.id==='liebherr'){
+ for(const z of [-.42,.15]){const screen=block(cockpit,M.dark,[.045,.29,.31],[.52,.69,z],.025);screen.rotation.z=-.15;block(cockpit,M.display,[.009,.23,.25],[.547,.7,z],.01);}
+ block(cockpit,trim,[.75,.14,.38],[.05,.42,.63],.04);
+ }else if(MACHINE.id==='hitachi'){
+ block(cockpit,trim,[.52,.32,.20],[.15,.57,.57],.04);
+ for(let i=0;i<4;i++)block(cockpit,M.black,[.045,.025,.035],[.12+i*.09,.74,.57],.005);
+ }else if(MACHINE.id==='komatsu'){
+ block(cockpit,trim,[.40,.34,.19],[.35,.56,-.57],.04);
+ for(let i=0;i<3;i++)add(cockpit,new T.CylinderGeometry(.04,.04,.018,12),M.steel,.30,.74,-.63+i*.055);
+ }
  const deck=block(cockpit,mat,[1.38,.035,1.28],[0,.16,0],.02);deck.name='Recessed rubber footwell';
  for(let i=0;i<12;i++)block(cockpit,trim,[.036,.009,1.12],[-.57+i*.1,.183,0],.003);
  roundedBlock(cockpit,trim,[.43,.23,.46],[-.31,.29,0],.055);

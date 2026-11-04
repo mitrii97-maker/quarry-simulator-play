@@ -24,24 +24,30 @@ export function makeDumpSite(scene,M){
   rod(dress,M.steel,V(32.75,ground(32.75,zz),zz),V(32.75,ground(32.75,zz)+1.05,zz),.045);
   block(dress,M.paint,[.12,.33,.2],[32.75,ground(32.75,zz)+.92,zz],.03);
  }
- batchMeshes(dress);let revision=-1,clock=0,quiet=0,cursor=0;const slots=new Map();
+ batchMeshes(dress);let revision=-1,clock=0,quiet=0,cursor=0;const slots=new Map();let clearTime=0;
  const contains=(x,z)=>Math.abs(x-DUMP.x)<DUMP.width/2&&Math.abs(z-DUMP.z)<DUMP.depth/2;
  function height(x,z){return contains(x,z)?floorAt(x,z)+field.heightAt(x-DUMP.x,z-DUMP.z):-Infinity}
  function deposit(x,z,mass){if(!contains(x,z)||!(mass>0))return 0;field.depositDry(x-DUMP.x,z-DUMP.z,mass,{repose:.9,aspect:1.08});quiet=0;recordDump(mass);return mass;}
  // A physical blade transfers only the excess above the common working grade
  // into low cells immediately ahead. Dump credit is never awarded twice.
  function gradeStrip(x,z,yaw,budget){
-  if(!(budget>0)||field.mass<=0)return 0;const c=Math.cos(yaw),s=Math.sin(yaw),grade=Math.max(.35,field.mass/(ORE.looseDensity*DUMP.width*DUMP.depth*.72)),dx=x+c*1.05,dz=z-s*1.05,list=field.weights(dx-DUMP.x,dz-DUMP.z,.8,2.05,yaw);let room=0;
-  for(const p of list){p.room=Math.max(0,grade-field.base[p.i]-field.heights[p.i])*field.area*field.density;room+=p.room;}if(room<1e-9)return 0;
-  const moved=field.remove(x-DUMP.x,z-DUMP.z,Math.min(budget,room),{rx:.35,rz:2.05,yaw,minHeight:(xx,zz)=>Math.max(0,grade-ground(xx+DUMP.x,zz+DUMP.z))});if(moved<=0)return 0;
-  let remaining=moved,last=null;for(const p of list)if(p.room>0)last=p;for(const p of list)if(p.room>0){const mass=p===last?remaining:moved*p.room/room;field.heights[p.i]+=mass/(field.area*field.density);remaining-=mass;}field.mass+=moved;field.revision++;field.dirty=true;quiet=0;return moved;
+  if(!(budget>0)||field.mass<=0)return 0;
+  const c=Math.cos(yaw),sn=Math.sin(yaw);
+  const localX=x-DUMP.x,localZ=z-DUMP.z;
+  const keep=Math.max(0,DUMP.height-floorAt(x,z));
+  const moved=field.remove(localX,localZ,budget,{rx:.75,rz:2.05,yaw,minHeight:keep});
+  if(moved<=0)return 0;
+  // The blade advances the actual mass; gravity carries it over the crest.
+  const tx=Math.max(-DUMP.width/2+.8,Math.min(DUMP.width/2-.8,localX+c*1.65));
+  field.deposit(tx,localZ-sn*1.65,moved,{rx:.65,rz:1.9});
+  quiet=0;return moved;
  }
- function update(dt){clock+=dt;if(quiet<2&&field.mass>0){const moved=field.step(dt);quiet=moved>1e-8?0:quiet+dt;}if(clock<.1||revision===field.revision)return;clock=0;revision=field.revision;
+ function update(dt){clearTime=Math.max(0,clearTime-dt);clock+=dt;if(quiet<2&&field.mass>0){const moved=field.step(dt);quiet=moved>1e-8?0:quiet+dt;}if(clock<.1||revision===field.revision)return;clock=0;revision=field.revision;
   for(let row=0;row<91;row++)for(let col=0;col<61;col++){const k=row*61+col,h=field.heightAt(-DUMP.width/2+col*field.dx,-DUMP.depth/2+row*field.dz);heights[k]=floors[k]+h;cover[k]=h>.002?1:0;}fines.update(heights,cover);
   packHeightField(pieces,{nx:100,nz:45,cell:.4,x:DUMP.x-DUMP.width/2,z:DUMP.z-DUMP.depth/2,floor:floorAt,height:(x,z)=>Math.max(0,field.heightAt(x-DUMP.x,z-DUMP.z)-.06),seed:760});
  }
- function reserve(truck){for(let i=0;i<3;i++){const slot=(cursor+i)%3;if(!slots.has(slot)||slots.get(slot)===truck){slots.set(slot,truck);cursor=(slot+1)%3;return {index:slot,x:DUMP.truckX,z:DUMP.bays[slot]};}}return null;}
- function release(truck){for(const [slot,owner] of slots)if(owner===truck)slots.delete(slot);}
- function reset(){field.clear();pieces.begin();pieces.finish();fines.clear();slots.clear();cursor=0;quiet=0;revision=-1;clock=0;}
+ function reserve(truck){if(clearTime>0)return null;if(slots.size&&![...slots.values()].includes(truck))return null;for(let i=0;i<3;i++){const slot=(cursor+i)%3;if(!slots.has(slot)||slots.get(slot)===truck){slots.set(slot,truck);cursor=(slot+1)%3;return {index:slot,x:DUMP.truckX,z:DUMP.bays[slot]};}}return null;}
+ function release(truck){for(const [slot,owner] of slots)if(owner===truck){slots.delete(slot);clearTime=35;}}
+ function reset(){field.clear();pieces.begin();pieces.finish();fines.clear();slots.clear();clearTime=0;cursor=0;quiet=0;revision=-1;clock=0;}
  return {field,pieces,fines,contains,height,deposit,gradeStrip,update,reserve,release,reset,get busy(){return slots.size>0},gradient(x,z){const e=.12,h=(xx,zz)=>floorAt(xx,zz)+field.heightAt(xx-DUMP.x,zz-DUMP.z);return {x:(h(x+e,z)-h(x-e,z))/(2*e),z:(h(x,z+e)-h(x,z-e))/(2*e)}}};
 }

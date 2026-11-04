@@ -1,6 +1,39 @@
 import * as T from '../three.module.js';
 import {V,add,block,plate,pin,rod} from './geometry.js';
 import {roundedBlock,roundedPlate,roundedOutline} from './sculpted.js';
+function fitFleetPlates(house,M){
+ const canvas=document.createElement('canvas');
+ canvas.width=512;canvas.height=128;
+ const ctx=canvas.getContext('2d');
+ ctx.fillStyle='#293031';ctx.fillRect(0,0,512,128);
+ ctx.fillStyle='#dbac47';ctx.fillRect(4,4,504,120);
+ ctx.fillStyle='#282e2d';
+ for(let y=6;y<122;y++){
+  for(let stripe=-2;stripe<3;stripe++){
+   const x=stripe*48+y*.42,start=Math.max(6,x),end=Math.min(119,x+24);
+   if(end>start){
+    ctx.fillRect(start,y,end-start,1);
+    ctx.fillRect(512-end,y,end-start,1);
+   }
+  }
+ }
+ ctx.fillStyle='#293031';ctx.fillRect(120,4,272,120);
+ ctx.textAlign='center';ctx.fillStyle='#e4d2a2';ctx.font='bold 18px Arial';
+ ctx.fillText('УЧАСТОК  04',256,30);
+ ctx.fillStyle='#f3ebda';ctx.font='bold 76px Arial';ctx.fillText('ЭК–26',256,106);
+ const map=new T.CanvasTexture(canvas);map.colorSpace=T.SRGBColorSpace;
+ const enamel=new T.MeshStandardMaterial({map,roughness:.51,metalness:.14});
+ const sidePlate=new T.PlaneGeometry(.76,.19);
+ for(const side of [-1,1]){
+  const plate=add(house,sidePlate,enamel,-1.4,.56,side*1.415);
+  if(side<0)plate.rotation.y=Math.PI;
+  plate.castShadow=false;
+ }
+ const mount=block(house,M.dark,[1.64,.42,.08],[-3.2,.62,0],.02);
+ mount.rotation.y=-Math.PI/2;
+ const rear=add(house,new T.PlaneGeometry(1.58,.395),enamel,-3.257,.62,0);
+ rear.rotation.y=-Math.PI/2;rear.castShadow=false;
+}
 export function lettering(parent,text,{x,y,z,width,height,color='#f2f1e9',font='900 170px Georgia',name=text,side=1}){const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=256;const ctx=canvas.getContext('2d');ctx.fillStyle=color;ctx.font=font;ctx.textAlign='center';ctx.textBaseline='middle';const measured=ctx.measureText(text).width;ctx.translate(512,128);ctx.scale(950/measured,1);ctx.fillText(text,0,8);const map=new T.CanvasTexture(canvas);map.colorSpace=T.SRGBColorSpace;const mat=new T.MeshStandardMaterial({map,transparent:true,alphaTest:.08,depthWrite:false,roughness:.8,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});const mesh=new T.Mesh(new T.PlaneGeometry(width,height),mat);mesh.name=name;mesh.position.set(x,y,z);if(side<0)mesh.rotation.y=Math.PI;parent.add(mesh);return mesh;}
 export function volvoBody(house,M){
  // Deep counterweight, black protective skirt and a raised rear engine compartment.
@@ -18,11 +51,17 @@ export function volvoBody(house,M){
  for(const x of [-2.3,-1.3]){rod(house,M.paint,V(x,1.45,.98),V(x,2.15,.98),.035);rod(house,M.paint,V(x,2.15,.98),V(x+.15,2.28,.98),.035);rod(house,M.paint,V(x+.15,2.28,.98),V(x+.3,2.15,.98),.035);rod(house,M.paint,V(x+.3,2.15,.98),V(x+.3,1.45,.98),.035)}
  const exhaust=add(house,new T.CylinderGeometry(.09,.09,.84,18),M.boom,-1.05,1.82,.53);add(house,new T.CylinderGeometry(.125,.125,.09,18),M.black,-1.05,2.27,.53);
  block(house,M.dark,[.75,.07,1.75],[.5,1,0],.04);
+ fitFleetPlates(house,M);
 }
 export function volvoCab(cab,M){
  const outline=[[-.86,.12],[.86,.12],[.84,1.15],[.51,1.85],[-.57,1.88],[-.83,1.62]];
  roundedBlock(cab,M.boom,[1.74,.22,1.57],[0,0,0],.1);
  roundedBlock(cab,M.paint,[1.84,.2,1.76],[-.06,1.9,0],.095);
+ // A ribbed amber lens catches the shift lighting above the snow on the roof.
+ add(cab,new T.CylinderGeometry(.132,.15,.075,16),M.boom,-.53,2.056,.49);
+ const lensProfile=[[.106,0],[.105,.035],[.09,.048],[.105,.062],[.09,.075],[.104,.09],[.09,.104],[.102,.119],[.092,.166],[.07,.184],[0,.19]];
+ const amber=new T.MeshStandardMaterial({color:'#ed9629',emissive:'#df620a',emissiveIntensity:.58,roughness:.23,metalness:.12});
+ add(cab,new T.LatheGeometry(lensProfile.map(([r,y])=>new T.Vector2(r,y)),20),amber,-.53,2.093,.49);
  for(const z of [-.73,.73]){
   roundedPlate(cab,M.paint,[[-.83,.1],[.87,.1],[.86,.39],[.39,.5],[-.12,.27],[-.83,.29]],.045,z,{corner:.11,bevel:.012});
   const path=roundedOutline(outline,.12).getPoints(72).map(p=>V(p.x,p.y,z));path.push(path[0]);add(cab,new T.TubeGeometry(new T.CatmullRomCurve3(path),88,.052,10,false),M.boom);
