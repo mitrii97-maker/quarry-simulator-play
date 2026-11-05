@@ -1,6 +1,6 @@
 // The shell sits below the pin, leaving clearance for the stick at full curl.
-import {retainedVolume} from './charge-shape.js?build=hotfix-20261106-20';
-import {BUCKET_VOLUME,BUCKET_SHELL_DROP,MACHINE} from './material-volume.js?build=hotfix-20261106-20';
+import {retainedVolume} from './charge-shape.js?build=hotfix-20261106-21';
+import {BUCKET_VOLUME,BUCKET_SHELL_DROP,MACHINE} from './material-volume.js?build=hotfix-20261106-21';
 export const FACE_SHOVEL=MACHINE.kind==='face-shovel';
 export const BUCKET={closed:FACE_SHOVEL?.25:-.48,open:FACE_SHOVEL?.25:2.45,workOpen:FACE_SHOVEL?.25:2.05,drop:BUCKET_SHELL_DROP,mouth:{x:FACE_SHOVEL?1.28:-1.28,y:-1.47,z:0},teeth:{x:FACE_SHOVEL?1.82:-1.80,y:-1.50},cargo:{x:FACE_SHOVEL?.18:-.18,y:-1.5}};
 const bottomOutlet=Object.freeze({x:.15,y:-1.73,z:0});

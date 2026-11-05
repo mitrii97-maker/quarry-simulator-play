@@ -1,7 +1,7 @@
 // Three.js r169 examples FXAA shader, MIT; see ../../THREE-LICENSE.txt.
 import {
 	Vector2
-} from '../../three.module.js?build=hotfix-20261106-20';
+} from '../../three.module.js?build=hotfix-20261106-21';
 
 /**
  * NVIDIA FXAA by Timothy Lottes

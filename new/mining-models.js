@@ -1,10 +1,10 @@
-import * as T from '../three.module.js?build=hotfix-20261106-20';
-import {V,add,block,pin,rod,hose} from './geometry.js?build=hotfix-20261106-20';
-import {roundedBlock,roundedPlate} from './sculpted.js?build=hotfix-20261106-20';
-import {lettering} from './volvo-style.js?build=hotfix-20261106-20';
-import {BUCKET} from './bucket-config.js?build=hotfix-20261106-20';
-import {BUCKET_INNER_WIDTH} from './material-volume.js?build=hotfix-20261106-20';
-import {batchMeshes} from '../batching.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {V,add,block,pin,rod,hose} from './geometry.js?build=hotfix-20261106-21';
+import {roundedBlock,roundedPlate} from './sculpted.js?build=hotfix-20261106-21';
+import {lettering} from './volvo-style.js?build=hotfix-20261106-21';
+import {BUCKET} from './bucket-config.js?build=hotfix-20261106-21';
+import {BUCKET_INNER_WIDTH} from './material-volume.js?build=hotfix-20261106-21';
+import {batchMeshes} from '../batching.js?build=hotfix-20261106-21';
 
 export function miningHouse(house,M,machine){
  const shovel=machine.kind==='face-shovel',hitachi=machine.id==='hitachi';

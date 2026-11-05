@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=hotfix-20261106-20';
-import {roundedBlock} from './sculpted.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {roundedBlock} from './sculpted.js?build=hotfix-20261106-21';
 const pages=['ПОГРУЗКА','МАШИНА','СМЕНА'];
 const n=(v,d=0)=>Number(v||0).toLocaleString('ru-RU',{maximumFractionDigits:d});
 export function tabletRows(data,page){const s=data.systems||{},l=data.level||{};
@@ -9,7 +9,7 @@ export function tabletRows(data,page){const s=data.systems||{},l=data.level||{};
  return [['КОВШ',n(Math.max(0,Math.min(1,data.fill||0))*100)+'%'],['КУЗОВ',data.truckPresent===false?'—':n(Math.max(0,Math.min(1,(data.truckMass||0)/capacity))*100)+'%'],['Масса в ковше',n(data.bucketMass,1)+' т'],['Масса в кузове',data.truckPresent===false?'Самосвал не подан':n(data.truckMass,1)+' / '+n(capacity)+' т'],['Очередь',data.queue||'Свободна']];
 }
 export function makeCabTablet(cab,M,machine){
- const group=new T.Group();group.position.set(.54,.80,.46);group.rotation.y=-Math.PI/2;cab.add(group);
+ const group=new T.Group();group.position.set(.56,.80,.46);group.scale.setScalar(1.45);group.rotation.y=-Math.PI/2;cab.add(group);
  roundedBlock(group,M.dark,[.48,.35,.055],[0,0,0],.025);
  const canvas=document.createElement('canvas');canvas.width=960;canvas.height=640;const ctx=canvas.getContext('2d'),map=new T.CanvasTexture(canvas);map.colorSpace=T.SRGBColorSpace;
  const material=new T.MeshBasicMaterial({map,toneMapped:false});const screen=new T.Mesh(new T.PlaneGeometry(.425,.283),material);screen.position.z=.031;screen.name='Interactive industrial cab tablet';group.add(screen);

@@ -1,8 +1,8 @@
-import * as T from '../three.module.js?build=hotfix-20261106-20';
-import {V,add,block,pin,rod,cylinderRig,hose} from './geometry.js?build=hotfix-20261106-20';
-import {roundedPlate,roundedBlock} from './sculpted.js?build=hotfix-20261106-20';
-import {trackBelt} from './track-belt.js?build=hotfix-20261106-20';
-import {batchMeshes} from '../batching.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {V,add,block,pin,rod,cylinderRig,hose} from './geometry.js?build=hotfix-20261106-21';
+import {roundedPlate,roundedBlock} from './sculpted.js?build=hotfix-20261106-21';
+import {trackBelt} from './track-belt.js?build=hotfix-20261106-21';
+import {batchMeshes} from '../batching.js?build=hotfix-20261106-21';
 
 // The grader uses the same metre scale, steel and work-light materials as the
 // excavator. +X is forward; the chassis origin is the ground contact plane.

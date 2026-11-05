@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=hotfix-20261106-20';
-import {RGBELoader} from './rgbe-loader.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {RGBELoader} from './rgbe-loader.js?build=hotfix-20261106-21';
 
 // The same measured winter sky drives visible clouds and the metal/glass reflections.
 export async function makeQuarrySky(scene) {

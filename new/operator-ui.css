@@ -198,3 +198,5 @@ kbd {font:10px "Segoe UI",sans-serif}
 .cab-tablet-dialog[data-page="0"] .tablet-readings .tablet-primary dd{font-size:clamp(48px,9vw,76px);line-height:1.05;color:#f5e6b5;font-variant-numeric:tabular-nums}
 .cab-tablet-dialog[data-page="0"] .tablet-readings>div:last-child{grid-column:1/-1}
 @media(max-height:550px){.cab-tablet-dialog{max-height:96dvh}.cab-tablet-dialog header{padding-bottom:4px}.cab-tablet-dialog h2{font-size:17px;margin:2px 0}.cab-tablet-dialog nav{margin:7px 0}.cab-tablet-dialog button{padding:8px}.cab-tablet-dialog[data-page="0"] .tablet-readings{gap:6px}.cab-tablet-dialog[data-page="0"] .tablet-readings>div{padding:7px 10px;gap:3px}.cab-tablet-dialog[data-page="0"] .tablet-readings .tablet-primary dd{font-size:56px}.tablet-goal{margin:8px 0}}
+
+.cab-tablet-dialog{width:min(900px,97vw)}

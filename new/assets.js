@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=hotfix-20261106-20';
-import {terrainMaps} from '../materials.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {terrainMaps} from '../materials.js?build=hotfix-20261106-21';
 // AO and displacement are not sampled by our materials: don't download six unused maps.
 export async function loadVisualAssets(renderer,onProgress=()=>{}){
  const loader=new T.TextureLoader(),all={};let done=0;

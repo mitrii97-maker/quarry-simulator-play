@@ -1,5 +1,5 @@
-import {ground,LOOSE_AREA} from './world.js?build=hotfix-20261106-20';
-import {DUMP} from './dump-layout.js?build=hotfix-20261106-20';
+import {ground,LOOSE_AREA} from './world.js?build=hotfix-20261106-21';
+import {DUMP} from './dump-layout.js?build=hotfix-20261106-21';
 const STEP=.8,MIN_X=LOOSE_AREA.x-LOOSE_AREA.width/2-4,MIN_Z=LOOSE_AREA.z-LOOSE_AREA.depth/2-4,NX=Math.ceil((LOOSE_AREA.width+8)/STEP)+1,NZ=Math.ceil((LOOSE_AREA.depth+8)/STEP)+1;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function dozerClear(x,z,machine,trucks=[],margin=0){

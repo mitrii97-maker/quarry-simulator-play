@@ -1,6 +1,6 @@
-import * as T from '../three.module.js?build=hotfix-20261106-20';
-import {V,add,block,plate,pin,rod} from './geometry.js?build=hotfix-20261106-20';
-import {roundedBlock,roundedPlate,roundedOutline} from './sculpted.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {V,add,block,plate,pin,rod} from './geometry.js?build=hotfix-20261106-21';
+import {roundedBlock,roundedPlate,roundedOutline} from './sculpted.js?build=hotfix-20261106-21';
 function fitFleetPlates(house,M){
  const canvas=document.createElement('canvas');
  canvas.width=512;canvas.height=128;

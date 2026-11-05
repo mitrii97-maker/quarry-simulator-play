@@ -1,6 +1,6 @@
-import * as T from '../three.module.js?build=hotfix-20261106-20';
-import {roundedBlock} from './sculpted.js?build=hotfix-20261106-20';
-import {lettering} from './volvo-style.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {roundedBlock} from './sculpted.js?build=hotfix-20261106-21';
+import {lettering} from './volvo-style.js?build=hotfix-20261106-21';
 export function addCounterweight(house,M,machine){
  const width=machine.id==='liebherr'?3.65:machine.id==='volvo'?3.02:3.30;
  const height=machine.id==='liebherr'?1.56:1.34;

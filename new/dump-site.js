@@ -1,14 +1,14 @@
-import {SectorLeases} from './sector-leases.js?build=hotfix-20261106-20';
-import * as T from '../three.module.js?build=hotfix-20261106-20';
-import {GranularGrid} from './granular.js?build=hotfix-20261106-20';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=hotfix-20261106-20';
-import {createHeightFines} from './dry-fines.js?build=hotfix-20261106-20';
-import {DUMP,dumpBermHeight} from './dump-layout.js?build=hotfix-20261106-20';
-import {ORE} from './material-volume.js?build=hotfix-20261106-20';
-import {recordDump} from './levels.js?build=hotfix-20261106-20';
-import {ground} from './world.js?build=hotfix-20261106-20';
-import {block,rod,V} from './geometry.js?build=hotfix-20261106-20';
-import {batchMeshes} from '../batching.js?build=hotfix-20261106-20';
+import {SectorLeases} from './sector-leases.js?build=hotfix-20261106-21';
+import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {GranularGrid} from './granular.js?build=hotfix-20261106-21';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=hotfix-20261106-21';
+import {createHeightFines} from './dry-fines.js?build=hotfix-20261106-21';
+import {DUMP,dumpBermHeight} from './dump-layout.js?build=hotfix-20261106-21';
+import {ORE} from './material-volume.js?build=hotfix-20261106-21';
+import {recordDump} from './levels.js?build=hotfix-20261106-21';
+import {ground} from './world.js?build=hotfix-20261106-21';
+import {block,rod,V} from './geometry.js?build=hotfix-20261106-21';
+import {batchMeshes} from '../batching.js?build=hotfix-20261106-21';
 export function makeDumpSite(scene,M){
  const field=new GranularGrid(DUMP.width,DUMP.depth,60,90,{density:ORE.looseDensity,slope:.9,staticSlope:1.2,cohesion:.08,mobility:2.8});
  // Immutable receiving terrain: reuse its vertex samples for the cover,

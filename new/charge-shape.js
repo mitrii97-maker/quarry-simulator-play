@@ -1,4 +1,4 @@
-import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP,BUCKET_VOLUME,BUCKET_VISUAL_VOLUME,MACHINE} from './material-volume.js?build=hotfix-20261106-20';
+import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP,BUCKET_VOLUME,BUCKET_VISUAL_VOLUME,MACHINE} from './material-volume.js?build=hotfix-20261106-21';
 const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],sub=(a,b)=>a.map((x,i)=>x-b[i]),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
 export const unit=a=>{const n=Math.hypot(...a)||1;return a.map(x=>x/n)};
 const points=BUCKET_CONTAINER.map(([x,y])=>[x,y-BUCKET_SHELL_DROP]);
