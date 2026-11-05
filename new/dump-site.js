@@ -1,14 +1,14 @@
-import {SectorLeases} from './sector-leases.js?build=career-20261106-18';
-import * as T from '../three.module.js?build=career-20261106-18';
-import {GranularGrid} from './granular.js?build=career-20261106-18';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=career-20261106-18';
-import {createHeightFines} from './dry-fines.js?build=career-20261106-18';
-import {DUMP,dumpBermHeight} from './dump-layout.js?build=career-20261106-18';
-import {ORE} from './material-volume.js?build=career-20261106-18';
-import {recordDump} from './levels.js?build=career-20261106-18';
-import {ground} from './world.js?build=career-20261106-18';
-import {block,rod,V} from './geometry.js?build=career-20261106-18';
-import {batchMeshes} from '../batching.js?build=career-20261106-18';
+import {SectorLeases} from './sector-leases.js?build=career-20261106-19';
+import * as T from '../three.module.js?build=career-20261106-19';
+import {GranularGrid} from './granular.js?build=career-20261106-19';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=career-20261106-19';
+import {createHeightFines} from './dry-fines.js?build=career-20261106-19';
+import {DUMP,dumpBermHeight} from './dump-layout.js?build=career-20261106-19';
+import {ORE} from './material-volume.js?build=career-20261106-19';
+import {recordDump} from './levels.js?build=career-20261106-19';
+import {ground} from './world.js?build=career-20261106-19';
+import {block,rod,V} from './geometry.js?build=career-20261106-19';
+import {batchMeshes} from '../batching.js?build=career-20261106-19';
 export function makeDumpSite(scene,M){
  const field=new GranularGrid(DUMP.width,DUMP.depth,60,90,{density:ORE.looseDensity,slope:.9,staticSlope:1.2,cohesion:.08,mobility:2.8});
  // Immutable receiving terrain: reuse its vertex samples for the cover,

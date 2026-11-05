@@ -1,5 +1,5 @@
-import {HAULER_BODY as B} from './hauler-body-config.js?build=career-20261106-18';
-import {gridVolumeWeights,solveFilledSurface,sampleGrid} from './fill-profile.js?build=career-20261106-18';
+import {HAULER_BODY as B} from './hauler-body-config.js?build=career-20261106-19';
+import {gridVolumeWeights,solveFilledSurface,sampleGrid} from './fill-profile.js?build=career-20261106-19';
 export function createTruckFillProfile(width,depth,nx,nz,rim){
  const floor=new Float64Array(nx*nz),ceiling=new Float64Array(nx*nz),guide=new Float64Array(nx*nz),heights=new Float64Array(nx*nz),weights=gridVolumeWeights(nx,nz,width,depth);let capacity=0;
  for(let j=0;j<nz;j++)for(let i=0;i<nx;i++){const k=j*nx+i,u=i/(nx-1),v=j/(nz-1),x=(u-.5)*width,z=(v-.5)*depth,crown=Math.pow(Math.max(0,Math.sin(Math.PI*u)),.8)*Math.pow(Math.max(0,Math.sin(Math.PI*v)),.8),irregular=1+.10*Math.sin(x*1.9+z*2.7)+.055*Math.sin(x*4.8-z*3.4);ceiling[k]=rim+(B.frontRim-B.rim)*u+.055+crown*B.heapHeight*irregular;capacity+=ceiling[k]*weights[k];}

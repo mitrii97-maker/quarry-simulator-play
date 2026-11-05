@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=career-20261106-18';
-import {HAULER_BODY as B} from './hauler-body-config.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-19';
+import {HAULER_BODY as B} from './hauler-body-config.js?build=career-20261106-19';
 export function createHaulLod(root,M){
  const detail=new T.Group();for(const child of [...root.children])detail.add(child);root.add(detail);
  const distant=new T.Group();root.add(distant);const box=(w,h,d,mat,x,y,z)=>{const m=new T.Mesh(new T.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);distant.add(m);return m;};

@@ -1,5 +1,5 @@
-import {HAULER_BODY as B} from './hauler-body-config.js?build=career-20261106-18';
-import {stoneKey,stoneRandom} from './chunk-packing.js?build=career-20261106-18';
+import {HAULER_BODY as B} from './hauler-body-config.js?build=career-20261106-19';
+import {stoneKey,stoneRandom} from './chunk-packing.js?build=career-20261106-19';
 // Shared deterministic packing. No lattice rows or height-contour terraces.
 // Larger clasts occupy space first; fines occupy the intervals between them.
 const points=[];

@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=career-20261106-18';
-import {ground} from './world.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-19';
+import {ground} from './world.js?build=career-20261106-19';
 // All winter effects are visual. They never change the dig reserve, controls or contact geometry.
 export function createSnowfall(scene){
  const canvas=document.createElement('canvas');canvas.width=canvas.height=32;const c=canvas.getContext('2d'),g=c.createRadialGradient(16,16,0,16,16,16);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.35,'rgba(255,255,255,.85)');g.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(0,0,32,32);

@@ -21,13 +21,13 @@ import {
 	Vector3,
 	WebGLRenderTarget,
 	ZeroFactor
-} from '../../three.module.js?build=career-20261106-18';
-import { Pass, FullScreenQuad } from './Pass.js?build=career-20261106-18';
-import { SimplexNoise } from '../math/SimplexNoise.js?build=career-20261106-18';
-import { SSAOShader } from '../shaders/SSAOShader.js?build=career-20261106-18';
-import { SSAOBlurShader } from '../shaders/SSAOShader.js?build=career-20261106-18';
-import { SSAODepthShader } from '../shaders/SSAOShader.js?build=career-20261106-18';
-import { CopyShader } from '../shaders/CopyShader.js?build=career-20261106-18';
+} from '../../three.module.js?build=career-20261106-19';
+import { Pass, FullScreenQuad } from './Pass.js?build=career-20261106-19';
+import { SimplexNoise } from '../math/SimplexNoise.js?build=career-20261106-19';
+import { SSAOShader } from '../shaders/SSAOShader.js?build=career-20261106-19';
+import { SSAOBlurShader } from '../shaders/SSAOShader.js?build=career-20261106-19';
+import { SSAODepthShader } from '../shaders/SSAOShader.js?build=career-20261106-19';
+import { CopyShader } from '../shaders/CopyShader.js?build=career-20261106-19';
 
 class SSAOPass extends Pass {
 

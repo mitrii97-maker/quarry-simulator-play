@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=career-20261106-18';
-import {roundedBlock} from './sculpted.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-19';
+import {roundedBlock} from './sculpted.js?build=career-20261106-19';
 const pages=['ПОГРУЗКА','МАШИНА','СМЕНА'];
 const n=(v,d=0)=>Number(v||0).toLocaleString('ru-RU',{maximumFractionDigits:d});
 export function tabletRows(data,page){const s=data.systems||{},l=data.level||{};

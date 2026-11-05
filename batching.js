@@ -1,4 +1,4 @@
-import * as T from './three.module.js?build=career-20261106-18';
+import * as T from './three.module.js?build=career-20261106-19';
 export function batchMeshes(root){
  root.updateMatrixWorld(true);const groups=new Map();
  for(const o of [...root.children]){if(o.userData.dynamic||!o.isMesh||o.isInstancedMesh||Array.isArray(o.material)||o.material.transparent||o.geometry.attributes.color)continue;const key=o.material.uuid+':'+o.castShadow+':'+o.receiveShadow;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(o)}

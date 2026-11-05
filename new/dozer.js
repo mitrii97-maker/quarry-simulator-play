@@ -1,11 +1,11 @@
-import {createTrackImprints} from './track-imprints.js?build=career-20261106-18';
-import * as T from '../three.module.js?build=career-20261106-18';
-import {makeDozer} from './dozer-model.js?build=career-20261106-18';
-import {ground,ungradedHeight,gradingTargets,recoveryReceivers,bladeCollect,tuckBlade,depositLoose,ungradedMass} from './world.js?build=career-20261106-18';
-import {dozerClear,dozerPath,dozerLine} from './dozer-navigation.js?build=career-20261106-18';
-export {dozerClear,dozerPath} from './dozer-navigation.js?build=career-20261106-18';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=career-20261106-18';
-import {ORE} from './material-volume.js?build=career-20261106-18';
+import {createTrackImprints} from './track-imprints.js?build=career-20261106-19';
+import * as T from '../three.module.js?build=career-20261106-19';
+import {makeDozer} from './dozer-model.js?build=career-20261106-19';
+import {ground,ungradedHeight,gradingTargets,recoveryReceivers,bladeCollect,tuckBlade,depositLoose,ungradedMass} from './world.js?build=career-20261106-19';
+import {dozerClear,dozerPath,dozerLine} from './dozer-navigation.js?build=career-20261106-19';
+export {dozerClear,dozerPath} from './dozer-navigation.js?build=career-20261106-19';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=career-20261106-19';
+import {ORE} from './material-volume.js?build=career-20261106-19';
 const HOME={x:12,z:8},CAPACITY=12;
 const wrap=a=>Math.atan2(Math.sin(a),Math.cos(a)),clamp=T.MathUtils.clamp;
 export function createDozer(scene,M,onBladeWork=null){

@@ -1,52 +1,52 @@
-import {createQuarryHorizons} from './quarry-horizons.js?build=career-20261106-18';
-import {MachineSystems} from './machine-systems.js?build=career-20261106-18';
-import {createTabletPanel} from './cab-tablet.js?build=career-20261106-18';
-import {saveTerrain,restoreTerrain} from './world.js?build=career-20261106-18';
-import {restoreLevel} from './levels.js?build=career-20261106-18';
-import {FREE_MACHINE_TRIAL} from './machine-config.js?build=career-20261106-18';
-import {createFleetShop} from './fleet-shop.js?build=career-20261106-18';
-import {recordDelivery} from './fleet-store.js?build=career-20261106-18';
-import {MACHINE} from './material-volume.js?build=career-20261106-18';
-import {addMountainBackdrop} from './mountain-backdrop.js?build=career-20261106-18';
-import {CarryAssist} from './carry-assist.js?build=career-20261106-18';
-import {CameraResponse} from './camera-response.js?build=career-20261106-18';
-import {PARKING} from './production-layout.js?build=career-20261106-18';
-import {createTraffic} from './traffic.js?build=career-20261106-18';
-import {OperatorShift,loadOptions,saveOptions,loadCareer,completeCareer} from './operator.js?build=career-20261106-18';
-import {createOperatorPanel} from './operator-panel.js?build=career-20261106-18';
-import {createProductionYard} from './production-yard.js?build=career-20261106-18';
-import {makeQuarrySky} from './quarry-sky.js?build=career-20261106-18';
-import {ShaderPass} from '../effects/postprocessing/ShaderPass.js?build=career-20261106-18';
-import {FXAAShader} from '../effects/shaders/FXAAShader.js?build=career-20261106-18';
-import {cameraFov,CABIN_VIEW} from './camera-layout.js?build=career-20261106-18';
-import {makeDumpSite} from './dump-site.js?build=career-20261106-18';
-import {createDozer} from './dozer.js?build=career-20261106-18';
-import {createDumpGrader} from './dump-grader.js?build=career-20261106-18';
-import {createShiftLighting} from './shift-lighting.js?build=career-20261106-18';
-import {stepChassis} from './chassis.js?build=career-20261106-18';
-import {loadVisualAssets} from './assets.js?build=career-20261106-18';
-import {createSnowfall} from './winter.js?build=career-20261106-18';
-import {levelState,recordDispatch,recordTransportSpill,finishIfReady,nextLevel as advanceLevel,LEVEL_TONNES,TRUCK_CAPACITY,TRUCKS_PER_LEVEL} from './levels.js?build=career-20261106-18';
-import {BUCKET_TONNES,BUCKET_VOLUME,BUCKET_INNER_WIDTH} from './material-volume.js?build=career-20261106-18';
-import {loadingBay,updateLoadingBay} from './loading-bay.js?build=career-20261106-18';
-import {BUCKET,releaseRate,dischargeMouth,FACE_SHOVEL} from './bucket-config.js?build=career-20261106-18';
-import * as T from '../three.module.js?build=career-20261106-18';
+import {createQuarryHorizons} from './quarry-horizons.js?build=career-20261106-19';
+import {MachineSystems} from './machine-systems.js?build=career-20261106-19';
+import {createTabletPanel} from './cab-tablet.js?build=career-20261106-19';
+import {saveTerrain,restoreTerrain} from './world.js?build=career-20261106-19';
+import {restoreLevel} from './levels.js?build=career-20261106-19';
+import {FREE_MACHINE_TRIAL} from './machine-config.js?build=career-20261106-19';
+import {createFleetShop} from './fleet-shop.js?build=career-20261106-19';
+import {recordDelivery} from './fleet-store.js?build=career-20261106-19';
+import {MACHINE} from './material-volume.js?build=career-20261106-19';
+import {addMountainBackdrop} from './mountain-backdrop.js?build=career-20261106-19';
+import {CarryAssist} from './carry-assist.js?build=career-20261106-19';
+import {CameraResponse} from './camera-response.js?build=career-20261106-19';
+import {PARKING} from './production-layout.js?build=career-20261106-19';
+import {createTraffic} from './traffic.js?build=career-20261106-19';
+import {OperatorShift,loadOptions,saveOptions,loadCareer,completeCareer} from './operator.js?build=career-20261106-19';
+import {createOperatorPanel} from './operator-panel.js?build=career-20261106-19';
+import {createProductionYard} from './production-yard.js?build=career-20261106-19';
+import {makeQuarrySky} from './quarry-sky.js?build=career-20261106-19';
+import {ShaderPass} from '../effects/postprocessing/ShaderPass.js?build=career-20261106-19';
+import {FXAAShader} from '../effects/shaders/FXAAShader.js?build=career-20261106-19';
+import {cameraFov,CABIN_VIEW} from './camera-layout.js?build=career-20261106-19';
+import {makeDumpSite} from './dump-site.js?build=career-20261106-19';
+import {createDozer} from './dozer.js?build=career-20261106-19';
+import {createDumpGrader} from './dump-grader.js?build=career-20261106-19';
+import {createShiftLighting} from './shift-lighting.js?build=career-20261106-19';
+import {stepChassis} from './chassis.js?build=career-20261106-19';
+import {loadVisualAssets} from './assets.js?build=career-20261106-19';
+import {createSnowfall} from './winter.js?build=career-20261106-19';
+import {levelState,recordDispatch,recordTransportSpill,finishIfReady,nextLevel as advanceLevel,LEVEL_TONNES,TRUCK_CAPACITY,TRUCKS_PER_LEVEL} from './levels.js?build=career-20261106-19';
+import {BUCKET_TONNES,BUCKET_VOLUME,BUCKET_INNER_WIDTH} from './material-volume.js?build=career-20261106-19';
+import {loadingBay,updateLoadingBay} from './loading-bay.js?build=career-20261106-19';
+import {BUCKET,releaseRate,dischargeMouth,FACE_SHOVEL} from './bucket-config.js?build=career-20261106-19';
+import * as T from '../three.module.js?build=career-20261106-19';
 
-import {EffectComposer} from '../effects/postprocessing/EffectComposer.js?build=career-20261106-18';
-import {RenderPass} from '../effects/postprocessing/RenderPass.js?build=career-20261106-18';
-import {SSAOPass} from '../effects/postprocessing/SSAOPass.js?build=career-20261106-18';
-import {OutputPass} from '../effects/postprocessing/OutputPass.js?build=career-20261106-18';
-import {makeMaterials,makeWorld,frontState,ground,resetTerrain,stepMaterial,drainCaveIns,shelfMass,looseMass} from './world.js?build=career-20261106-18';
-import {makeExcavator,forward,bucketFrame,framePoint} from './rig.js?build=career-20261106-18';
-import {bucketContact,createSuspension} from './truck-suspension.js?build=career-20261106-18';
-import {START,stepRig,bucketSamples,truckHeight,soilContact} from './physics.js?build=career-20261106-18';
-import {createTruck,makeRoute,driveTruck,catches} from './haul.js?build=career-20261106-18';
-import {V,add} from './geometry.js?build=career-20261106-18';
-import {QuarryAudio} from '../audio.js?build=career-20261106-18';
-import {makeRockSystem} from './rock-system.js?build=career-20261106-18';
-import {QUALITY,QualityGovernor,FrameMetrics} from './render-quality.js?build=career-20261106-18';
-import {FixedClock} from './frame-clock.js?build=career-20261106-18';
-import {bindInputs,HornGesture} from './input.js?build=career-20261106-18';
+import {EffectComposer} from '../effects/postprocessing/EffectComposer.js?build=career-20261106-19';
+import {RenderPass} from '../effects/postprocessing/RenderPass.js?build=career-20261106-19';
+import {SSAOPass} from '../effects/postprocessing/SSAOPass.js?build=career-20261106-19';
+import {OutputPass} from '../effects/postprocessing/OutputPass.js?build=career-20261106-19';
+import {makeMaterials,makeWorld,frontState,ground,resetTerrain,stepMaterial,drainCaveIns,shelfMass,looseMass} from './world.js?build=career-20261106-19';
+import {makeExcavator,forward,bucketFrame,framePoint} from './rig.js?build=career-20261106-19';
+import {bucketContact,createSuspension} from './truck-suspension.js?build=career-20261106-19';
+import {START,stepRig,bucketSamples,truckHeight,soilContact} from './physics.js?build=career-20261106-19';
+import {createTruck,makeRoute,driveTruck,catches} from './haul.js?build=career-20261106-19';
+import {V,add} from './geometry.js?build=career-20261106-19';
+import {QuarryAudio} from '../audio.js?build=career-20261106-19';
+import {makeRockSystem} from './rock-system.js?build=career-20261106-19';
+import {QUALITY,QualityGovernor,FrameMetrics} from './render-quality.js?build=career-20261106-19';
+import {FixedClock} from './frame-clock.js?build=career-20261106-19';
+import {bindInputs,HornGesture} from './input.js?build=career-20261106-19';
 const options=loadOptions();options.autoSupply=true;const shift=new OperatorShift(),traffic=createTraffic(),carryAssist=new CarryAssist(),cameraResponse=new CameraResponse();let queueRequested=false,manualRequest=false,operatorPanel=null,fleetShop=null,tabletPanel=null;const systems=new MachineSystems(MACHINE);
 const deliveryMass=new Map();
 function landedDelivery(id,tonnes){const previous=deliveryMass.get(id)||0,amount=previous+tonnes;deliveryMass.set(id,amount);if(previous<98&&amount>=98){const progress=recordDelivery(id,amount);if(progress.awarded)fleetShop?.refresh();}}
@@ -137,7 +137,7 @@ rotationMatrix.set(physicsFrame.ax,physicsFrame.bx,physicsFrame.cx,0,physicsFram
 const flow=releaseRate(state,time);if(state.payload>0&&flow>0&&!result.contact){dumping=true;const amount=Math.min(state.payload,dt*flow);state.payload-=amount;rocks.pour(amount*BUCKET_TONNES,mouth,rotation,mouthVelocity);}else rocks.finishPour();
 rocks.update(dt,emitterRig,trucks);dumpGrader.update(dt,trucks);dumpSite.update(dt);shift.update(dt,{loadPressure:result.pressure||0,work:(result.work*BUCKET_TONNES+result.graded*.55)/dt,payload:state.payload,beds:trucks.reduce((m,t)=>m+t.load.field.mass,0),loose:rocks.groundDeposited,motion:Math.abs(state.velocity.boom)+Math.abs(state.velocity.stick)+Math.abs(state.velocity.curl),contact:result.contact,ready:t?.state==='ready',currentLoad:t?.load.field.mass||0});systems.update(dt,{pressure:result.pressure||0,motion:Math.abs(state.velocity.boom)+Math.abs(state.velocity.stick)+Math.abs(state.velocity.yaw)+Math.abs(state.driveSpeed||0),payload:state.payload,impact:result.impact});serviceDispatch();const gradingWasBusy=dozer.busy;if(dozer.update(dt,state,trucks))terrainDirty=true;if(gradingWasBusy!==dozer.busy)updateDozerButton();
 presentDigging=result.digging||result.graded>0;presentDumping=dumping;presentCutRate=(result.work*BUCKET_TONNES+result.graded*.55)/dt;presentFlowRate=dumping?flow*BUCKET_TONNES:0;
-const airborne=rocks.inFlightMass;if(finishIfReady(state.payload,airborne+dozer.mass+dumpGrader.mass)){world.update();showLevelFinish();}}
+const airborne=rocks.inFlightMass;if(finishIfReady(state.payload,airborne+dozer.mass+dumpGrader.mass+trucks.reduce((sum,t)=>sum+t.tonnes,0))){world.update();showLevelFinish();}}
 let presentDigging=false,presentDumping=false,presentCutRate=0,presentFlowRate=0,uiClock=1,audioClock=1,lastView=-1,shadowClock=1;let shadowRevision=-1,shadowLoadRevision=-1,shadowCharge=null;const shadowPose=new Float64Array(10).fill(NaN);const cameraBase=V(),renderState={...state};
 const audioRight=V();const uiCache=new Map();function textChanged(id,value){if(uiCache.get(id)!==value){$(id).textContent=value;uiCache.set(id,value)}}
 function renderFrame(dt=1/60,alpha=1){
@@ -203,7 +203,7 @@ function restoreShift(){
  if(v.route){makeRoute(t,v.state);t.route.curve=new T.CatmullRomCurve3(v.route.points.map(([x,z])=>V(x,0,z)),false,'centripetal');t.route.curve.arcLengthDivisions=2048;t.route.length=t.route.curve.getLength();Object.assign(t.route,{distance:Math.min(v.route.distance,t.route.length),speed:0,reverse:v.route.reverse,curvature:Float32Array.from(v.route.curvature),speeds:Float32Array.from(v.route.speeds)});}else t.route=null;
  if(v.dumpSlot)t.dumpSlot=dumpSite.reserve(t,v.dumpSlot.index);
  if(saved.version<4){if(['dumpStaging','dumpBacking','unloading','lowering'].includes(t.state)){t.z-=40;t.root.position.z=t.z;t.previousZ=t.z;if(t.route)for(const p of t.route.curve.points)p.z-=40;}if(t.state==='leaving')makeRoute(t,'leaving');}
- if(v.dumpSlot)t.dumpSlot=dumpSite.reserve(t,v.dumpSlot.index);
+
  }
  systems.restore(saved.systems);state={...START,...saved.state,velocity:{yaw:0,boom:0,stick:0,curl:0},driveSpeed:0};previousState=state;active=saved.active;waitingTruck=saved.waitingTruck??-1;delivered=saved.delivered;completed=saved.completed;time=saved.time;view=saved.view;Object.assign(shift,saved.shift);for(const [id,mass]of saved.deliveryMass||[])deliveryMass.set(id,mass);rig.update(state);world.update();dumpSite.update(.2);updateLevelHUD();saveBadge.textContent='Сохранённая смена восстановлена';if(levelState().status==='complete')showLevelFinish();
  }catch{localStorage.removeItem('quarry-shift-v2');location.reload();}

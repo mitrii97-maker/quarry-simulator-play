@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-19';
 export function aggregateMaterial(source){
  const material=source.clone();material.vertexColors=true;material.flatShading=false;material.roughness=1;material.metalness=0;material.normalMap=null;material.roughnessMap=null;material.envMapIntensity=.16;material.color.lerp(new T.Color('#aaa69c'),.45);
  material.onBeforeCompile=shader=>{

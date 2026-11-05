@@ -1,5 +1,5 @@
-import {loadCareer} from './operator.js?build=career-20261106-18';
-import {MACHINES,currentMachine,FREE_MACHINE_TRIAL} from './machine-config.js?build=career-20261106-18';
+import {loadCareer} from './operator.js?build=career-20261106-19';
+import {MACHINES,currentMachine,FREE_MACHINE_TRIAL} from './machine-config.js?build=career-20261106-19';
 const KEY='quarry-fleet-v1';
 export function loadFleet(){
  let data={};
