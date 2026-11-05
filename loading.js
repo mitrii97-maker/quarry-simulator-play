@@ -1,4 +1,4 @@
-import {BENCH_HEIGHT} from './layout.js';
+import {BENCH_HEIGHT} from './layout.js?build=career-20261106-18';
 export function rockContact(bucket){return bucket.x>=-5&&bucket.x<=-.5&&bucket.z>=-5.5&&bucket.z<=-.5&&bucket.y>=2.7&&bucket.y<=BENCH_HEIGHT+1.5}
 export function stepLoading(state,{contact,work=0,overTruck,open,truckLoads},dt){
  let {filled,fill,dump}=state;let event=null;

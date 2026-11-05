@@ -1,11 +1,11 @@
-import {createTrackImprints} from './track-imprints.js';
-import * as T from '../three.module.js';
-import {makeDozer} from './dozer-model.js';
-import {ground,ungradedHeight,gradingTargets,recoveryReceivers,bladeCollect,tuckBlade,depositLoose,ungradedMass} from './world.js';
-import {dozerClear,dozerPath,dozerLine} from './dozer-navigation.js';
-export {dozerClear,dozerPath} from './dozer-navigation.js';
-import {chunkBatch,packHeightField} from './chunk-packing.js';
-import {ORE} from './material-volume.js';
+import {createTrackImprints} from './track-imprints.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {makeDozer} from './dozer-model.js?build=career-20261106-18';
+import {ground,ungradedHeight,gradingTargets,recoveryReceivers,bladeCollect,tuckBlade,depositLoose,ungradedMass} from './world.js?build=career-20261106-18';
+import {dozerClear,dozerPath,dozerLine} from './dozer-navigation.js?build=career-20261106-18';
+export {dozerClear,dozerPath} from './dozer-navigation.js?build=career-20261106-18';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=career-20261106-18';
+import {ORE} from './material-volume.js?build=career-20261106-18';
 const HOME={x:12,z:8},CAPACITY=12;
 const wrap=a=>Math.atan2(Math.sin(a),Math.cos(a)),clamp=T.MathUtils.clamp;
 export function createDozer(scene,M,onBladeWork=null){
@@ -13,7 +13,7 @@ export function createDozer(scene,M,onBladeWork=null){
  pieces.mesh.boundingSphere=new T.Sphere(new T.Vector3(.4,.9,0),2.8);pieces.mesh.frustumCulled=true;
  let x=HOME.x,z=HOME.z,yaw=Math.PI,speed=0,path=[],task=null,mode='parked',carry=0,worked=0,passes=0,clock=0,blocked=0,pileMass=-1,lastY=ground(x,z),pitch=0,roll=0,bladeLift=.5,dustMass=0,retry=0,replans=0,previous={x,z,yaw},trackDistance=0;
  function plan(machine,trucks){
-  for(const source of gradingTargets(machine,{x,z}))for(const receiver of recoveryReceivers(source,machine)){
+  for(const source of gradingTargets(machine,{x,z}).slice(0,6))for(const receiver of recoveryReceivers(source,machine)){
    let dx=receiver.x-source.x,dz=receiver.z-source.z,length=Math.hypot(dx,dz);if(length<.05)continue;dx/=length;dz/=length;
    const yaw=Math.atan2(-dz,dx),approach={x:source.x-dx*3.35,z:source.z-dz*3.35},end={x:receiver.x-dx*3.15,z:receiver.z-dz*3.15};
    if(!dozerClear(approach.x,approach.z,machine,trucks)||!dozerLine(approach,end,machine,trucks,.78,(x,z)=>ground(x,z)-ungradedHeight(x,z)))continue;
@@ -26,12 +26,12 @@ export function createDozer(scene,M,onBladeWork=null){
  function releaseRemainder(tucked=false){if(carry<=1e-10)return;const c=Math.cos(yaw),s=Math.sin(yaw),bx=x+c*3.15,bz=z-s*3.15;if(tucked)carry-=tuckBlade(bx,bz,yaw,carry);else{for(let i=-3;i<=3;i++)depositLoose(bx+s*i*.36,bz+c*i*.36,carry/7);carry=0;}}
  function bladeDust(mass,bx,bz){if(!onBladeWork||mass<=0)return;dustMass+=mass;if(dustMass>=.35){dustMass%=.35;onBladeWork({x:bx,y:ground(bx,bz)+.12,z:bz});}}
  function update(dt,machine,trucks){previous={x,z,yaw};clock+=dt;let dirty=false;
-  if(mode==='parked'){speed=0;return false;}
+  if(mode==='parked'){speed=0;retry+=dt;if(retry>2){retry=0;if(ungradedMass()>.8)plan(machine,trucks);}return false;}
   const reversing=mode==='reversing',goal=mode==='grading'?task.end:reversing?task.approach:path[0];
   if(goal){const distance=Math.hypot(goal.x-x,goal.z-z),heading=mode==='grading'||reversing?task.yaw:Math.atan2(-(goal.z-z),goal.x-x),turn=wrap(heading-yaw);yaw+=clamp(turn,-dt*.85,dt*.85);
    const obstructed=!dozerClear(x+Math.cos(yaw)*.6*(reversing?-1:1),z-Math.sin(yaw)*.6*(reversing?-1:1),machine,trucks);blocked=obstructed?blocked+dt:0;
    const bx=x+Math.cos(yaw)*3.15,bz=z-Math.sin(yaw)*3.15,feeding=mode==='grading'&&carry<CAPACITY-.001&&ungradedHeight(bx,bz)>.001;
-   const target=obstructed?0:Math.abs(turn)>.45?0:mode==='grading'?(feeding?.08:.72):reversing?1.2:2.7;speed+=clamp(target-speed,-dt*3,dt*1.7);const travel=Math.min(distance,Math.min(speed,Math.sqrt(1.6*distance))*dt)*Math.max(0,Math.cos(turn));
+   const target=obstructed?0:Math.abs(turn)>.45?0:mode==='grading'?(feeding?.42:.92):reversing?1.4:3.0;speed+=clamp(target-speed,-dt*3,dt*1.7);const travel=Math.min(distance,Math.min(speed,Math.sqrt(1.6*distance))*dt)*Math.max(0,Math.cos(turn));
    if(!obstructed){x+=Math.cos(yaw)*travel*(reversing?-1:1);z-=Math.sin(yaw)*travel*(reversing?-1:1);trackDistance+=travel*(reversing?-1:1);if(travel>.0001)trail.add(x,z,yaw);}
    if(mode==='grading'){
     const bx=x+Math.cos(yaw)*3.15,bz=z-Math.sin(yaw)*3.15;

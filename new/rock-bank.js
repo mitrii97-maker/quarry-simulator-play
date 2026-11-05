@@ -1,11 +1,11 @@
-import * as T from '../three.module.js';
-import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js';
-import {createHeightFines} from './dry-fines.js';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=career-20261106-18';
+import {createHeightFines} from './dry-fines.js?build=career-20261106-18';
 // Replace exposed snow/terrain triangles with the deformed dry fine fraction
 // and embedded fracture clasts, in both colour and depth passes.
-export function maskExposedBank(geometry,exposure,offsetX=-7.5){
+export function maskExposedBank(geometry,exposure,offsetX=-7.5,bounds=null){
  let cache=geometry.userData.rockMask;if(!cache){const source=geometry.index.array.slice();cache=geometry.userData.rockMask={source,indices:new source.constructor(source.length),flags:new Uint8Array(geometry.attributes.position.count)};geometry.setIndex(new T.BufferAttribute(cache.indices,1));}
- const p=geometry.attributes.position;for(let i=0;i<p.count;i++)cache.flags[i]=exposure(p.getX(i)+offsetX,p.getZ(i))>.045?1:0;
+ const p=geometry.attributes.position;for(let i=0;i<p.count;i++){const x=p.getX(i)+offsetX,z=p.getZ(i);if(!bounds||x>=bounds.minX-.5&&x<=bounds.maxX+.5&&z>=bounds.minZ-.5&&z<=bounds.maxZ+.5)cache.flags[i]=exposure(x,z)>.045?1:0;}
  let count=0;for(let i=0;i<cache.source.length;i+=3){const a=cache.source[i],b=cache.source[i+1],c=cache.source[i+2];if(cache.flags[a]||cache.flags[b]||cache.flags[c])continue;cache.indices[count++]=a;cache.indices[count++]=b;cache.indices[count++]=c;}
  geometry.setDrawRange(0,count);geometry.index.clearUpdateRanges();geometry.index.addUpdateRange(0,count);geometry.index.needsUpdate=true;return count;
 }
@@ -18,8 +18,8 @@ export function createRockBank(scene,material,height,exposure,volumeMask=null,so
  // or reserve is inferred from these visual instances.
  const metrics={coarse:0,medium:0,fines:0};
  const addStone=(key,x,y,z,size)=>{if(volumeMask?.(x,z)&&solid&&!solid(x,y,z))return;pieces.add(key,x,y,z,size);};
- function update(){pieces.begin();metrics.coarse=metrics.medium=metrics.fines=0;
-  for(let j=0;j<nz;j++)for(let i=0;i<nx;i++){const x=-25+(i+.5)*cell,z=-6.8+(j+.5)*cell,k=j*nx+i;heights[k]=Math.max(0,height(x,z));cut[k]=exposure(x,z)>.035?1:0;holes[k]=volumeMask?.(x,z)?1:0;}
+ function update(bounds=null){pieces.begin();metrics.coarse=metrics.medium=metrics.fines=0;
+  for(let j=0;j<nz;j++)for(let i=0;i<nx;i++){const x=-25+(i+.5)*cell,z=-6.8+(j+.5)*cell,k=j*nx+i;if(bounds&&(x<bounds.minX-.6||x>bounds.maxX+.6||z<bounds.minZ-.6||z>bounds.maxZ+.6))continue;heights[k]=Math.max(0,height(x,z));cut[k]=exposure(x,z)>.035?1:0;holes[k]=volumeMask?.(x,z)?1:0;}
   for(let j=0;j<nz;j+=3)for(let i=0;i<nx;i+=3){
    let exposed=false,maximum=0,minimum=Infinity,neighbor=Infinity;
    for(let dz=-1;dz<=3;dz++)for(let dx=-1;dx<=3;dx++){

@@ -1,5 +1,5 @@
-import {MACHINES,currentMachine,FREE_MACHINE_TRIAL} from './machine-config.js';
-import {loadFleet,selectMachine} from './fleet-store.js';
+import {MACHINES,currentMachine,FREE_MACHINE_TRIAL} from './machine-config.js?build=career-20261106-18';
+import {loadFleet,selectMachine} from './fleet-store.js?build=career-20261106-18';
 
 function silhouette(machine){
  const shovel=machine.kind==='face-shovel',tall=shovel?7:0;
@@ -14,27 +14,27 @@ export function createFleetShop({onPause,onSelect,canSelect}){
  const dialog=document.createElement('dialog');dialog.className='fleet-dialog';
  dialog.setAttribute('aria-labelledby','fleetTitle');
  dialog.innerHTML=`<header><div><small>КАРЬЕР / ПАРК ТЕХНИКИ</small><h2 id="fleetTitle">Следующая рабочая машина</h2></div><button type="button" class="fleet-close" aria-label="Закрыть магазин">×</button></header>
- <p class="fleet-progress"></p><div class="fleet-cards"></div><p class="fleet-rules">В зачёт идут рейсы, доставившие на отвал от 98 т. Прогресс накапливается и сохраняется в этом браузере. Выбор машины начинает новую смену и сбрасывает текущую погрузку. Объём ковша и скорость — игровые характеристики.</p><p class="fleet-message" role="status"></p>`;
+ <p class="fleet-progress"></p><div class="fleet-cards"></div><p class="fleet-rules">Новые машины открываются после прохождения рабочих участков. Прогресс сохраняется в этом браузере. Выбор машины начинает новую смену и сбрасывает текущую погрузку. Объём ковша и скорость — игровые характеристики.</p><p class="fleet-message" role="status"></p>`;
  document.body.append(dialog);
  const message=dialog.querySelector('.fleet-message');
  const cards=dialog.querySelector('.fleet-cards');
  const progress=dialog.querySelector('.fleet-progress');
  function refresh(){
   const fleet=loadFleet(),current=currentMachine().id;
-  progress.textContent=(FREE_MACHINE_TRIAL?'БЕСПЛАТНЫЙ ТЕСТ ВСЕХ МАШИН · ':'')+fleet.deliveries+' полных отгрузок · следующая цель '+(MACHINES.find(m=>m.unlock>fleet.deliveries)?.unlock||'достигнута');
+  progress.textContent=(FREE_MACHINE_TRIAL?'ТЕСТОВЫЙ ПАРК · ':'')+fleet.unlocked.length+' / '+MACHINES.length+' машин открыто · '+fleet.deliveries+' полных отгрузок';
   cards.replaceChildren();
   for(const machine of MACHINES){
-   const unlocked=FREE_MACHINE_TRIAL||fleet.deliveries>=machine.unlock,active=machine.id===current;
+   const unlocked=FREE_MACHINE_TRIAL||fleet.unlocked.includes(machine.id),active=machine.id===current;
    const card=document.createElement('article');card.className='fleet-card'+(active?' active':'');
    card.style.setProperty('--machine',machine.color);
    const type=machine.kind==='face-shovel'?'Прямая лопата · донная выгрузка':'Обратная лопата';
    card.innerHTML=`<div class="fleet-model" aria-hidden="true">${silhouette(machine)}</div>
     <small>${type}</small><h3>${machine.name}</h3>
     <dl><div><dt>Ковш</dt><dd>${machine.capacity} м³</dd></div><div><dt>Гидравлика</dt><dd>${Math.round(machine.speed*100)}%</dd></div></dl>
-    <p>${machine.unlock===0?'Стартовая машина':machine.unlock+' полных БелАЗов'}</p>
+    <p>${machine.unlock===0?'Стартовая машина':'Открывается после участка '+machine.unlockLevel}</p>
     <progress value="${Math.min(fleet.deliveries,machine.unlock)}" max="${machine.unlock||1}"></progress>`;
    const action=document.createElement('button');action.type='button';action.disabled=!unlocked||active;
-   action.textContent=active?'Сейчас в работе':unlocked?'Начать смену':('Ещё '+(machine.unlock-fleet.deliveries)+' рейсов');
+   action.textContent=active?'Сейчас в работе':unlocked?'Начать смену':('Пройти участок '+machine.unlockLevel);
    action.onclick=()=>{
     const permitted=canSelect();
     if(permitted!==true){message.textContent=typeof permitted==='string'?permitted:'Завершите погрузку и дождитесь разгрузки машин.';return}
@@ -50,5 +50,5 @@ export function createFleetShop({onPause,onSelect,canSelect}){
  dialog.addEventListener('close',()=>{onPause(false);button.focus()});
  dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)close()}});
  addEventListener('storage',()=>{if(dialog.open)refresh()});
- return {refresh,close,get isOpen(){return dialog.open}};
+ return {refresh,close,open(){button.click()},get isOpen(){return dialog.open}};
 }

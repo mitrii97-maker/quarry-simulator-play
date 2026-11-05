@@ -1,8 +1,9 @@
-import {ground,LOOSE_AREA} from './world.js';
-import {DUMP} from './dump-layout.js';
+import {ground,LOOSE_AREA} from './world.js?build=career-20261106-18';
+import {DUMP} from './dump-layout.js?build=career-20261106-18';
 const STEP=.8,MIN_X=LOOSE_AREA.x-LOOSE_AREA.width/2-4,MIN_Z=LOOSE_AREA.z-LOOSE_AREA.depth/2-4,NX=Math.ceil((LOOSE_AREA.width+8)/STEP)+1,NZ=Math.ceil((LOOSE_AREA.depth+8)/STEP)+1;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function dozerClear(x,z,machine,trucks=[],margin=0){
+ if(x> -26-margin&&x<15+margin&&Math.abs(z)<8.0+margin)return false;
  if(Math.abs(x-(machine.baseX||0))<5.3+margin&&Math.abs(z-(machine.baseZ||0))<4+margin)return false;
  if(x>DUMP.x-DUMP.width/2-2-margin&&x<DUMP.x+DUMP.width/2+1+margin&&Math.abs(z-DUMP.z)<DUMP.depth/2+2+margin)return false;
  return !trucks.some(t=>Math.hypot(x-t.x,z-t.z)<5.2+margin);

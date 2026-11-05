@@ -1,10 +1,10 @@
-import * as T from '../three.module.js';
-import {V,add,block,pin,rod} from './geometry.js';
-import {roundedPlate,roundedBlock} from './sculpted.js';
-import {lettering} from './volvo-style.js';
-import {batchMeshes} from '../batching.js';
-import {HAULER_BODY as B,bodyRear,bodyFront,bodyTopRear,bodyTopFront,bodyRimAt} from './hauler-body-config.js';
-import {makeTruckHoist} from './truck-hoist.js';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {V,add,block,pin,rod} from './geometry.js?build=career-20261106-18';
+import {roundedPlate,roundedBlock} from './sculpted.js?build=career-20261106-18';
+import {lettering} from './volvo-style.js?build=career-20261106-18';
+import {batchMeshes} from '../batching.js?build=career-20261106-18';
+import {HAULER_BODY as B,bodyRear,bodyFront,bodyTopRear,bodyTopFront,bodyRimAt} from './hauler-body-config.js?build=career-20261106-18';
+import {makeTruckHoist} from './truck-hoist.js?build=career-20261106-18';
 
 const cache=new WeakMap();
 function haulerMaterials(source){
@@ -27,19 +27,19 @@ function wheel(root,M,x,z,rear){
  const steer=new T.Group();steer.name=rear?'Rear dual wheel':'Front steering wheel';steer.position.set(x,1.14,z);root.add(steer);
  const roll=new T.Group();steer.add(roll);const side=Math.sign(z);
  const section=[[.48,-.35],[.74,-.42],[.98,-.39],[1.08,-.29],[1.115,-.15],[1.115,.15],[1.08,.29],[.98,.39],[.74,.42],[.48,.35],[.48,-.35]];
- const tireGeometry=new T.LatheGeometry(section.map(p=>new T.Vector2(...p)),56,0,Math.PI*2);
+ const tireGeometry=new T.LatheGeometry(section.map(p=>new T.Vector2(...p)),32,0,Math.PI*2);
  for(const offset of rear?[-.27,.27]:[0]){
   const tire=add(roll,tireGeometry,M.tire,0,0,offset);tire.rotation.x=Math.PI/2;
   // Separate staggered tread shoulders leave a visible channel down the tire.
-  for(let i=0;i<44;i++)for(const s of [-1,1]){const a=(i+(s>0?.22:0))*Math.PI/22,t=block(roll,M.tread,[.135,.085,.31],[Math.sin(a)*1.12,Math.cos(a)*1.12,offset+s*.17],.018);t.rotation.z=-a;t.rotation.y=s*.19;}
+  for(let i=0;i<28;i++)for(const s of [-1,1]){const a=(i+(s>0?.22:0))*Math.PI/14,t=block(roll,M.tread,[.135,.085,.31],[Math.sin(a)*1.12,Math.cos(a)*1.12,offset+s*.17],.018);t.rotation.z=-a;t.rotation.y=s*.19;}
  }
  const outside=side*(rear?.66:.40);
  pin(roll,M.paint,0,0,outside,.60,.09);pin(roll,M.paint,0,0,outside+side*.055,.49,.035);pin(roll,M.paint,0,0,outside+side*.075,.37,.065);
- add(roll,new T.TorusGeometry(.565,.046,10,48),M.paint,0,0,outside+side*.065);
+ add(roll,new T.TorusGeometry(.565,.046,8,28),M.paint,0,0,outside+side*.065);
  for(let i=0;i<12;i++){const a=i*Math.PI/6;pin(roll,M.steel,Math.cos(a)*.395,Math.sin(a)*.395,outside+side*.075,.032,.045)}
  pin(roll,M.paint,0,0,outside+side*.12,.19,.14);
  // Embossed sidewall rings make the bulging tire readable without a glossy rim.
- add(roll,new T.TorusGeometry(.82,.012,6,48),M.tread,0,0,outside+side*.015);
+ add(roll,new T.TorusGeometry(.82,.012,6,28),M.tread,0,0,outside+side*.015);
  batchMeshes(roll);return {steer,roll,front:!rear,radius:1.16};
 }
 function makeCab(root,M){

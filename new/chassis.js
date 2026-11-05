@@ -1,4 +1,4 @@
-import {MACHINE} from './material-volume.js';
+import {MACHINE} from './material-volume.js?build=career-20261106-18';
 // The tracks travel along the shelf's X axis; upper-house slew remains independent.
 const TRACK_X=[-2.4,-1.2,0,1.2,2.4],TRACK_Z=[-1.35,1.35],supportHeights=new Float64Array(10);
 export function supportPose(x,z,ground){
@@ -13,7 +13,7 @@ export function stepChassis(s,input,dt,ground){
  const desired=Math.max(-1,Math.min(1,input||0))*.85;
  speed+=(desired-speed)*(1-Math.exp(-dt/(Math.abs(desired)>.01?.38:.16)));if(Math.abs(speed)<.0001)speed=0;
  let nextX=Math.max(-28,Math.min(55,x+speed*dt)),pose=nextX===x?current:supportPose(nextX,z,ground),blocked=false;
- const severity=p=>Math.max(Math.abs(p.pitch)/.66,Math.abs(p.roll)/.30,p.roughness/1.45,p.unsupported?2:0);
+ const severity=p=>Math.max(Math.abs(p.pitch)/.66,Math.abs(p.roll)/.30,p.roughness/.65,p.unsupported?2:0);
  if(severity(pose)>1&&(severity(pose)>severity(current)+.00001||pose.unsupported)){nextX=x;pose=current;speed=0;blocked=true}
  if(nextX===x&&Math.abs(desired)>.01){blocked=true;speed=0;}
  const blend=1-Math.exp(-dt*6),pitch=(s.pitch||0)+(Math.max(-.68,Math.min(.68,pose.pitch))-(s.pitch||0))*blend,roll=(s.roll||0)+(Math.max(-.38,Math.min(.38,pose.roll))-(s.roll||0))*blend;

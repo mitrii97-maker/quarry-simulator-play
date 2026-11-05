@@ -1,5 +1,5 @@
-import * as T from '../three.module.js';
-import {oreGeometry} from './ore-geometry.js';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {oreGeometry} from './ore-geometry.js?build=career-20261106-18';
 export function stoneKey(x,y,z){return (Math.imul(x+1024,73856093)^Math.imul(y+1024,19349663)^Math.imul(z+1024,83492791))>>>0;}
 export function stoneRandom(key,salt=0){let n=(key+Math.imul(salt+1,2654435761))>>>0;n=Math.imul(n^n>>>16,2246822507);n=Math.imul(n^n>>>13,3266489909);return ((n^n>>>16)>>>0)/4294967296;}
 // Stable lithology/shape choices, shared by every batch. These are all bounded
@@ -21,17 +21,17 @@ export function chunkBatch(parent,material,capacity,name,{detail=0}={}){
 }
 // Exposed clasts are embedded in the separate dense fine-fraction surface.
 // Buried layers can be skipped; an open rear keeps its exposed cross-section.
-export function packHeightField(batch,{nx,nz,cell,x=0,z=0,floor=()=>0,height,seed=0,packing=1,layers=Infinity,openRear=false}){
+export function packHeightField(batch,{nx,nz,cell,x=0,z=0,floor=()=>0,height,seed=0,packing=1,layers=Infinity,openRear=false,indexX=0,indexZ=0}){
  batch.begin();const heights=batch.heightCache?.length===nx*nz?batch.heightCache:(batch.heightCache=new Float32Array(nx*nz)),bottoms=batch.floorCache?.length===nx*nz?batch.floorCache:(batch.floorCache=new Float32Array(nx*nz));
  for(let j=0;j<nz;j++)for(let i=0;i<nx;i++){const wx=x+(i+.5)*cell,wz=z+(j+.5)*cell,k=j*nx+i;heights[k]=Math.max(0,height(wx,wz));bottoms[k]=heights[k]>.002?floor(wx,wz):0;}
  for(let j=0;j<nz;j++)for(let i=0;i<nx;i++){const k=j*nx+i,h=heights[k];if(h<.002)continue;const wx=x+(i+.5)*cell,wz=z+(j+.5)*cell,base=bottoms[k],neighbor=Math.min(i?heights[k-1]:0,i<nx-1?heights[k+1]:0,j?heights[k-nx]:0,j<nz-1?heights[k+nx]:0),top=Math.max(0,Math.ceil(h/cell)-1),low=Math.max(0,Math.min(top-1,Math.floor(neighbor/cell)-1));
   for(let layer=openRear&&i===0?low:Math.max(low,top-layers+1);layer<=top;layer++){
-   const thin=h<cell*.45,key=stoneKey(i+seed,thin?-1:layer,j),grade=stoneRandom(key,18),size=thin?cell*.34:cell*packing*(grade<.12?.61:grade>.91?1.34:.86+stoneRandom(key,19)*.27),px=wx+(stoneRandom(key,9)-.5)*cell*.64-(openRear&&i===0?cell*.25:0),pz=wz+(stoneRandom(key,10)-.5)*cell*.64,py=thin?base+size*.41:base+(layer+.82)*cell+(stoneRandom(key,20)-.5)*cell*.12;
+   const thin=h<cell*.45,key=stoneKey(i+indexX+seed,thin?-1:layer,j+indexZ),grade=stoneRandom(key,18),size=thin?cell*.34:cell*packing*(grade<.12?.61:grade>.91?1.34:.86+stoneRandom(key,19)*.27),px=wx+(stoneRandom(key,9)-.5)*cell*.64-(openRear&&i===0?cell*.25:0),pz=wz+(stoneRandom(key,10)-.5)*cell*.64,py=thin?base+size*.41:base+(layer+.82)*cell+(stoneRandom(key,20)-.5)*cell*.12;
    batch.add(key,px,py,pz,size);
-   if(packing>1&&layer===top&&!thin){const topKey=stoneKey(i+seed+5551,layer,j+332);batch.add(topKey,wx+cell*.30+(stoneRandom(topKey,9)-.5)*cell*.20,base+(layer+.81)*cell,wz-cell*.30+(stoneRandom(topKey,10)-.5)*cell*.20,cell*(.50+stoneRandom(topKey,1)*.15));}
+   if(packing>1&&layer===top&&!thin){const topKey=stoneKey(i+indexX+seed+5551,layer,j+indexZ+332);batch.add(topKey,wx+cell*.30+(stoneRandom(topKey,9)-.5)*cell*.20,base+(layer+.81)*cell,wz-cell*.30+(stoneRandom(topKey,10)-.5)*cell*.20,cell*(.50+stoneRandom(topKey,1)*.15));}
    // Interstitial small fragments interrupt the column rhythm. Their keys and
    // coordinates depend only on the cell/layer, never the changing surface.
-   if(!thin&&grade<.85){const fineKey=stoneKey(i+seed+1973,layer,j+719),fine=cell*(.32+stoneRandom(fineKey,1)*.20);batch.add(fineKey,wx+(stoneRandom(fineKey,9)-.5)*cell*.86,base+(layer+.88)*cell,pz+(stoneRandom(fineKey,10)-.5)*cell*.24,fine);}
+   if(!thin&&grade<.85){const fineKey=stoneKey(i+indexX+seed+1973,layer,j+indexZ+719),fine=cell*(.32+stoneRandom(fineKey,1)*.20);batch.add(fineKey,wx+(stoneRandom(fineKey,9)-.5)*cell*.86,base+(layer+.88)*cell,pz+(stoneRandom(fineKey,10)-.5)*cell*.24,fine);}
   }
  }
  return batch.finish();

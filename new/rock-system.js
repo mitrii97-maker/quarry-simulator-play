@@ -1,16 +1,16 @@
-import {aggregateMaterial} from './dry-fines.js';
-import {aggregateClusterGeometry} from './aggregate-cluster.js';
-import {loadImpact} from './truck-suspension.js';
-import {oreGeometry} from './ore-geometry.js';
-import * as T from '../three.module.js';
-import {V} from './geometry.js';
-import {ground,depositLoose} from './world.js';
-import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js';
-import {catches} from './haul.js';
-import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js';
-import {TRUCK_CAPACITY} from './levels.js';
-import {hardTruckSurface} from './truck-contact.js';
-import {dryGrainVelocity} from './dry-material.js';
+import {aggregateMaterial} from './dry-fines.js?build=career-20261106-18';
+import {aggregateClusterGeometry} from './aggregate-cluster.js?build=career-20261106-18';
+import {loadImpact} from './truck-suspension.js?build=career-20261106-18';
+import {oreGeometry} from './ore-geometry.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {V} from './geometry.js?build=career-20261106-18';
+import {ground,depositLoose} from './world.js?build=career-20261106-18';
+import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js?build=career-20261106-18';
+import {catches} from './haul.js?build=career-20261106-18';
+import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js?build=career-20261106-18';
+import {TRUCK_CAPACITY,recordLoaded} from './levels.js?build=career-20261106-18';
+import {hardTruckSurface} from './truck-contact.js?build=career-20261106-18';
+import {dryGrainVelocity} from './dry-material.js?build=career-20261106-18';
 
 export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDelivery=()=>{}){
  const count=720,particles=Array.from({length:count},()=>({life:0,mass:0,p:V(),v:V(),rotation:V(),r:.1,kind:'fall',captureMass:0,landed:false,start:V(),target:V()})),mesh=new T.InstancedMesh(oreGeometry(),material,count*2),dummy=new T.Object3D(),up=V(0,1,0);
@@ -56,7 +56,7 @@ export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDe
       p.p.y=height+p.r*.3;const slope=solid?{x:0,z:0}:gradient(p.p,receiver),normal=V(-slope.x,1,-slope.z).normalize(),speed=Math.max(0,-p.v.dot(normal));
       if(p.mass>1e-10){
        if(receiver===dumpSite&&dumpSite){const accepted=dumpSite.deposit(p.p.x,p.p.z,p.mass);p.mass-=accepted;if(accepted>0&&p.deliveryId)onDelivery(p.deliveryId,accepted);}
-       else if(receiver){const accepted=Math.min(p.mass,Math.max(0,TRUCK_CAPACITY-receiver.load.field.mass));if(accepted>0){receiver.load.deposit(receiver,p.p.x,p.p.z,accepted);receiver.tonnes=receiver.load.field.mass;loadImpact(receiver,p.p.x,p.p.z,accepted,speed);p.mass-=accepted;delivered+=accepted}}
+       else if(receiver){const accepted=Math.min(p.mass,Math.max(0,TRUCK_CAPACITY-receiver.load.field.mass));if(accepted>0){receiver.load.deposit(receiver,p.p.x,p.p.z,accepted);receiver.tonnes=receiver.load.field.mass;loadImpact(receiver,p.p.x,p.p.z,accepted,speed);p.mass-=accepted;delivered+=accepted;recordLoaded(accepted)}}
        else if(!solid){depositLoose(p.p.x,p.p.z,p.mass);spilled+=p.mass;p.mass=0;}
        if(speed>1){const energy=Math.min(1.3,speed*.045+p.r*.5);puff(p.p,energy);if(energy>impactEnergy){impactEnergy=energy;impactSurface=solid?'metal':receiver&&receiver!==dumpSite?'bed':'ground';}}
       }

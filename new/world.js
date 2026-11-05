@@ -1,22 +1,23 @@
-import {aggregateMaterial} from './dry-fines.js';
-import {industrialFinish} from './industrial-finish.js';
-import {oreGeometry} from './ore-geometry.js';
-import {cutToothSweep} from './tooth-sweep.js';
-import {FrontBank} from './front-bank.js';
-import {createFrontBankRenderer} from './front-bank-renderer.js';
-import {createRockBank,maskExposedBank} from './rock-bank.js';
-import {chunkBatch,packHeightField} from './chunk-packing.js';
-import {quarryOutcrops} from './landscape-detail.js';
-import {updateHeightPatch,heightMeshSample} from './height-patch.js';
-import {GranularGrid} from './granular.js';
-import {terrainWinter,snowOnRock} from './winter-materials.js';
-import {levelState,setLevelReserve} from './levels.js';
-import {ORE,BUCKET_CUT_HALF_WIDTH} from './material-volume.js';
-import {dumpGround} from './dump-layout.js';
-import * as T from '../three.module.js';
-import {V,add,block} from './geometry.js';
-import {terrainMaps} from '../materials.js';
-import {batchMeshes} from '../batching.js';
+import {levelConfig} from './career-config.js?build=career-20261106-18';
+import {aggregateMaterial} from './dry-fines.js?build=career-20261106-18';
+import {industrialFinish} from './industrial-finish.js?build=career-20261106-18';
+import {oreGeometry} from './ore-geometry.js?build=career-20261106-18';
+import {cutToothSweep} from './tooth-sweep.js?build=career-20261106-18';
+import {FrontBank} from './front-bank.js?build=career-20261106-18';
+import {createFrontBankRenderer} from './front-bank-renderer.js?build=career-20261106-18';
+import {createRockBank,maskExposedBank} from './rock-bank.js?build=career-20261106-18';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=career-20261106-18';
+import {quarryOutcrops} from './landscape-detail.js?build=career-20261106-18';
+import {updateHeightPatch,heightMeshSample} from './height-patch.js?build=career-20261106-18';
+import {GranularGrid} from './granular.js?build=career-20261106-18';
+import {terrainWinter,snowOnRock} from './winter-materials.js?build=career-20261106-18';
+import {levelState,setLevelReserve} from './levels.js?build=career-20261106-18';
+import {ORE,BUCKET_CUT_HALF_WIDTH,MACHINE} from './material-volume.js?build=career-20261106-18';
+import {dumpGround} from './dump-layout.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {V,add,block} from './geometry.js?build=career-20261106-18';
+import {terrainMaps} from '../materials.js?build=career-20261106-18';
+import {batchMeshes} from '../batching.js?build=career-20261106-18';
 const smooth=(a,b,x)=>{const t=T.MathUtils.clamp((x-a)/(b-a),0,1);return t*t*(3-2*t)};
 const field=new GranularGrid(35,13.6,140,68,{density:ORE.bankDensity,slope:1.06,staticSlope:1.38,cohesion:.09,mobility:2.0});
 field.toothResolution=8;
@@ -44,18 +45,18 @@ function wakeMaterial(x,z,kind){if(kind==='loose')clampTucked(x,z,4.4);const cx=
 export function digZone(x,z){return x> -25&&x<10&&Math.abs(z)<6.8}
 // Two continuous working terraces, in metres. Their dimensions determine the
 // reserve, rather than scaling a fixed 1000 tonnes into a small isolated heap.
-function benchUnit(x,z){return smooth(-25,-23.4,x)*(1-smooth(3.8,15,x))*(1-smooth(4.8,6.8,Math.abs(z)));}
+function benchUnit(x,z){const faceFloor=MACHINE.kind==='face-shovel'?1-smooth(-10,-6,x):1;return faceFloor*smooth(-25,-23.4,x)*(1-smooth(3.8,15,x))*(1-smooth(4.8,6.8,Math.abs(z)));}
 export const BENCH_HEIGHT=2.0604548638391544;
 function baseGround(x,z){let h=benchUnit(x,z)*BENCH_HEIGHT;const r=Math.hypot(x,z);if(r>38){const angle=Math.atan2(z,x),ridge=20+Math.sin(angle*5)*9+Math.sin(angle*11+.5)*5+Math.sin(angle*21)*2;h+=smooth(38,73,r)*ridge*(1-smooth(120,180,r));}if(r>28)h+=(Math.sin(x*.3)*Math.cos(z*.27)+Math.sin(x*.73+z*.33)*.35)*smooth(28,45,r);return dumpGround(x,z,h);}
 // Only a thin firm floor is protected; the extended lower platform and entire
 // upper terrace are mineable, including the material underneath the machine.
 function bedrockUnitFloor(x,z){return digZone(x,z)?benchUnit(x,z)*.16:baseGround(x,z);}
 export function benchFloor(x,z){return digZone(x,z)?floorSampler.heightAt(x+7.5,z):bedrockUnitFloor(x,z);}
-function upperUnit(x,z){const edge=.24*Math.sin(z*.72)+.13*Math.sin(z*2.7)+.07*Math.sin(z*6.3),front=1-smooth(-11.0+edge,-7.9+edge,x),back=smooth(-25,-22.8,x),side=1-smooth(4.4,6.8,Math.abs(z));return front*back*side*(1+.030*Math.sin(z*1.7+x*.4)+.022*Math.sin(x*2.3)+.024*Math.sin(x*4.1+z*.8)*Math.cos(z*3.8-x*.7));}
-const upperHeight=6;let upperTonnes=0,lowerTonnes=0;for(let row=0;row<field.nz;row++)for(let col=0;col<field.nx;col++){const x=(col+.5)*field.dx-field.width/2-7.5,z=(row+.5)*field.dz-field.depth/2;lowerTonnes+=benchUnit(x,z)*(BENCH_HEIGHT-.16)*field.area*ORE.bankDensity;upperTonnes+=upperUnit(x,z)*upperHeight*field.area*ORE.bankDensity;}
+function upperUnit(x,z){const edge=.24*Math.sin(z*.72)+.13*Math.sin(z*2.7)+.07*Math.sin(z*6.3),front=1-smooth(-11.0+edge+levelConfig(levelState().number).faceOffset,-7.9+edge+levelConfig(levelState().number).faceOffset,x),back=smooth(-25,-22.8,x),side=1-smooth(4.4,6.8,Math.abs(z));return front*back*side*(1+.030*Math.sin(z*1.7+x*.4)+.022*Math.sin(x*2.3)+.024*Math.sin(x*4.1+z*.8)*Math.cos(z*3.8-x*.7));}
+let upperHeight=6;let upperTonnes=0,lowerTonnes=0;for(let row=0;row<field.nz;row++)for(let col=0;col<field.nx;col++){const x=(col+.5)*field.dx-field.width/2-7.5,z=(row+.5)*field.dz-field.depth/2;lowerTonnes+=benchUnit(x,z)*(BENCH_HEIGHT-.16)*field.area*ORE.bankDensity;upperTonnes+=upperUnit(x,z)*upperHeight*field.area*ORE.bankDensity;}
 export const DOUBLE_BENCH={lowerTonnes,upperTonnes,upperX:-16,faceX:-9.5,upperHeight,platformHeight:BENCH_HEIGHT};
 function initialBankGround(x,z){return benchFloor(x,z)+initialSampler.heightAt(x+7.5,z);}
-function initializeShelf(){field.initialize((x,z)=>benchUnit(x-7.5,z)*(BENCH_HEIGHT-.16)+upperUnit(x-7.5,z)*upperHeight);for(let row=0;row<field.nz;row++)for(let col=0;col<field.nx;col++)field.base[row*field.nx+col]=bedrockUnitFloor((col+.5)*field.dx-field.width/2-7.5,(row+.5)*field.dz-field.depth/2);initialHeights.set(field.heights);setLevelReserve(field.mass);bankBounds={minX:-25.5,maxX:10.5,minZ:-7.5,maxZ:7.5};}initializeShelf();
+function initializeShelf(){upperHeight=levelConfig(levelState().number).faceHeight;field.initialize((x,z)=>benchUnit(x-7.5,z)*(BENCH_HEIGHT-.16)+upperUnit(x-7.5,z)*upperHeight);for(let row=0;row<field.nz;row++)for(let col=0;col<field.nx;col++)field.base[row*field.nx+col]=bedrockUnitFloor((col+.5)*field.dx-field.width/2-7.5,(row+.5)*field.dz-field.depth/2);initialHeights.set(field.heights);setLevelReserve(field.mass);bankBounds={minX:-25.5,maxX:10.5,minZ:-7.5,maxZ:7.5};}initializeShelf();
 function bankGround(x,z){return digZone(x,z)?frontBank.pages.size?frontBank.heightAt(x,z):benchFloor(x,z)+field.heightAt(x+7.5,z):baseGround(x,z)}
 // Front loading is identified from the remaining upper bank, relative to the
 // tracks. A cleared face, loose windrow or the floor under a raised machine
@@ -182,7 +183,7 @@ group.score=Math.sqrt(group.mass)*3-Math.hypot(group.x-(position.x??mx),group.z-
 }
 export function recoveryReceivers(source,machine){
  const near=recoveryEdges(machine).map(p=>({...p,distance:Math.hypot(p.x-source.x,p.z-source.z)})).sort((a,b)=>a.distance-b.distance),receivers=[];
- for(const p of near){if(receivers.every(q=>Math.hypot(p.x-q.x,p.z-q.z)>.9))receivers.push(p);if(receivers.length===16)break;}return receivers;
+ for(const p of near){if(receivers.every(q=>Math.hypot(p.x-q.x,p.z-q.z)>.9))receivers.push(p);if(receivers.length===10)break;}return [...receivers,{x:20,z:18},{x:8,z:18},{x:-18,z:-14}];
 }
 // Fixed-size visual event buffer. Its packets describe actual conservative
 // cell transfers, not extra mass removed from or added to the reserve.
@@ -240,20 +241,29 @@ export function makeWorld(scene,M){
  // The height plane has no vertex-colour attribute. Enabling it inherits a
  // zero GPU attribute and paints every freshly spilled fine fraction black.
  spoilMaterial.vertexColors=false;
- const loosePieces=chunkBatch(scene,M.freshRock,8192,'Individual spilled rocks'),spoilGrains=loosePieces.mesh;spoilMaterial.visible=true;spoil.castShadow=false;spoil.receiveShadow=true;stones.visible=false;let spoilRevision=-1;const spoilHeights=new Float32Array(spoilGeometry.attributes.position.count),spoilIndices=new Uint32Array(LOOSE_AREA.nx*LOOSE_AREA.nz*6);spoilGeometry.setIndex(new T.BufferAttribute(spoilIndices,1));spoilGeometry.setDrawRange(0,0);const metrics={updates:0,bankVertices:0,spoilVertices:0,lastUpdateMs:0};let initial=true;
+ const loosePieces=chunkBatch(scene,M.freshRock,8192,'Individual spilled rocks'),spoilGrains=loosePieces.mesh;spoilMaterial.visible=true;spoil.castShadow=false;spoil.receiveShadow=true;stones.visible=false;let spoilRevision=-1;const spoilHeights=new Float32Array(spoilGeometry.attributes.position.count),spoilIndices=new Uint32Array(LOOSE_AREA.nx*LOOSE_AREA.nz*6);spoilGeometry.setIndex(new T.BufferAttribute(spoilIndices,1));spoilGeometry.setDrawRange(0,0);const metrics={updates:0,bankVertices:0,spoilVertices:0,lastUpdateMs:0};let initial=true;const activeSpillCells=new Set();
  function updateSpoil(){
-  spoil.visible=spoilGrains.visible=loose.mass>1e-7;if(!spoil.visible||spoilRevision===loose.revision&&!bankBounds)return;spoilRevision=loose.revision;
+  spoil.visible=spoilGrains.visible=loose.mass>1e-7;if(!spoil.visible){activeSpillCells.clear();spoilHeights.fill(0);loosePieces.begin();loosePieces.finish();return;}if(spoilRevision===loose.revision&&!bankBounds)return;spoilRevision=loose.revision;
   const p=spoilGeometry.attributes.position,spoilBounds=bankBounds&&looseBounds?{minX:Math.min(bankBounds.minX,looseBounds.minX),maxX:Math.max(bankBounds.maxX,looseBounds.maxX),minZ:Math.min(bankBounds.minZ,looseBounds.minZ),maxZ:Math.max(bankBounds.maxZ,looseBounds.maxZ)}:looseBounds||bankBounds;
   metrics.spoilVertices=updateHeightPatch(spoilGeometry,LOOSE_AREA,(x,z)=>bankGround(x,z)+looseHeight(x,z)+.005,spoilBounds,(x,z)=>{const h=looseHeight(x,z);return Math.max(0,Math.min(1,(h-.001)/.045));});
-  let index=0;for(let i=0;i<p.count;i++){const x=p.getX(i)+LOOSE_AREA.x,z=p.getZ(i)+LOOSE_AREA.z;spoilHeights[i]=looseHeight(x,z);}
+  const cell=.4,originX=LOOSE_AREA.x-LOOSE_AREA.width/2,originZ=LOOSE_AREA.z-LOOSE_AREA.depth/2;
+  const x0=spoilBounds?Math.max(0,Math.floor((spoilBounds.minX-originX)/cell)-2):0,x1=spoilBounds?Math.min(LOOSE_AREA.nx,Math.ceil((spoilBounds.maxX-originX)/cell)+2):LOOSE_AREA.nx;
+  const z0=spoilBounds?Math.max(0,Math.floor((spoilBounds.minZ-originZ)/cell)-2):0,z1=spoilBounds?Math.min(LOOSE_AREA.nz,Math.ceil((spoilBounds.maxZ-originZ)/cell)+2):LOOSE_AREA.nz;
+  for(let z=z0;z<=z1;z++)for(let x=x0;x<=x1;x++)spoilHeights[z*(LOOSE_AREA.nx+1)+x]=looseHeight(originX+x*cell,originZ+z*cell);
+  for(let z=Math.max(0,z0-1);z<Math.min(LOOSE_AREA.nz,z1+1);z++)for(let x=Math.max(0,x0-1);x<Math.min(LOOSE_AREA.nx,x1+1);x++){
+   const a=z*(LOOSE_AREA.nx+1)+x,b=a+1,c=a+LOOSE_AREA.nx+1,d=c+1,key=z*LOOSE_AREA.nx+x;
+   if(Math.max(spoilHeights[a],spoilHeights[b],spoilHeights[c],spoilHeights[d])>.001)activeSpillCells.add(key);else activeSpillCells.delete(key);
+  }
+  let index=0,minX=LOOSE_AREA.nx,maxX=0,minZ=LOOSE_AREA.nz,maxZ=0;
+  for(const key of activeSpillCells){const x=key%LOOSE_AREA.nx,z=Math.floor(key/LOOSE_AREA.nx),a=z*(LOOSE_AREA.nx+1)+x,b=a+1,c=a+LOOSE_AREA.nx+1,d=c+1;spoilIndices.set([a,c,b,b,c,d],index);index+=6;minX=Math.min(minX,x);maxX=Math.max(maxX,x);minZ=Math.min(minZ,z);maxZ=Math.max(maxZ,z);}
+  if(index)packHeightField(loosePieces,{nx:maxX-minX+1,nz:maxZ-minZ+1,cell,x:originX+minX*cell,z:originZ+minZ*cell,floor:bankGround,height:looseHeight,seed:400,indexX:minX,indexZ:minZ});else{loosePieces.begin();loosePieces.finish();}
+  spoilGeometry.setDrawRange(0,index);spoilGeometry.index.clearUpdateRanges();spoilGeometry.index.addUpdateRange(0,index);spoilGeometry.index.needsUpdate=true;
 
-  for(let z=0;z<LOOSE_AREA.nz;z++)for(let x=0;x<LOOSE_AREA.nx;x++){const a=z*(LOOSE_AREA.nx+1)+x,b=a+1,c=a+LOOSE_AREA.nx+1,d=c+1;if(Math.max(spoilHeights[a],spoilHeights[b],spoilHeights[c],spoilHeights[d])>.001){spoilIndices.set([a,c,b,b,c,d],index);index+=6;}}
-  packHeightField(loosePieces,{nx:260,nz:200,cell:.4,x:LOOSE_AREA.x-LOOSE_AREA.width/2,z:LOOSE_AREA.z-LOOSE_AREA.depth/2,floor:bankGround,height:looseHeight,seed:400});spoilGeometry.setDrawRange(0,index);spoilGeometry.index.clearUpdateRanges();spoilGeometry.index.addUpdateRange(0,index);spoilGeometry.index.needsUpdate=true;
  }
  function update(){
   const start=performance.now();updateExposure();updateSpoil();for(const material of [terrain.material,face.material]){const shader=material.userData.winterShader;if(shader)shader.uniforms.quarryProgress.value=levelState().progress;}
   metrics.bankVertices=initial||bankBounds?updateHeightPatch(fine,{width:36,depth:15,nx:180,nz:76,x:-7.5,z:0},bankGround,initial?null:bankBounds):0;
-  if(initial||bankBounds){maskExposedBank(fine,removedExposure);rockBank.update();frontSurface.update();}metrics.front=frontSurface.metrics();metrics.bankChunks=rockBank.pieces.mesh.count;metrics.looseChunks=loosePieces.mesh.count;
+  if(initial||bankBounds){maskExposedBank(fine,removedExposure,-7.5,initial?null:bankBounds);rockBank.update(initial?null:bankBounds);frontSurface.update();}metrics.front=frontSurface.metrics();metrics.bankChunks=rockBank.pieces.mesh.count;metrics.looseChunks=loosePieces.mesh.count;
   for(let i=0;i<data.length;i++){const r=data[i];if(!initial&&(!bankBounds||r.x<bankBounds.minX||r.x>bankBounds.maxX||r.z<bankBounds.minZ||r.z>bankBounds.maxZ))continue;const grade=Math.hypot((visualGround(r.x+.4,r.z)-visualGround(r.x-.4,r.z))/.8,(visualGround(r.x,r.z+.4)-visualGround(r.x,r.z-.4))/.8),size=digZone(r.x,r.z)||grade>1.0||(Math.hypot(r.x,r.z)>32&&visualGround(r.x,r.z)>5)?0:r.r;dummy.position.set(r.x,visualGround(r.x,r.z)+size*.22,r.z);dummy.scale.set(size,size*.65,size);dummy.rotation.set(r.rot,r.rot*.7,r.rot*.3);dummy.updateMatrix();const mesh=i<140?stones:distantStones,slot=i<140?i:i-140;mesh.setMatrixAt(slot,dummy.matrix);mesh.instanceMatrix.needsUpdate=true;}
   if(initial){stones.computeBoundingSphere();distantStones.computeBoundingSphere();}initial=false;bankBounds=looseBounds=null;metrics.updates++;metrics.lastUpdateMs=performance.now()-start;
  }update();

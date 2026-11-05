@@ -1,4 +1,4 @@
-import * as T from '../three.module.js';
+import * as T from '../three.module.js?build=career-20261106-18';
 // Linear HDR radiance captured once by PMREM. Outdoor sky/ground reflections
 // replace the white rectangles of the former indoor room environment.
 export function quarryEnvironment(){

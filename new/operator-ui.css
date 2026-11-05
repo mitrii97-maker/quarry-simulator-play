@@ -174,3 +174,17 @@ kbd {font:10px "Segoe UI",sans-serif}
 @media(max-height:500px){#fleetOpen{font-size:8px;padding:9px}.fleet-dialog{max-height:96dvh}.fleet-model{height:60px}.fleet-card h3{min-height:0;margin:8px 0}.fleet-card{padding:10px}}
 @media(max-width:480px){#fleetOpen{font-size:7px;letter-spacing:0;overflow-wrap:anywhere}}
 @media(max-width:410px){.fleet-cards{grid-template-columns:1fr}.fleet-dialog h2{font-size:20px}}
+
+/* Cabin instruments live on the actual dashboard; overlays are controls only. */
+.cabin-view .telemetry,.cabin-view .grip-label,.cabin-view #horn:after{display:none!important}
+.cabin-view .tool-bank button:not(#view):not(#tabletOpen){display:none!important}
+.cabin-view .tool-bank{grid-template-columns:44px 44px;background:#15232860;padding:4px;border-radius:5px}
+.cab-tablet-dialog{margin:auto;width:min(700px,94vw);max-height:92dvh;overflow:auto;box-sizing:border-box;border:10px solid #202b2e;border-radius:20px;background:#102329;color:#e1ece6;padding:22px;box-shadow:0 15px 70px #0008;font-family:Arial,sans-serif}
+.cab-tablet-dialog::backdrop{background:#071113b8;backdrop-filter:blur(4px)}
+.cab-tablet-dialog header{display:flex;justify-content:space-between;gap:12px;align-items:start;border-bottom:1px solid #4b6468;padding-bottom:14px}
+.cab-tablet-dialog h2{margin:8px 0;font-size:23px}.cab-tablet-dialog small{font-size:9px;letter-spacing:1.7px;color:#89a5a8}.tablet-close{font-size:25px;padding:2px 12px}
+.cab-tablet-dialog nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}.cab-tablet-dialog button{position:static;background:#243f47;border:1px solid #50696b;color:#c6d9d8;padding:13px;border-radius:5px;font-size:11px}
+.cab-tablet-dialog nav button[aria-pressed=true]{background:#d1b36c;color:#13272e;border-color:#f1d293;font-weight:bold}
+.tablet-readings{margin:0}.tablet-readings div{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:15px 3px;border-bottom:1px solid #69808435}.tablet-readings dt{font-size:13px;color:#97b2b5}.tablet-readings dd{margin:0;font-size:23px;font-weight:bold;text-align:right;max-width:65%}
+.tablet-goal{font-size:12px;color:#d9c089;line-height:1.5;margin:20px 0}.cab-tablet-dialog footer{display:flex;gap:9px}.cab-tablet-dialog footer button{flex:1}
+@media(max-height:550px){.cab-tablet-dialog{padding:12px}.tablet-readings div{padding:9px 2px}.tablet-readings dd{font-size:18px}.cab-tablet-dialog nav{margin:10px 0}}

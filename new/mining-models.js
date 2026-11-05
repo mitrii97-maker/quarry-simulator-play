@@ -1,10 +1,10 @@
-import * as T from '../three.module.js';
-import {V,add,block,pin,rod,hose} from './geometry.js';
-import {roundedBlock,roundedPlate} from './sculpted.js';
-import {lettering} from './volvo-style.js';
-import {BUCKET} from './bucket-config.js';
-import {BUCKET_INNER_WIDTH} from './material-volume.js';
-import {batchMeshes} from '../batching.js';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {V,add,block,pin,rod,hose} from './geometry.js?build=career-20261106-18';
+import {roundedBlock,roundedPlate} from './sculpted.js?build=career-20261106-18';
+import {lettering} from './volvo-style.js?build=career-20261106-18';
+import {BUCKET} from './bucket-config.js?build=career-20261106-18';
+import {BUCKET_INNER_WIDTH} from './material-volume.js?build=career-20261106-18';
+import {batchMeshes} from '../batching.js?build=career-20261106-18';
 
 export function miningHouse(house,M,machine){
  const shovel=machine.kind==='face-shovel',hitachi=machine.id==='hitachi';

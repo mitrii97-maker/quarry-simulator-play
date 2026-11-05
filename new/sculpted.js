@@ -1,5 +1,5 @@
-import * as T from '../three.module.js';
-import {add} from './geometry.js';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {add} from './geometry.js?build=career-20261106-18';
 
 // Fillet the silhouette, then round its depth edges. Keep broad steel faces flat.
 export function roundedOutline(points,radius=.15,closed=true){
@@ -25,7 +25,7 @@ function polishBevel(geometry){
  n.needsUpdate=true;return geometry;
 }
 export function roundedPlate(parent,material,points,width,z=0,{corner=.15,bevel=.04}={}){
- const b=Math.min(bevel,width*.3),g=new T.ExtrudeGeometry(roundedOutline(points,corner),{depth:Math.max(.001,width-2*b),bevelEnabled:b>0,bevelSize:b,bevelThickness:b,bevelSegments:5,curveSegments:8});
+ const b=Math.min(bevel,width*.3),g=new T.ExtrudeGeometry(roundedOutline(points,corner),{depth:Math.max(.001,width-2*b),bevelEnabled:b>0,bevelSize:b,bevelThickness:b,bevelSegments:3,curveSegments:5});
  g.translate(0,0,-(width-2*b)/2);polishBevel(g);return add(parent,g,material,0,0,z);
 }
 export function roundedBlock(parent,material,[w,h,d],position,radius=.12){

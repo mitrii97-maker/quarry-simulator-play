@@ -1,9 +1,9 @@
-import {HAUL_ROADS} from './production-layout.js';
-import * as T from '../three.module.js';
-import {ground} from './world.js';
-import {V,add,rod} from './geometry.js';
-import {batchMeshes} from '../batching.js';
-import {createTrackImprints} from './track-imprints.js';
+import {HAUL_ROADS} from './production-layout.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {ground} from './world.js?build=career-20261106-18';
+import {V,add,rod} from './geometry.js?build=career-20261106-18';
+import {batchMeshes} from '../batching.js?build=career-20261106-18';
+import {createTrackImprints} from './track-imprints.js?build=career-20261106-18';
 function road(scene,material,points,width,height=ground,endWidth=width){const curve=new T.CatmullRomCurve3(points.map(([x,z])=>V(x,0,z)),false,'centripetal'),g=new T.BufferGeometry(),p=[],uv=[],c=[],idx=[],a=V(),t=V(),segments=160,cross=12;let distance=0,last=V();
  for(let i=0;i<=segments;i++){curve.getPoint(i/segments,a);curve.getTangent(i/segments,t);if(i)distance+=a.distanceTo(last);last.copy(a);for(let j=0;j<=cross;j++){const side=(j/cross-.5)*(width+(endWidth-width)*(i/segments)**3),x=a.x-t.z*side,z=a.z+t.x*side;p.push(x,height(x,z)+.075,z);uv.push(j/cross*1.8,distance*.15);const edge=Math.pow(Math.abs(j/cross-.5)*2,3),shade=.65+.15*Math.sin(x*3.2+z*1.7)**2;const end=Math.min(1,i/14,(segments-i)/14);c.push(shade,shade*.98,shade*.94,(1-edge)*end*end*(3-2*end));if(i<segments&&j<cross){const k=i*(cross+1)+j;idx.push(k,k+1,k+cross+1,k+1,k+cross+2,k+cross+1);}}}
  g.setAttribute('position',new T.Float32BufferAttribute(p,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setAttribute('color',new T.Float32BufferAttribute(c,4));g.setIndex(idx);g.computeVertexNormals();const normals=g.attributes.normal,colors=g.attributes.color;for(let i=0;i<normals.count;i++){const f=Math.max(0,Math.min(1,(normals.getY(i)-.65)/.2));colors.setW(i,colors.getW(i)*f*f*(3-2*f));}const mesh=new T.Mesh(g,material);mesh.name='Compacted gravel technological road';mesh.receiveShadow=true;mesh.renderOrder=1;scene.add(mesh);return mesh;}
@@ -28,7 +28,7 @@ export function createProductionYard(scene,M,visualHeight=ground){const group=ne
  box(steel,4.7,2.7,3.7,-17,ground(-17,-30)+1.35,-30);box(M.paint,5.0,.14,4,-17,ground(-17,-30)+2.78,-30);for(const xx of [-18.1,-16.6])box(M.glass,1.0,.85,.025,xx,ground(-17,-30)+1.8,-28.13);
  for(const [xx,zz]of[[-15,-32],[12,13],[48,-15]]){const y=ground(xx,zz);rod(group,M.steel,V(xx,y,zz),V(xx,y+10,zz),.11);box(M.dark,2.5,.12,.32,xx,y+10,zz);for(const dx of [-.8,.8])box(M.lamp,.55,.28,.19,xx+dx,y+9.95,zz+.1);}
  batchMeshes(group);
- const roadMaterial=M.ground.clone();roadMaterial.color.set('#c4b69f');roadMaterial.map=M.ground.map.clone();roadMaterial.map.repeat.set(4,4);roadMaterial.normalMap=M.ground.normalMap.clone();roadMaterial.normalMap.repeat.set(4,4);roadMaterial.vertexColors=true;roadMaterial.transparent=true;roadMaterial.opacity=.70;roadMaterial.depthWrite=false;roadMaterial.alphaTest=.02;roadMaterial.polygonOffset=true;roadMaterial.polygonOffsetFactor=-4;roadMaterial.normalScale=new T.Vector2(.22,.22);
+ const roadMaterial=M.ground.clone();roadMaterial.color.set('#78858b');roadMaterial.map=M.ground.map.clone();roadMaterial.map.repeat.set(4,4);roadMaterial.normalMap=M.ground.normalMap.clone();roadMaterial.normalMap.repeat.set(4,4);roadMaterial.vertexColors=true;roadMaterial.transparent=true;roadMaterial.opacity=.70;roadMaterial.depthWrite=false;roadMaterial.alphaTest=.02;roadMaterial.polygonOffset=true;roadMaterial.polygonOffsetFactor=-4;roadMaterial.normalScale=new T.Vector2(.22,.22);
  const roads=HAUL_ROADS.map(({points,width,endWidth})=>road(scene,roadMaterial,points,width,visualHeight,endWidth));
  const tyres=createTrackImprints(scene,{spacing:1.82,width:.76,length:1.02,capacity:1024,offset:-2.15,height:visualHeight,lift:.10,opacity:.25,name:'Persistent hauler tyre impressions'}),tracks=createTrackImprints(scene,{spacing:1.35,width:1.0,length:.70,capacity:512,offset:-2.3,name:'Excavator crawler impressions'});let effectsClock=0,plantClock=0;const exhaust=V();
  return {group,roads,layout:{x,z,base,foundationHeight:base-bottom},tyres,tracks,update(dt,trucks,state,rocks,rig,pressure=0){effectsClock+=dt;plantClock+=dt;for(const t of trucks)if((t.route?.speed||0)>.15)tyres.add(t.x,t.z,t.yaw,t.index);if(Math.abs(state.driveSpeed||0)>.08)tracks.add(state.baseX,state.baseZ,0);if(effectsClock<.27)return;effectsClock=0;if(rig){rig.house.localToWorld(exhaust.set(-1.05,2.30,.53));rocks.puff(exhaust,.01+pressure*.04);}if(plantClock>.9){plantClock=0;rocks.puff(exhaust.set(x-5,base+10.4,z-4),.025);rocks.puff(exhaust.set(x+4,base+10.4,z-4),.025);}for(const t of trucks)if((t.route?.speed||0)>2.0){const c=Math.cos(t.yaw),s=Math.sin(t.yaw),x=t.x-c*2.5,z=t.z+s*2.5;rocks.puff(V(x,ground(x,z)+.12,z),.08);} },reset(){tyres.clear();tracks.clear();effectsClock=0;}};

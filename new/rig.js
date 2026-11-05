@@ -1,21 +1,22 @@
-import {addCounterweight} from './counterweight.js';
-import {MACHINE} from './material-volume.js';
-import {miningHouse,miningCab,miningArm,makeFaceShovel} from './mining-models.js';
-import {applyMachineWear} from './machine-patina.js';
-import {makeBucketShell} from './bucket-model.js';
-import {volvoBody,volvoCab,volvoArmMarkings,volvoTrackFrames} from './volvo-style.js';
-import {chassisPoint} from './chassis.js';
-import {trackBelt} from './track-belt.js';
-import {makeRollerFaces} from './track-rollers.js';
-import {makeCabinInterior} from './cabin-interior.js';
-import {CABIN_VIEW} from './camera-layout.js';
-import {detailExcavator} from './detailing.js';
-import {BUCKET} from './bucket-config.js';
-import * as T from '../three.module.js';
-import {V,add,block,plate,pin,rod,cylinderRig,hose} from './geometry.js';
-import {batchMeshes} from '../batching.js';
-import {roundedPlate} from './sculpted.js';
-import {makeBucketLoad} from './bucket-load.js';
+import {makeCabTablet} from './cab-tablet.js?build=career-20261106-18';
+import {addCounterweight} from './counterweight.js?build=career-20261106-18';
+import {MACHINE,BUCKET_TONNES} from './material-volume.js?build=career-20261106-18';
+import {miningHouse,miningCab,miningArm,makeFaceShovel} from './mining-models.js?build=career-20261106-18';
+import {applyMachineWear} from './machine-patina.js?build=career-20261106-18';
+import {makeBucketShell} from './bucket-model.js?build=career-20261106-18';
+import {volvoBody,volvoCab,volvoArmMarkings,volvoTrackFrames} from './volvo-style.js?build=career-20261106-18';
+import {chassisPoint} from './chassis.js?build=career-20261106-18';
+import {trackBelt} from './track-belt.js?build=career-20261106-18';
+import {makeRollerFaces} from './track-rollers.js?build=career-20261106-18';
+import {makeCabinInterior} from './cabin-interior.js?build=career-20261106-18';
+import {CABIN_VIEW} from './camera-layout.js?build=career-20261106-18';
+import {detailExcavator} from './detailing.js?build=career-20261106-18';
+import {BUCKET} from './bucket-config.js?build=career-20261106-18';
+import * as T from '../three.module.js?build=career-20261106-18';
+import {V,add,block,plate,pin,rod,cylinderRig,hose} from './geometry.js?build=career-20261106-18';
+import {batchMeshes} from '../batching.js?build=career-20261106-18';
+import {roundedPlate} from './sculpted.js?build=career-20261106-18';
+import {makeBucketLoad} from './bucket-load.js?build=career-20261106-18';
 export const ARM={boom:5.8,stick:4.4,base:2.05};
 export function bucketWorldPoint(state,x=0,y=0,z=0){const a=state.boom,b=a+state.stick,angle=b+state.curl,reach=.55+5.8*Math.cos(a)+4.4*Math.cos(b),height=ARM.base+5.8*Math.sin(a)+4.4*Math.sin(b),xx=reach+x*Math.cos(angle)-y*Math.sin(angle),yy=height+x*Math.sin(angle)+y*Math.cos(angle);return chassisPoint(state,Math.cos(state.yaw)*xx+Math.sin(state.yaw)*z,yy,-Math.sin(state.yaw)*xx+Math.cos(state.yaw)*z)}
 export function forward(state){return {...bucketWorldPoint(state),angle:state.boom+state.stick+state.curl}}
@@ -75,8 +76,8 @@ export function makeExcavator(scene,materials){
  for(const z of [-.31,.31])hose(shoulder,M.black,[V(.2,.31,z),V(1.2,.97,z),V(2.5,1.18,z),V(3.4,.87,z),V(4.6,.52,z),V(5.4,.38,z)]);
  hose(stick,M.black,[V(.1,.46,.28),V(1.2,.49,.28),V(2.8,.3,.28),V(3.5,.31,.28)]);
  const charge=makeBucketLoad(M.freshRock),cargo=charge.group;bucket.add(cargo);if(MACHINE.kind==='face-shovel'){cargo.rotation.y=Math.PI;const entry=charge.entryPoint;charge.entryPoint=(z,out)=>{const point=entry(-z,out);point.x*=-1;point.z*=-1;return point;};}
- let lastPose=[],digRock=0,digVelocity=0,lastPressure=0;
- function update(s,dt=1/30){const h=Math.min(.04,dt),pressure=s.digPressure||0,target=-pressure*.032-(s.payload||0)*.010;digVelocity+=(target-digRock)*48*h-digVelocity*5.5*h+(pressure-lastPressure)*.17;digRock+=digVelocity*h;lastPressure=pressure;digRock=T.MathUtils.clamp(digRock,-.035,.035);const pose=[s.baseX,s.baseY,s.baseZ,s.roll,s.pitch,s.yaw,s.boom,s.stick,s.curl,digRock];if(pose.some((value,i)=>value!==lastPose[i])){lastPose=pose;root.position.set(s.baseX||0,s.baseY??4,s.baseZ||0);root.rotation.set((s.roll||0)+digRock*Math.sin(s.yaw)*.6,0,(s.pitch||0)+digRock*Math.cos(s.yaw),'ZXY');house.rotation.y=s.yaw;shoulder.rotation.z=s.boom;stick.rotation.z=s.stick;bucket.rotation.z=s.curl;
+ let lastPose=[],digRock=0,digVelocity=0,lastPressure=0,lastBoomSpeed=0;
+ function update(s,dt=1/30){const h=Math.min(.04,dt),pressure=s.digPressure||0,target=-pressure*MACHINE.vibration-(s.payload||0)*.008;digVelocity+=(target-digRock)*48*h-digVelocity*5.5*h+(pressure-lastPressure)*.17;digRock+=digVelocity*h;digVelocity+=((s.velocity?.boom||0)-lastBoomSpeed)*(s.payload||0)*.045;lastBoomSpeed=s.velocity?.boom||0;lastPressure=pressure;digRock=T.MathUtils.clamp(digRock,-.035,.035);const pose=[s.baseX,s.baseY,s.baseZ,s.roll,s.pitch,s.yaw,s.boom,s.stick,s.curl,digRock];if(pose.some((value,i)=>value!==lastPose[i])){lastPose=pose;root.position.set(s.baseX||0,s.baseY??4,s.baseZ||0);root.rotation.set((s.roll||0)+digRock*Math.sin(s.yaw)*.6,0,(s.pitch||0)+digRock*Math.cos(s.yaw),'ZXY');house.rotation.y=s.yaw;shoulder.rotation.z=s.boom;stick.rotation.z=s.stick;bucket.rotation.z=s.curl;
   const rot=(x,y,a)=>V(x*Math.cos(a)-y*Math.sin(a),x*Math.sin(a)+y*Math.cos(a),0);
   for(const {z,c} of lifts){const a=V(.1,-.05,z),b=rot(2.15,.15,s.boom).add(shoulder.position);b.z=z;c.update(a,b)}
   stickRam.update(V(2.55,1.18,.12),rot(-.72,.27,s.stick).add(V(5.8,0,.12)));
@@ -85,12 +86,13 @@ export function makeExcavator(scene,materials){
   }bucketModel.update?.(s.shovelDoor||0);charge.update(s,dt);
  }
  // Small in-cab instrument is driven by real payload and cutting load.
- const screenCanvas=document.createElement('canvas');screenCanvas.width=192;screenCanvas.height=128;const screenContext=screenCanvas.getContext('2d'),screenMap=new T.CanvasTexture(screenCanvas);screenMap.colorSpace=T.SRGBColorSpace;const screenMaterial=new T.MeshBasicMaterial({map:screenMap,toneMapped:false}),screen=add(cab,new T.PlaneGeometry(.30,.20),screenMaterial,.514,.59,.43);screen.rotation.y=-Math.PI/2;screen.name='Live payload and hydraulic load instrument';let lastGauge=-1,lastCharge=-1;
- function telemetry(pressure,payload){const gauge=Math.round(pressure*25),charge=Math.round(payload*100);if(gauge===lastGauge&&charge===lastCharge)return;lastGauge=gauge;lastCharge=charge;screenContext.fillStyle='#142b31';screenContext.fillRect(0,0,192,128);screenContext.fillStyle='#a8c9c4';screenContext.font='14px Arial';screenContext.fillText(MACHINE.name,12,21);screenContext.font='bold 28px Arial';screenContext.fillStyle='#ead098';screenContext.fillText(charge+'%',12,56);screenContext.font='12px Arial';screenContext.fillStyle='#91b6bc';screenContext.fillText('LOAD',112,52);screenContext.fillStyle='#2c4950';screenContext.fillRect(12,72,168,12);screenContext.fillStyle=pressure>.85?'#dbaa57':'#a0c9b0';screenContext.fillRect(12,72,168*pressure,12);screenContext.fillStyle='#a9c2c5';screenContext.fillText('RPM  '+Math.round(900+pressure*750),12,111);screenMap.needsUpdate=true;}
+ const tablet=makeCabTablet(cab,M,MACHINE);
+ function telemetry(pressure,payload,data){tablet.update(data||{fill:payload,bucketMass:payload*BUCKET_TONNES,systems:{load:pressure},level:{}});}
  telemetry(0,0);
+
  for(let i=0;i<24;i++){const a=i*Math.PI/12,bolt=add(root,new T.CylinderGeometry(.045,.045,.065,6),M.steel,Math.cos(a)*1.17,1.585,Math.sin(a)*1.17);}
  detailExcavator({root,house,cab,shoulder,stick,bucket},M);if(MACHINE.id==='volvo'){volvoArmMarkings(shoulder,M);volvoTrackFrames(root,M);}
  // Merge static parts inside each independently moving frame.
  for(const group of [root,house,cab,shoulder,stick,bucket,cargo])batchMeshes(group);
- return {root,house,cab,cockpit,shoulder,stick,bucket,bucketModel,cargo,charge,rollers,update,telemetry,advanceTracks(distance){for(const b of belts)b.advance(distance);rollers.advance(distance)},mouth:V(BUCKET.mouth.x,BUCKET.mouth.y,0),seat:V(cab.position.x+CABIN_VIEW.eye.x,house.position.y+cab.position.y+CABIN_VIEW.eye.y,cab.position.z+CABIN_VIEW.eye.z)};
+ return {root,house,cab,cockpit,shoulder,stick,bucket,bucketModel,cargo,charge,rollers,tablet,update,telemetry,advanceTracks(distance){for(const b of belts)b.advance(distance);rollers.advance(distance)},mouth:V(BUCKET.mouth.x,BUCKET.mouth.y,0),seat:V(cab.position.x+CABIN_VIEW.eye.x,house.position.y+cab.position.y+CABIN_VIEW.eye.y,cab.position.z+CABIN_VIEW.eye.z)};
 }
