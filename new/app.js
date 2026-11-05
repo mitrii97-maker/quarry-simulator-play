@@ -1,52 +1,52 @@
-import {createQuarryHorizons} from './quarry-horizons.js?build=hotfix-20261106-21';
-import {MachineSystems} from './machine-systems.js?build=hotfix-20261106-21';
-import {createTabletPanel} from './cab-tablet.js?build=hotfix-20261106-21';
-import {saveTerrain,restoreTerrain} from './world.js?build=hotfix-20261106-21';
-import {restoreLevel} from './levels.js?build=hotfix-20261106-21';
-import {FREE_MACHINE_TRIAL} from './machine-config.js?build=hotfix-20261106-21';
-import {createFleetShop} from './fleet-shop.js?build=hotfix-20261106-21';
-import {recordDelivery} from './fleet-store.js?build=hotfix-20261106-21';
-import {MACHINE} from './material-volume.js?build=hotfix-20261106-21';
-import {addMountainBackdrop} from './mountain-backdrop.js?build=hotfix-20261106-21';
-import {CarryAssist} from './carry-assist.js?build=hotfix-20261106-21';
-import {CameraResponse} from './camera-response.js?build=hotfix-20261106-21';
-import {PARKING} from './production-layout.js?build=hotfix-20261106-21';
-import {createTraffic} from './traffic.js?build=hotfix-20261106-21';
-import {OperatorShift,loadOptions,saveOptions,loadCareer,completeCareer} from './operator.js?build=hotfix-20261106-21';
-import {createOperatorPanel} from './operator-panel.js?build=hotfix-20261106-21';
-import {createProductionYard} from './production-yard.js?build=hotfix-20261106-21';
-import {makeQuarrySky} from './quarry-sky.js?build=hotfix-20261106-21';
-import {ShaderPass} from '../effects/postprocessing/ShaderPass.js?build=hotfix-20261106-21';
-import {FXAAShader} from '../effects/shaders/FXAAShader.js?build=hotfix-20261106-21';
-import {cameraFov,CABIN_VIEW} from './camera-layout.js?build=hotfix-20261106-21';
-import {makeDumpSite} from './dump-site.js?build=hotfix-20261106-21';
-import {createDozer} from './dozer.js?build=hotfix-20261106-21';
-import {createDumpGrader} from './dump-grader.js?build=hotfix-20261106-21';
-import {createShiftLighting} from './shift-lighting.js?build=hotfix-20261106-21';
-import {stepChassis} from './chassis.js?build=hotfix-20261106-21';
-import {loadVisualAssets} from './assets.js?build=hotfix-20261106-21';
-import {createSnowfall} from './winter.js?build=hotfix-20261106-21';
-import {levelState,recordDispatch,recordTransportSpill,finishIfReady,nextLevel as advanceLevel,LEVEL_TONNES,TRUCK_CAPACITY,TRUCKS_PER_LEVEL} from './levels.js?build=hotfix-20261106-21';
-import {BUCKET_TONNES,BUCKET_VOLUME,BUCKET_INNER_WIDTH} from './material-volume.js?build=hotfix-20261106-21';
-import {loadingBay,updateLoadingBay} from './loading-bay.js?build=hotfix-20261106-21';
-import {BUCKET,releaseRate,dischargeMouth,FACE_SHOVEL} from './bucket-config.js?build=hotfix-20261106-21';
-import * as T from '../three.module.js?build=hotfix-20261106-21';
+import {createQuarryHorizons} from './quarry-horizons.js?build=fix-20261106-22';
+import {MachineSystems} from './machine-systems.js?build=fix-20261106-22';
+import {createTabletPanel} from './cab-tablet.js?build=fix-20261106-22';
+import {saveTerrain,restoreTerrain} from './world.js?build=fix-20261106-22';
+import {restoreLevel} from './levels.js?build=fix-20261106-22';
+import {FREE_MACHINE_TRIAL} from './machine-config.js?build=fix-20261106-22';
+import {createFleetShop} from './fleet-shop.js?build=fix-20261106-22';
+import {recordDelivery} from './fleet-store.js?build=fix-20261106-22';
+import {MACHINE} from './material-volume.js?build=fix-20261106-22';
+import {addMountainBackdrop} from './mountain-backdrop.js?build=fix-20261106-22';
+import {CarryAssist} from './carry-assist.js?build=fix-20261106-22';
+import {CameraResponse} from './camera-response.js?build=fix-20261106-22';
+import {PARKING} from './production-layout.js?build=fix-20261106-22';
+import {createTraffic} from './traffic.js?build=fix-20261106-22';
+import {OperatorShift,loadOptions,saveOptions,loadCareer,completeCareer} from './operator.js?build=fix-20261106-22';
+import {createOperatorPanel} from './operator-panel.js?build=fix-20261106-22';
+import {createProductionYard} from './production-yard.js?build=fix-20261106-22';
+import {makeQuarrySky} from './quarry-sky.js?build=fix-20261106-22';
+import {ShaderPass} from '../effects/postprocessing/ShaderPass.js?build=fix-20261106-22';
+import {FXAAShader} from '../effects/shaders/FXAAShader.js?build=fix-20261106-22';
+import {cameraFov,CABIN_VIEW} from './camera-layout.js?build=fix-20261106-22';
+import {makeDumpSite} from './dump-site.js?build=fix-20261106-22';
+import {createDozer} from './dozer.js?build=fix-20261106-22';
+import {createDumpGrader} from './dump-grader.js?build=fix-20261106-22';
+import {createShiftLighting} from './shift-lighting.js?build=fix-20261106-22';
+import {stepChassis} from './chassis.js?build=fix-20261106-22';
+import {loadVisualAssets} from './assets.js?build=fix-20261106-22';
+import {createSnowfall} from './winter.js?build=fix-20261106-22';
+import {levelState,recordDispatch,recordTransportSpill,finishIfReady,nextLevel as advanceLevel,LEVEL_TONNES,TRUCK_CAPACITY,TRUCKS_PER_LEVEL} from './levels.js?build=fix-20261106-22';
+import {BUCKET_TONNES,BUCKET_VOLUME,BUCKET_INNER_WIDTH} from './material-volume.js?build=fix-20261106-22';
+import {loadingBay,updateLoadingBay} from './loading-bay.js?build=fix-20261106-22';
+import {BUCKET,releaseRate,dischargeMouth,FACE_SHOVEL} from './bucket-config.js?build=fix-20261106-22';
+import * as T from '../three.module.js?build=fix-20261106-22';
 
-import {EffectComposer} from '../effects/postprocessing/EffectComposer.js?build=hotfix-20261106-21';
-import {RenderPass} from '../effects/postprocessing/RenderPass.js?build=hotfix-20261106-21';
-import {SSAOPass} from '../effects/postprocessing/SSAOPass.js?build=hotfix-20261106-21';
-import {OutputPass} from '../effects/postprocessing/OutputPass.js?build=hotfix-20261106-21';
-import {makeMaterials,makeWorld,frontState,ground,resetTerrain,stepMaterial,drainCaveIns,shelfMass,looseMass} from './world.js?build=hotfix-20261106-21';
-import {makeExcavator,forward,bucketFrame,framePoint} from './rig.js?build=hotfix-20261106-21';
-import {bucketContact,createSuspension} from './truck-suspension.js?build=hotfix-20261106-21';
-import {START,stepRig,bucketSamples,truckHeight,soilContact} from './physics.js?build=hotfix-20261106-21';
-import {createTruck,makeRoute,driveTruck,catches,recoverEmptyFleet} from './haul.js?build=hotfix-20261106-21';
-import {V,add} from './geometry.js?build=hotfix-20261106-21';
-import {QuarryAudio} from '../audio.js?build=hotfix-20261106-21';
-import {makeRockSystem} from './rock-system.js?build=hotfix-20261106-21';
-import {QUALITY,QualityGovernor,FrameMetrics} from './render-quality.js?build=hotfix-20261106-21';
-import {FixedClock} from './frame-clock.js?build=hotfix-20261106-21';
-import {bindInputs,HornGesture} from './input.js?build=hotfix-20261106-21';
+import {EffectComposer} from '../effects/postprocessing/EffectComposer.js?build=fix-20261106-22';
+import {RenderPass} from '../effects/postprocessing/RenderPass.js?build=fix-20261106-22';
+import {SSAOPass} from '../effects/postprocessing/SSAOPass.js?build=fix-20261106-22';
+import {OutputPass} from '../effects/postprocessing/OutputPass.js?build=fix-20261106-22';
+import {makeMaterials,makeWorld,frontState,ground,resetTerrain,stepMaterial,drainCaveIns,shelfMass,looseMass} from './world.js?build=fix-20261106-22';
+import {makeExcavator,forward,bucketFrame,framePoint} from './rig.js?build=fix-20261106-22';
+import {bucketContact,createSuspension} from './truck-suspension.js?build=fix-20261106-22';
+import {START,stepRig,bucketSamples,truckHeight,soilContact} from './physics.js?build=fix-20261106-22';
+import {createTruck,makeRoute,driveTruck,catches,recoverEmptyFleet} from './haul.js?build=fix-20261106-22';
+import {V,add} from './geometry.js?build=fix-20261106-22';
+import {QuarryAudio} from '../audio.js?build=fix-20261106-22';
+import {makeRockSystem} from './rock-system.js?build=fix-20261106-22';
+import {QUALITY,QualityGovernor,FrameMetrics} from './render-quality.js?build=fix-20261106-22';
+import {FixedClock} from './frame-clock.js?build=fix-20261106-22';
+import {bindInputs,HornGesture} from './input.js?build=fix-20261106-22';
 const options=loadOptions();options.autoSupply=true;const shift=new OperatorShift(),traffic=createTraffic(),carryAssist=new CarryAssist(),cameraResponse=new CameraResponse();let queueRequested=false,manualRequest=false,operatorPanel=null,fleetShop=null,tabletPanel=null;const systems=new MachineSystems(MACHINE);
 const deliveryMass=new Map();
 function landedDelivery(id,tonnes){const previous=deliveryMass.get(id)||0,amount=previous+tonnes;deliveryMass.set(id,amount);if(previous<98&&amount>=98){const progress=recordDelivery(id,amount);if(progress.awarded)fleetShop?.refresh();}}
@@ -123,10 +123,10 @@ function updateDozerButton(){$('callDozer').disabled=dozer.busy;$('callDozer').s
 const levelCache={};function levelText(id,value){if(levelCache[id]!==value){$(id).textContent=value;levelCache[id]=value}}
 function updateLevelHUD(){const l=levelState();levelText('levelNumber','УЧАСТОК '+l.number+' · '+l.target+' т');levelText('shelfRemaining',Math.ceil(l.goalRemaining)+' т осталось');levelText('shelfTrips','Погружено '+Math.round(l.loaded)+' т · Доставлено '+Math.round(l.dumped)+' т');$('shelfProgress').style.width=(l.progress*100)+'%';}
 
-function showLevelFinish(){resetInputs();keys.clear();state.velocity={yaw:0,boom:0,stick:0,curl:0};state.driveSpeed=0;state=stepChassis(state,0,1/120,ground).state;rig.update(state);rig.root.updateWorldMatrix(true,true);audio.update(0,false,false);rocks.reset();hornGesture.reset();const l=levelState();$('finishLevel').textContent='УРОВЕНЬ '+l.number+' ПРОЙДЕН';$('finishDetails').textContent='Выкопано и доставлено на отвал '+Math.round(l.dumped)+' т породы за '+l.trips+' рейсов.';$('levelFinish').hidden=false;const rating=shift.snapshot();completeCareer(levelState().number,rating);let summary=document.getElementById('finishOperator');if(!summary){summary=document.createElement('p');summary.id='finishOperator';summary.className='shift-summary';$('finishDetails').after(summary);}summary.textContent='★'.repeat(rating.stars)+' · Точность '+Math.round(rating.accuracy)+'% · '+Math.round(rating.rate)+' т/ч';$('nextLevel').focus();}
+function showLevelFinish(){resetInputs();keys.clear();state.velocity={yaw:0,boom:0,stick:0,curl:0};state.driveSpeed=0;state=stepChassis(state,0,1/120,ground).state;rig.update(state);rig.root.updateWorldMatrix(true,true);audio.update(0,false,false);hornGesture.reset();const l=levelState();$('finishLevel').textContent='УРОВЕНЬ '+l.number+' ПРОЙДЕН';$('finishDetails').textContent='Погружено '+Math.round(l.loaded)+' т. Доставлено на отвал '+Math.round(l.dumped)+' т. Следующий участок и новая машина открыты.';$('levelFinish').hidden=false;const rating=shift.snapshot();completeCareer(levelState().number,rating);let summary=document.getElementById('finishOperator');if(!summary){summary=document.createElement('p');summary.id='finishOperator';summary.className='shift-summary';$('finishDetails').after(summary);}summary.textContent='★'.repeat(rating.stars)+' · Точность '+Math.round(rating.accuracy)+'% · '+Math.round(rating.rate)+' т/ч';$('nextLevel').focus();}
 $('nextLevel').onclick=()=>{if(!advanceLevel())return;resetTerrain();traffic.reset();shift.reset();systems.reset();carryAssist.reset();cameraResponse.reset();productionYard.reset();queueRequested=options.autoSupply;manualRequest=false;state={...START,velocity:{...START.velocity}};active=-1;waitingTruck=-1;completed=0;impact=0;resetInputs();keys.clear();for(const side of ['left','right'])$(side+'Stick').querySelector('i').style.transform='translate(0px,0px)';for(const t of trucks){t.route=null;t.suspension=createSuspension();t.roadPitch=t.roadRoll=0;t.pitch=0;t.roll=0;t.tipAngle=0;t.dumpSlot=null;t.loadForce={x:0,z:0};if(t.bedPivot)t.bedPivot.rotation.z=0;if(t.tailgate)t.tailgate.rotation.z=0;t.hoist?.update(0);t.state='parked';t.tonnes=0;t.dispatched=false;t.worldVelocity=V();t.wait=0;t.x=t.home.x;t.z=t.home.z;t.yaw=t.homeYaw??0;t.previousX=t.x;t.previousZ=t.z;t.previousYaw=t.yaw;t.root.position.copy(t.home);t.root.position.y=ground(t.x,t.z);t.root.rotation.set(0,t.yaw,0);t.cargo.visible=false;t.load?.clear();for(const w of t.wheels){w.steer.position.y=1.14;w.steer.rotation.y=0;w.roll.rotation.z=0}}rocks.reset();dumpSite.reset();dozer.reset();dumpGrader.reset();updateDozerButton();scoopEmission=0;lastScoopEntry=null;hasLastMouth=false;previousState=state;trackTravel=0;world.update();terrainDirty=false;cameraReady=false;rig.update(state);$('levelFinish').hidden=true;updateLevelHUD();};
 updateLevelHUD();$('bucketCapacity').textContent='КОВШ · '+BUCKET_VOLUME.toLocaleString('ru-RU',{maximumFractionDigits:1})+' м³';
-function tick(dt){if(levelState().status!=='playing'){time+=dt;traffic.update(trucks,dt,state,dozer,dumpGrader);for(const truck of trucks){truck.previousX=truck.x;truck.previousZ=truck.z;truck.previousYaw=truck.yaw;driveTruck(truck,dt,time,{dumpSite,transport:(mass,point,velocity)=>rocks.transport(mass,point,velocity,truck.deliveryId)});}dumpGrader.update(dt,trucks);dumpSite.update(dt);return;}previousState=state;time+=dt;if(trucks[active]?.awaitDump)hornGesture.onDispatch();if(stepMaterial(dt))terrainDirty=true;drainCaveIns(onCaveMovement);const t=trucks[active],raw=effectiveInputs(),command=shift.inputs(raw,options.precision);!FACE_SHOVEL&&carryAssist.command(state,command,{enabled:options.carryAssist,precision:options.precision,manualCurl:raw.right.x,contact:soilContact(state)});const travel=stepChassis(state,command.drive,dt,ground);state=travel.state;trackTravel+=travel.distance;lastBlocked=travel.blocked;const result=stepRig(state,command.left,command.right,dt,t);state=result.state;carryAssist.validate(state,result.contact);bucketContact(t,result.truckHit,dt);impact=Math.max(impact*Math.exp(-dt*8),Math.min(.07,result.impact*.15));if(result.work>0||result.graded>0||result.relief>0)terrainDirty=true;bucketFrame(state,physicsFrame);if(result.graded>.004)rocks.puff(V(result.gradePoint.x,result.gradePoint.y,result.gradePoint.z),.07);if(result.work>0){scoopEmission+=result.work*BUCKET_TONNES;lastScoopEntry=result.entry;}while(scoopEmission>=.09||result.work===0&&scoopEmission>1e-9){const mass=Math.min(.09,scoopEmission);if(!spawnScoopChip(lastScoopEntry,mass))break;scoopEmission=Math.max(0,scoopEmission-mass);}
+function tick(dt){if(levelState().status!=='playing'){time+=dt;traffic.update(trucks,dt,state,dozer,dumpGrader);for(const truck of trucks){truck.previousX=truck.x;truck.previousZ=truck.z;truck.previousYaw=truck.yaw;driveTruck(truck,dt,time,{dumpSite,transport:(mass,point,velocity)=>rocks.transport(mass,point,velocity,truck.deliveryId)});}rocks.update(dt,emitterRig,trucks);dumpGrader.update(dt,trucks);dumpSite.update(dt);return;}previousState=state;time+=dt;if(trucks[active]?.awaitDump)hornGesture.onDispatch();if(stepMaterial(dt))terrainDirty=true;drainCaveIns(onCaveMovement);const t=trucks[active],raw=effectiveInputs(),command=shift.inputs(raw,options.precision);!FACE_SHOVEL&&carryAssist.command(state,command,{enabled:options.carryAssist,precision:options.precision,manualCurl:raw.right.x,contact:soilContact(state)});const travel=stepChassis(state,command.drive,dt,ground);state=travel.state;trackTravel+=travel.distance;lastBlocked=travel.blocked;const result=stepRig(state,command.left,command.right,dt,t);state=result.state;carryAssist.validate(state,result.contact);bucketContact(t,result.truckHit,dt);impact=Math.max(impact*Math.exp(-dt*8),Math.min(.07,result.impact*.15));if(result.work>0||result.graded>0||result.relief>0)terrainDirty=true;bucketFrame(state,physicsFrame);if(result.graded>.004)rocks.puff(V(result.gradePoint.x,result.gradePoint.y,result.gradePoint.z),.07);if(result.work>0){scoopEmission+=result.work*BUCKET_TONNES;lastScoopEntry=result.entry;}while(scoopEmission>=.09||result.work===0&&scoopEmission>1e-9){const mass=Math.min(.09,scoopEmission);if(!spawnScoopChip(lastScoopEntry,mass))break;scoopEmission=Math.max(0,scoopEmission-mass);}
 
 if(t&&['coming','staging','backing','ready','repositioning'].includes(t.state))updateLoadingBay(t,state,dt);
 traffic.update(trucks,dt,state,dozer,dumpGrader);

@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=hotfix-20261106-21';
-import {HAULER_BODY as B} from './hauler-body-config.js?build=hotfix-20261106-21';
+import * as T from '../three.module.js?build=fix-20261106-22';
+import {HAULER_BODY as B} from './hauler-body-config.js?build=fix-20261106-22';
 export const HOIST={baseX:-2.2,baseY:1.65,anchorX:.30,anchorY:B.floor-.28,side:.88,sleeve:2.25};
 export function hoistAnchor(angle,out={}){const x=HOIST.anchorX-B.hingeX,y=HOIST.anchorY-B.hingeY,c=Math.cos(angle),s=Math.sin(angle);out.x=B.hingeX+x*c-y*s;out.y=B.hingeY+x*s+y*c;return out;}
 export function makeTruckHoist(root,M){

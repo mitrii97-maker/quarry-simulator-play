@@ -1,4 +1,4 @@
-import {Vector3} from '../three.module.js?build=hotfix-20261106-21';
+import {Vector3} from '../three.module.js?build=fix-20261106-22';
 // Heavy vehicles reserve a short swept corridor, not a single point. This
 // controller only supplies speed limits; routes, loads and tipping stay owned
 // by haul.js. All path buffers are reused and refreshed at 10 Hz.

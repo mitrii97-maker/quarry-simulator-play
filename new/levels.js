@@ -1,5 +1,5 @@
-import {loadCareer} from './operator.js?build=hotfix-20261106-21';
-import {levelConfig} from './career-config.js?build=hotfix-20261106-21';
+import {loadCareer} from './operator.js?build=fix-20261106-22';
+import {levelConfig} from './career-config.js?build=fix-20261106-22';
 export const TRUCK_CAPACITY=100;
 export let LEVEL_TONNES=levelConfig(loadCareer().nextLevel).targetTonnes;
 export let TRUCKS_PER_LEVEL=Math.ceil(LEVEL_TONNES/TRUCK_CAPACITY);
@@ -13,6 +13,6 @@ export function recordLoaded(mass){if(current.status==='playing'&&Number.isFinit
 export function recordDispatch(mass){if(current.status!=='playing'||!Number.isFinite(mass)||mass<=0)return 0;mass=Math.min(TRUCK_CAPACITY,mass);current.shipped+=mass;current.trips++;return mass;}
 export function recordTransportSpill(mass){if(Number.isFinite(mass)&&mass>0)current.shipped=Math.max(0,current.shipped-mass);}
 export function recordDump(mass){if(current.status!=='playing'||!Number.isFinite(mass)||mass<=0)return 0;current.dumped+=mass;return mass;}
-export function finishIfReady(payload,inFlight){if(current.status==='playing'&&current.dumped>=current.target-EPS&&payload<=.0001&&inFlight<=.0001){current.status='complete';return true;}return false;}
+export function finishIfReady(payload,inFlight){if(current.status==='playing'&&current.loaded>=current.target-.05){current.status='complete';return true;}return false;}
 export function nextLevel(){if(current.status!=='complete')return false;current=fresh(current.number+1);LEVEL_TONNES=current.target;TRUCKS_PER_LEVEL=Math.ceil(LEVEL_TONNES/TRUCK_CAPACITY);return true;}
 export function restoreLevel(saved){if(!saved||!Number.isSafeInteger(saved.number)||saved.number<1)throw Error('Invalid saved level');for(const k of ['remaining','excavated','shipped','dumped','trips'])if(!Number.isFinite(saved[k])||saved[k]<0)throw Error('Invalid counters');current={...fresh(saved.number),...saved,target:levelConfig(saved.number).targetTonnes,loaded:saved.loaded??saved.shipped};LEVEL_TONNES=current.target;TRUCKS_PER_LEVEL=Math.ceil(LEVEL_TONNES/TRUCK_CAPACITY);}

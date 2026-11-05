@@ -1,4 +1,4 @@
-import {BENCH_HEIGHT} from './layout.js?build=hotfix-20261106-21';
+import {BENCH_HEIGHT} from './layout.js?build=fix-20261106-22';
 export function surfaceHeight(x,z){
  if(x< -24||x>0||z< -13||z>10)return 0;
  if(x> -5&&x< -.5&&z> -5.5&&z< -.5)return 2.7-cutDepth(x,z);

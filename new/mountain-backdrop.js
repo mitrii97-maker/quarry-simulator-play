@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=hotfix-20261106-21';
+import * as T from '../three.module.js?build=fix-20261106-22';
 
 // A ring beyond the playable quarry. The periodic ridgelines close without
 // a seam and share one mesh and material, including the snow on the peaks.

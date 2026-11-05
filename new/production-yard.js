@@ -1,9 +1,9 @@
-import {HAUL_ROADS} from './production-layout.js?build=hotfix-20261106-21';
-import * as T from '../three.module.js?build=hotfix-20261106-21';
-import {ground} from './world.js?build=hotfix-20261106-21';
-import {V,add,rod} from './geometry.js?build=hotfix-20261106-21';
-import {batchMeshes} from '../batching.js?build=hotfix-20261106-21';
-import {createTrackImprints} from './track-imprints.js?build=hotfix-20261106-21';
+import {HAUL_ROADS} from './production-layout.js?build=fix-20261106-22';
+import * as T from '../three.module.js?build=fix-20261106-22';
+import {ground} from './world.js?build=fix-20261106-22';
+import {V,add,rod} from './geometry.js?build=fix-20261106-22';
+import {batchMeshes} from '../batching.js?build=fix-20261106-22';
+import {createTrackImprints} from './track-imprints.js?build=fix-20261106-22';
 function road(scene,material,points,width,height=ground,endWidth=width){const curve=new T.CatmullRomCurve3(points.map(([x,z])=>V(x,0,z)),false,'centripetal'),g=new T.BufferGeometry(),p=[],uv=[],c=[],idx=[],a=V(),t=V(),segments=160,cross=12;let distance=0,last=V();
  for(let i=0;i<=segments;i++){curve.getPoint(i/segments,a);curve.getTangent(i/segments,t);if(i)distance+=a.distanceTo(last);last.copy(a);for(let j=0;j<=cross;j++){const side=(j/cross-.5)*(width+(endWidth-width)*(i/segments)**3),x=a.x-t.z*side,z=a.z+t.x*side;p.push(x,height(x,z)+.075,z);uv.push(j/cross*1.8,distance*.15);const edge=Math.pow(Math.abs(j/cross-.5)*2,3),shade=.65+.15*Math.sin(x*3.2+z*1.7)**2;const end=Math.min(1,i/14,(segments-i)/14);c.push(shade,shade*.98,shade*.94,(1-edge)*end*end*(3-2*end));if(i<segments&&j<cross){const k=i*(cross+1)+j;idx.push(k,k+1,k+cross+1,k+1,k+cross+2,k+cross+1);}}}
  g.setAttribute('position',new T.Float32BufferAttribute(p,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setAttribute('color',new T.Float32BufferAttribute(c,4));g.setIndex(idx);g.computeVertexNormals();const normals=g.attributes.normal,colors=g.attributes.color;for(let i=0;i<normals.count;i++){const f=Math.max(0,Math.min(1,(normals.getY(i)-.65)/.2));colors.setW(i,colors.getW(i)*f*f*(3-2*f));}const mesh=new T.Mesh(g,material);mesh.name='Compacted gravel technological road';mesh.receiveShadow=true;mesh.renderOrder=1;scene.add(mesh);return mesh;}

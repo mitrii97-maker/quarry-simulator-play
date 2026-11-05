@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=hotfix-20261106-21';
+import * as T from '../three.module.js?build=fix-20261106-22';
 
 // A packet remains one pooled mass parcel. Its silhouette consists of chipped,
 // interlocking grains, never a smooth liquid blob or extra physical bodies.

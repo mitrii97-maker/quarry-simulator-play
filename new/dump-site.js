@@ -1,14 +1,14 @@
-import {SectorLeases} from './sector-leases.js?build=hotfix-20261106-21';
-import * as T from '../three.module.js?build=hotfix-20261106-21';
-import {GranularGrid} from './granular.js?build=hotfix-20261106-21';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=hotfix-20261106-21';
-import {createHeightFines} from './dry-fines.js?build=hotfix-20261106-21';
-import {DUMP,dumpBermHeight} from './dump-layout.js?build=hotfix-20261106-21';
-import {ORE} from './material-volume.js?build=hotfix-20261106-21';
-import {recordDump} from './levels.js?build=hotfix-20261106-21';
-import {ground} from './world.js?build=hotfix-20261106-21';
-import {block,rod,V} from './geometry.js?build=hotfix-20261106-21';
-import {batchMeshes} from '../batching.js?build=hotfix-20261106-21';
+import {SectorLeases} from './sector-leases.js?build=fix-20261106-22';
+import * as T from '../three.module.js?build=fix-20261106-22';
+import {GranularGrid} from './granular.js?build=fix-20261106-22';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=fix-20261106-22';
+import {createHeightFines} from './dry-fines.js?build=fix-20261106-22';
+import {DUMP,dumpBermHeight} from './dump-layout.js?build=fix-20261106-22';
+import {ORE} from './material-volume.js?build=fix-20261106-22';
+import {recordDump} from './levels.js?build=fix-20261106-22';
+import {ground} from './world.js?build=fix-20261106-22';
+import {block,rod,V} from './geometry.js?build=fix-20261106-22';
+import {batchMeshes} from '../batching.js?build=fix-20261106-22';
 export function makeDumpSite(scene,M){
  const field=new GranularGrid(DUMP.width,DUMP.depth,60,90,{density:ORE.looseDensity,slope:.9,staticSlope:1.2,cohesion:.08,mobility:2.8});
  // Immutable receiving terrain: reuse its vertex samples for the cover,
@@ -48,7 +48,7 @@ export function makeDumpSite(scene,M){
   for(let row=0;row<91;row++)for(let col=0;col<61;col++){const k=row*61+col,h=field.heightAt(-DUMP.width/2+col*field.dx,-DUMP.depth/2+row*field.dz);heights[k]=floors[k]+h;cover[k]=h>.002?1:0;}fines.update(heights,cover);
   packHeightField(pieces,{nx:100,nz:45,cell:.4,x:DUMP.x-DUMP.width/2,z:DUMP.z-DUMP.depth/2,floor:floorAt,height:(x,z)=>Math.max(0,field.heightAt(x-DUMP.x,z-DUMP.z)-.06),seed:760});
  }
- function reserve(truck,preferred=null){if(sectors.dozers.size&&!Array.from(sectors.trucks.values()).includes(truck))return null;const index=sectors.reserveTruck(truck,preferred);return index<0?null:{index,x:DUMP.truckX,z:DUMP.bays[index]};}
+ function reserve(truck,preferred=null){if((sectors.dozers.size||sectors.trucks.size)&&!Array.from(sectors.trucks.values()).includes(truck))return null;const index=sectors.reserveTruck(truck,preferred);return index<0?null:{index,x:DUMP.truckX,z:DUMP.bays[index]};}
  function release(truck){sectors.release(truck);}
  function heapTargets(){
   if(heapClock<.8)return heapCache;heapClock=0;heapCache=[];

@@ -1,13 +1,13 @@
-import {levelConfig} from './career-config.js?build=hotfix-20261106-21';
-import {levelState} from './levels.js?build=hotfix-20261106-21';
-import {bodyContains} from './hauler-body-config.js?build=hotfix-20261106-21';
-import {BED} from './truck-load.js?build=hotfix-20261106-21';
-import {takeRock} from './levels.js?build=hotfix-20261106-21';
-import {BUCKET,opening,FACE_SHOVEL} from './bucket-config.js?build=hotfix-20261106-21';
-import {forward,bucketWorldPoint,bucketFrame,framePoint} from './rig.js?build=hotfix-20261106-21';
-import {ground,canDig,excavateSweep,excavateFront,relieveFrontContact,gradeBucketSweep,benchFloor,isUpperFace,isFrontRegion,bankSolidAt,bankPenetration,supportFrontWithBucket,BENCH_HEIGHT} from './world.js?build=hotfix-20261106-21';
-import {BUCKET_TONNES,BUCKET_INNER_WIDTH,BUCKET_CUT_HALF_WIDTH,BUCKET_WORKING_WIDTH,MACHINE} from './material-volume.js?build=hotfix-20261106-21';
-import {hardTruckSurface,truckLocal} from './truck-contact.js?build=hotfix-20261106-21';
+import {levelConfig} from './career-config.js?build=fix-20261106-22';
+import {levelState} from './levels.js?build=fix-20261106-22';
+import {bodyContains} from './hauler-body-config.js?build=fix-20261106-22';
+import {BED} from './truck-load.js?build=fix-20261106-22';
+import {takeRock} from './levels.js?build=fix-20261106-22';
+import {BUCKET,opening,FACE_SHOVEL} from './bucket-config.js?build=fix-20261106-22';
+import {forward,bucketWorldPoint,bucketFrame,framePoint} from './rig.js?build=fix-20261106-22';
+import {ground,canDig,excavateSweep,excavateFront,relieveFrontContact,gradeBucketSweep,benchFloor,isUpperFace,isFrontRegion,bankSolidAt,bankPenetration,supportFrontWithBucket,BENCH_HEIGHT} from './world.js?build=fix-20261106-22';
+import {BUCKET_TONNES,BUCKET_INNER_WIDTH,BUCKET_CUT_HALF_WIDTH,BUCKET_WORKING_WIDTH,MACHINE} from './material-volume.js?build=fix-20261106-22';
+import {hardTruckSurface,truckLocal} from './truck-contact.js?build=fix-20261106-22';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const START={yaw:FACE_SHOVEL?Math.PI:0,boom:FACE_SHOVEL?.8:.76,stick:FACE_SHOVEL?-1.65:-1.95,curl:FACE_SHOVEL?1:BUCKET.workOpen,shovelDoor:0,payload:0,baseX:FACE_SHOVEL?3:0,baseZ:0,baseY:FACE_SHOVEL?-.11:BENCH_HEIGHT-.11,pitch:0,roll:0,driveSpeed:0,velocity:{yaw:0,boom:0,stick:0,curl:0}};
 export function bucketSamples(s){const edge=BUCKET_INNER_WIDTH*.49;return offsets.flatMap(([x,y])=>[-edge,0,edge].map(z=>bucketWorldPoint(s,x,y-BUCKET.drop,z)))}
@@ -61,9 +61,9 @@ export function stepRig(s,left,right,dt,truck){bucketFrame(s,initialFrame);const
  const contactLoad=clamp(oldScore.depth/(Math.max(1,oldScore.count)*.08),0,1),effort=commanded&&upper?Math.max(front?.25:0,contactLoad*.65,entryBlocked?1-accepted:work>0?.55:0):0;next.digPressure=pressure+(effort-pressure)*(1-Math.exp(-dt/.14));
  // Fully curled shell, stick initially tucked: an outward shallow pass grades
  // the surface. Ordinary opening/curling/slewing and air movement cannot grade.
- if(!FACE_SHOVEL&&next.curl<BUCKET.closed+.14&&next.stick< -.70&&(Math.abs(v.stick)+Math.abs(v.boom))>.001&&Math.abs(v.yaw)<.025){
-  let gx=0,gy=0,lowest=Infinity;for(const [x,y] of offsets){framePoint(nextFrame,x,y-BUCKET.drop,0,point);if(point.y<lowest){lowest=point.y;gx=x;gy=y-BUCKET.drop;}}
-  const a=framePoint(initialFrame,gx,gy,0,previousEdge),b=framePoint(nextFrame,gx,gy,0,currentEdge),moved=gradeBucketSweep(a,b,next.yaw,BUCKET_WORKING_WIDTH,dt*3.5*MACHINE.digForce);graded=moved.mass;if(graded>0)gradePoint={...b};if(moved.bankMass>0)takeRock(moved.bankMass);
+ if(!FACE_SHOVEL&&next.curl<BUCKET.closed+1.05&&(Math.abs(v.stick)+Math.abs(v.boom))>.001&&Math.abs(v.yaw)<.025){
+  let gx=0,gy=0,lowest=Infinity;for(const [x,y] of offsets.slice(1)){framePoint(nextFrame,x,y-BUCKET.drop,0,point);if(point.y<lowest){lowest=point.y;gx=x;gy=y-BUCKET.drop;}}
+  const a=framePoint(initialFrame,gx,gy,0,previousEdge),b=framePoint(nextFrame,gx,gy,0,currentEdge),moved=gradeBucketSweep(a,b,next.yaw,BUCKET_WORKING_WIDTH,dt*8*MACHINE.digForce);graded=moved.mass;if(graded>0)gradePoint={...b};if(moved.bankMass>0)takeRock(moved.bankMass);
  }
  // The directional guard above governs the upper bank. The bowl may stay in
  // its cut; lower-bench, bedrock and truck collision response remain solid.
