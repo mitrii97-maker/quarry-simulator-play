@@ -1,4 +1,4 @@
-import * as T from './three.module.js?build=career-20261106-19';
+import * as T from './three.module.js?build=hotfix-20261106-20';
 export function terrainMaps(kind){
  const n=512,canvas=document.createElement('canvas');canvas.width=canvas.height=n;const c=canvas.getContext('2d'),image=c.createImageData(n,n),heights=new Float32Array(n*n);
  const hash=(x,y)=>{const t=Math.sin(x*127.1+y*311.7)*43758.5453;return t-Math.floor(t)};

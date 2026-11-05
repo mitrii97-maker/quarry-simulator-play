@@ -188,3 +188,13 @@ kbd {font:10px "Segoe UI",sans-serif}
 .tablet-readings{margin:0}.tablet-readings div{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:15px 3px;border-bottom:1px solid #69808435}.tablet-readings dt{font-size:13px;color:#97b2b5}.tablet-readings dd{margin:0;font-size:23px;font-weight:bold;text-align:right;max-width:65%}
 .tablet-goal{font-size:12px;color:#d9c089;line-height:1.5;margin:20px 0}.cab-tablet-dialog footer{display:flex;gap:9px}.cab-tablet-dialog footer button{flex:1}
 @media(max-height:550px){.cab-tablet-dialog{padding:12px}.tablet-readings div{padding:9px 2px}.tablet-readings dd{font-size:18px}.cab-tablet-dialog nav{margin:10px 0}}
+
+/* Large live payload instruments stay legible on landscape phones. */
+.cab-tablet-dialog[data-page="0"] .tablet-readings{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cab-tablet-dialog[data-page="0"] .tablet-readings>div{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:12px;border-radius:9px;background:#19333b}
+.cab-tablet-dialog[data-page="0"] .tablet-readings dd{max-width:100%;text-align:left;font-size:clamp(20px,3.6vw,30px)}
+.cab-tablet-dialog[data-page="0"] .tablet-readings .tablet-primary{background:#25454b;border:1px solid #658282}
+.cab-tablet-dialog[data-page="0"] .tablet-primary dt{font-size:17px;font-weight:bold;letter-spacing:1px}
+.cab-tablet-dialog[data-page="0"] .tablet-readings .tablet-primary dd{font-size:clamp(48px,9vw,76px);line-height:1.05;color:#f5e6b5;font-variant-numeric:tabular-nums}
+.cab-tablet-dialog[data-page="0"] .tablet-readings>div:last-child{grid-column:1/-1}
+@media(max-height:550px){.cab-tablet-dialog{max-height:96dvh}.cab-tablet-dialog header{padding-bottom:4px}.cab-tablet-dialog h2{font-size:17px;margin:2px 0}.cab-tablet-dialog nav{margin:7px 0}.cab-tablet-dialog button{padding:8px}.cab-tablet-dialog[data-page="0"] .tablet-readings{gap:6px}.cab-tablet-dialog[data-page="0"] .tablet-readings>div{padding:7px 10px;gap:3px}.cab-tablet-dialog[data-page="0"] .tablet-readings .tablet-primary dd{font-size:56px}.tablet-goal{margin:8px 0}}

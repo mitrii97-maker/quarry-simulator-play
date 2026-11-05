@@ -1,7 +1,7 @@
 import {
 	Matrix4,
 	Vector2
-} from '../../three.module.js?build=career-20261106-19';
+} from '../../three.module.js?build=hotfix-20261106-20';
 
 /**
  * References:

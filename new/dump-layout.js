@@ -34,6 +34,6 @@ export function haulRoadGround(x,z,original){
  }
  const apron=smooth(33,37,x)*(1-smooth(64,69,x))*smooth(-96,-90,z)*(1-smooth(-59,-54,z));
  const road=1-smooth(5.5,10,best),blend=Math.max(road,apron);
- const yard=smooth(-24,-19,x)*(1-smooth(65,85,x))*smooth(-72,-40,z)*(1-smooth(-10,-5,z));
+ const yard=Math.max(smooth(-24,-19,x)*(1-smooth(65,85,x))*smooth(-72,-40,z)*(1-smooth(-10,-5,z)),smooth(-42,-35,x)*(1-smooth(18,28,x))*smooth(-60,-52,z)*(1-smooth(-12,-8,z)));
  const result=original*(1-blend)+(apron>road?5:height)*blend;const industrial=smooth(24,32,x)*(1-smooth(90,100,x))*smooth(-132,-121,z)*(1-smooth(24,34,z));const floor=5*(1-smooth(-45,-14,z));return (result*(1-industrial)+floor*industrial)*(1-yard);
 }

@@ -1,9 +1,9 @@
-import * as T from '../three.module.js?build=career-20261106-19';
-import {makeDozer} from './dozer-model.js?build=career-20261106-19';
-import {ground} from './world.js?build=career-20261106-19';
-import {DUMP} from './dump-layout.js?build=career-20261106-19';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=career-20261106-19';
-import {ORE} from './material-volume.js?build=career-20261106-19';
+import * as T from '../three.module.js?build=hotfix-20261106-20';
+import {makeDozer} from './dozer-model.js?build=hotfix-20261106-20';
+import {ground} from './world.js?build=hotfix-20261106-20';
+import {DUMP} from './dump-layout.js?build=hotfix-20261106-20';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=hotfix-20261106-20';
+import {ORE} from './material-volume.js?build=hotfix-20261106-20';
 const HOME={x:40,z:-112},STAGE=35.8,SAFE_EDGE=30.8,CAPACITY=16;
 const clamp=T.MathUtils.clamp,wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
 export function createDumpGrader(scene,M,dump,onWork=null){
@@ -12,7 +12,7 @@ export function createDumpGrader(scene,M,dump,onWork=null){
  let x=HOME.x,z=HOME.z,yaw=-Math.PI/2,speed=0,mode='parked',task=null,path=[],carry=0,worked=0,passes=0,idle=0,clock=0,trackDistance=0,blocked=0,previous={x,z,yaw},lastPile=-1,blade=.5;
  const surface=(xx,zz)=>Math.max(ground(xx,zz),dump.height(xx,zz));
  const clear=(xx,zz,trucks)=>!trucks.some(t=>t.state!=='parked'&&Math.hypot(xx-t.x,zz-t.z)<7);
- function choose(trucks){for(const heap of dump.heapTargets()){
+ function choose(trucks){if(dump.sectors.trucks.size)return false;for(const heap of dump.heapTargets()){
   if(!dump.sectors.claimDozer(owner,heap.index))continue;
   if(!clear(STAGE,heap.z,trucks)){dump.sectors.release(owner);continue;}
   task=heap;path=[{x:40,z:HOME.z},{x:40,z:heap.z},{x:STAGE,z:heap.z}];mode='approaching';return true;

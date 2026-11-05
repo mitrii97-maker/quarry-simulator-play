@@ -1,6 +1,6 @@
-import * as T from '../three.module.js?build=career-20261106-19';
-import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=career-20261106-19';
-import {createHeightFines} from './dry-fines.js?build=career-20261106-19';
+import * as T from '../three.module.js?build=hotfix-20261106-20';
+import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=hotfix-20261106-20';
+import {createHeightFines} from './dry-fines.js?build=hotfix-20261106-20';
 // Replace exposed snow/terrain triangles with the deformed dry fine fraction
 // and embedded fracture clasts, in both colour and depth passes.
 export function maskExposedBank(geometry,exposure,offsetX=-7.5,bounds=null){

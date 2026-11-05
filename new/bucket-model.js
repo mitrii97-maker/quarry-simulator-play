@@ -1,9 +1,9 @@
-import * as T from '../three.module.js?build=career-20261106-19';
-import {V,add,block,pin,rod} from './geometry.js?build=career-20261106-19';
-import {roundedOutline,roundedPlate,curvedShell} from './sculpted.js?build=career-20261106-19';
-import {batchMeshes} from '../batching.js?build=career-20261106-19';
-import {BUCKET} from './bucket-config.js?build=career-20261106-19';
-import {BUCKET_INNER_WIDTH,MACHINE} from './material-volume.js?build=career-20261106-19';
+import * as T from '../three.module.js?build=hotfix-20261106-20';
+import {V,add,block,pin,rod} from './geometry.js?build=hotfix-20261106-20';
+import {roundedOutline,roundedPlate,curvedShell} from './sculpted.js?build=hotfix-20261106-20';
+import {batchMeshes} from '../batching.js?build=hotfix-20261106-20';
+import {BUCKET} from './bucket-config.js?build=hotfix-20261106-20';
+import {BUCKET_INNER_WIDTH,MACHINE} from './material-volume.js?build=hotfix-20261106-20';
 
 // A heavy, open-mouth excavator bucket in the existing metre-scale envelope.
 // Its local -X cutting edge, pin and interior remain aligned with the simulation.

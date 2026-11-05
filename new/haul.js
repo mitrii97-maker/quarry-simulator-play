@@ -1,25 +1,25 @@
-import {createHaulLod} from './haul-lod.js?build=career-20261106-19';
-import {advanceHauler} from './haul-drive.js?build=career-20261106-19';
-import {bodyContains} from './hauler-body-config.js?build=career-20261106-19';
-import {createSuspension,stepSuspension} from './truck-suspension.js?build=career-20261106-19';
-import {makeTruckLoad} from './truck-load.js?build=career-20261106-19';
-import {makeHauler} from './haul-model.js?build=career-20261106-19';
-import * as T from '../three.module.js?build=career-20261106-19';
-import {V} from './geometry.js?build=career-20261106-19';
-import {batchMeshes} from '../batching.js?build=career-20261106-19';
-import {ground} from './world.js?build=career-20261106-19';
-import {DUMP} from './dump-layout.js?build=career-20261106-19';
-import {BED,bedWorldPoint} from './truck-load.js?build=career-20261106-19';
+import {createHaulLod} from './haul-lod.js?build=hotfix-20261106-20';
+import {advanceHauler} from './haul-drive.js?build=hotfix-20261106-20';
+import {bodyContains} from './hauler-body-config.js?build=hotfix-20261106-20';
+import {createSuspension,stepSuspension} from './truck-suspension.js?build=hotfix-20261106-20';
+import {makeTruckLoad} from './truck-load.js?build=hotfix-20261106-20';
+import {makeHauler} from './haul-model.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-20';
+import {V} from './geometry.js?build=hotfix-20261106-20';
+import {batchMeshes} from '../batching.js?build=hotfix-20261106-20';
+import {ground} from './world.js?build=hotfix-20261106-20';
+import {DUMP} from './dump-layout.js?build=hotfix-20261106-20';
+import {BED,bedWorldPoint} from './truck-load.js?build=hotfix-20261106-20';
 export function createTruck(scene,M,x,z,index){const root=new T.Group();scene.add(root);root.position.set(x,0,z);root.rotation.y=Math.PI/2;
  const {wheels,bed,bedPivot,tailgate,hoist,signals}=makeHauler(root,M,index);
  const load=makeTruckLoad(M.freshRock),cargo=load.mesh;bed.add(cargo);root.position.y=ground(x,z);
  batchMeshes(root);const lod=createHaulLod(root,M);
  return {root,lod,wheels,cargo,bed,bedPivot,tailgate,hoist,signals,tipAngle:0,suspension:createSuspension(),load,home:V(x,0,z),homeYaw:Math.PI/2,x,z,yaw:Math.PI/2,tonnes:0,state:'parked',route:null,index,travel:0};}
 export function makeRoute(t,kind){let coords;const x=t.home.x,z=t.home.z,bay=t.bayX??1,bayZ=t.bayZ??-9.4,stage=bayZ-13.6;
- if(kind==='coming'||kind==='queueing')coords=[[t.x,t.z],[t.x,-27],[bay+13,-40],[bay-13,-40],[bay-16,-25],[bay-9,stage+10],[bay,stage+8],[bay,stage-12]];
+ if(kind==='coming'||kind==='queueing')coords=[[t.x,t.z],[t.x,-27],[bay+14,-47],[bay-20,-47],[bay-30,-30],[bay-30,-15],[bay-16,-15],[bay,-32],[bay,-42]];
  else if(kind==='backing'){const run=bayZ-t.z;coords=[[t.x,t.z],[t.x,t.z+Math.min(2,run*.25)],[bay,bayZ-3],[bay,bayZ]];}
  else if(kind==='repositioning'){const alignZ=Math.min(t.z-Math.max(10,Math.abs(bay-t.x)*1.2),stage);coords=[[t.x,t.z],[t.x,t.z-3.5],[bay,alignZ+4],[bay,alignZ]];}
- else if(kind==='leaving'){const dz=t.dumpSlot?.z??DUMP.bays[t.index??0];coords=[[t.x,t.z],[t.x,-25],[12,-38],[40,-42],[64,-52],[70,dz-20],[46,dz-23],[35,dz-12],[43,dz],[55,dz]];}
+ else if(kind==='leaving'){const dz=t.dumpSlot?.z??DUMP.bays[t.index??0];coords=[[t.x,t.z],[t.x,-18],[16,-27],[40,-42],[64,-52],[70,dz-20],[46,dz-23],[35,dz-12],[43,dz],[55,dz]];}
  else if(kind==='parkingBacking')coords=[[t.x,t.z],[x,z-4],[x,z]];
  else if(kind==='dumpBacking'){const dz=t.dumpSlot?.z??DUMP.bays[t.index??0];coords=[[t.x,t.z],[t.x-2,t.z],[DUMP.truckX+2,dz],[DUMP.truckX,dz]];}
  else coords=t.homeYaw!==undefined?[[t.x,t.z],[70,t.z],[83,t.z+15],[83,18],[x+18,25],[x,10],[x,z-6]]:[[t.x,t.z],[42,t.z],[47,-26],[43,-17],[x+4,-20],[x+2,z],[x,z]];
@@ -27,6 +27,7 @@ export function makeRoute(t,kind){let coords;const x=t.home.x,z=t.home.z,bay=t.b
 }
 export function driveTruck(t,dt,time,{dumpSite,transport}={}){
  const previousX=t.x,previousZ=t.z,previousVelocity=t.worldVelocity||V();
+ if(t.state==='returning'&&t.dumpSlot&&Math.hypot(t.x-t.dumpSlot.x,t.z-t.dumpSlot.z)>15){dumpSite?.release(t);t.dumpSlot=null;}
  if(t.route){const r=t.route,move=advanceHauler(t,r,dt),d=move.distance,delta=move.delta;
  t.travel=(t.travel||0)+d;t.root.position.set(t.x,ground(t.x,t.z),t.z);t.root.rotation.y=t.yaw;
  for(const w of t.wheels){w.roll.rotation.z-=d/(w.radius??1)*(r.reverse?-1:1);w.steer.rotation.y=w.front?-t.steering:0;}
@@ -61,3 +62,13 @@ function placeOnRoad(t,dt,time){
  }
 }
 export function catches(truck,x,z){if(!truck||truck.tipAngle>.01)return false;const dx=x-truck.x,dz=z-truck.z,a=truck.yaw,lx=Math.cos(a)*dx-Math.sin(a)*dz,lz=Math.sin(a)*dx+Math.cos(a)*dz;return bodyContains(lx,lz)}
+
+// One-time migration of old blocked traffic. Empty vehicles carry no material;
+// completed deliveries, loaded vehicles and excavated terrain are preserved.
+export function recoverEmptyFleet(trucks,dumpSite){
+ let count=0;for(const t of trucks){if((t.load?.field.mass??t.tonnes)>1e-6)continue;
+  dumpSite?.release(t);t.dumpSlot=null;t.route=null;t.state='parked';t.wait=0;t.awaitDump=false;t.steering=0;t.tipAngle=0;
+  t.x=t.home.x;t.z=t.home.z;t.yaw=t.homeYaw??Math.PI/2;t.previousX=t.x;t.previousZ=t.z;t.previousYaw=t.yaw;t.worldVelocity=V();
+  t.root.position.set(t.x,ground(t.x,t.z),t.z);t.root.rotation.set(0,t.yaw,0);count++;
+ }return count;
+}

@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=career-20261106-19';
+import * as T from '../three.module.js?build=hotfix-20261106-20';
 export function trackBelt(root,M,z){const straight=5.36,r=.49,arc=Math.PI*r,perimeter=2*straight+2*arc,count=70,dummy=new T.Object3D(),treads=new T.InstancedMesh(new T.BoxGeometry(.18,.13,1.12),M.track,count),bars=new T.InstancedMesh(new T.BoxGeometry(.035,.04,.95),M.steel,count);for(const o of [treads,bars]){o.castShadow=o.receiveShadow=true;o.frustumCulled=false;root.add(o)}let offset=0,ready=false;
  function advance(distance=0){if(ready&&Math.abs(distance)<1e-9)return;ready=true;offset=(offset+distance)%perimeter;for(let i=0;i<count;i++){let u=((i*perimeter/count+offset)%perimeter+perimeter)%perimeter,x,y,a;
  if(u<straight){x=-2.68+u;y=.6+r;a=0}else if((u-=straight)<arc){const theta=Math.PI/2-u/r;x=2.68+r*Math.cos(theta);y=.6+r*Math.sin(theta);a=theta-Math.PI/2}else if((u-=arc)<straight){x=2.68-u;y=.6-r;a=-Math.PI}else{u-=straight;const theta=-Math.PI/2-u/r;x=-2.68+r*Math.cos(theta);y=.6+r*Math.sin(theta);a=theta-Math.PI/2}

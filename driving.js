@@ -1,4 +1,4 @@
-import * as T from './three.module.js?build=career-20261106-19';
+import * as T from './three.module.js?build=hotfix-20261106-20';
 export function routeFor(kind,home,start){
  const x=home.x;
  const points=kind==='coming'?[[x,-8],[x+3,-8],[x+6,-14],[40,-19],[49,-9],[44,12],[27,20],[9,20],[3,14],[4,8],[5,4],[7,4]]:kind==='leaving'?[[7,4],[17,4],[35,4],[49,8],[58,3]]:[[start.x,start.z],[65,-8],[57,-25],[x-8,-25],[x-6,-16],[x-4,-8],[x,-8]];

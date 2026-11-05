@@ -1,10 +1,10 @@
-import {createHeightFines} from './dry-fines.js?build=career-20261106-19';
-import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=career-20261106-19';
-import {createChargeProfile,chargeSurfacePoint,CHARGE_GRID,RIM_CENTER,RIM_UP,RIM_ALONG} from './heaped-charge.js?build=career-20261106-19';
-import * as T from '../three.module.js?build=career-20261106-19';
-import {bucketUp} from './charge-shape.js?build=career-20261106-19';
-import {DryChargeSurface} from './dry-material.js?build=career-20261106-19';
-import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP} from './material-volume.js?build=career-20261106-19';
+import {createHeightFines} from './dry-fines.js?build=hotfix-20261106-20';
+import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=hotfix-20261106-20';
+import {createChargeProfile,chargeSurfacePoint,CHARGE_GRID,RIM_CENTER,RIM_UP,RIM_ALONG} from './heaped-charge.js?build=hotfix-20261106-20';
+import * as T from '../three.module.js?build=hotfix-20261106-20';
+import {bucketUp} from './charge-shape.js?build=hotfix-20261106-20';
+import {DryChargeSurface} from './dry-material.js?build=hotfix-20261106-20';
+import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP} from './material-volume.js?build=hotfix-20261106-20';
 // A fixed dry packing is built once. Filling only exposes occupied cells;
 // changing the fill must never inflate a stone or shuffle the previous layer.
 const PACKING=(()=>{
