@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=fix-20261106-22';
+import * as T from '../three.module.js?build=cabins-20261106-23';
 export const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
 export function add(parent,geometry,material,x=0,y=0,z=0){const m=new T.Mesh(geometry,material);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;parent.add(m);return m}
 export function block(parent,material,dimensions,position,round=.06){const [w,h,d]=dimensions;const shape=new T.Shape(),r=Math.min(round,w*.15,h*.15);shape.moveTo(-w/2+r,-h/2);shape.lineTo(w/2-r,-h/2);shape.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r);shape.lineTo(w/2,h/2-r);shape.quadraticCurveTo(w/2,h/2,w/2-r,h/2);shape.lineTo(-w/2+r,h/2);shape.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r);shape.lineTo(-w/2,-h/2+r);shape.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);const g=new T.ExtrudeGeometry(shape,{depth:d,bevelEnabled:round>0,bevelSize:r*.3,bevelThickness:r*.3,bevelSegments:2,curveSegments:4});g.translate(0,0,-d/2);return add(parent,g,material,...position)}

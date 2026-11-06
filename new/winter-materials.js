@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=fix-20261106-22';
+import * as T from '../three.module.js?build=cabins-20261106-23';
 export function terrainWinter(material,maps,progress,exposure){
  material.onBeforeCompile=shader=>{
   Object.assign(shader.uniforms,{quarryRock:{value:maps.rock.color},quarrySnow:{value:maps.snow.color},quarryEarthRoughness:{value:maps.gravel.roughness},quarryRockRoughness:{value:maps.rock.roughness},quarrySnowRoughness:{value:maps.snow.roughness},quarryEarthNormal:{value:maps.gravel.normal},quarryRockNormal:{value:maps.rock.normal},quarrySnowNormal:{value:maps.snow.normal},quarryProgress:{value:progress()},quarryDigMap:{value:exposure}});

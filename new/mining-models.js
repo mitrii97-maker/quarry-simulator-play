@@ -1,10 +1,11 @@
-import * as T from '../three.module.js?build=fix-20261106-22';
-import {V,add,block,pin,rod,hose} from './geometry.js?build=fix-20261106-22';
-import {roundedBlock,roundedPlate} from './sculpted.js?build=fix-20261106-22';
-import {lettering} from './volvo-style.js?build=fix-20261106-22';
-import {BUCKET} from './bucket-config.js?build=fix-20261106-22';
-import {BUCKET_INNER_WIDTH} from './material-volume.js?build=fix-20261106-22';
-import {batchMeshes} from '../batching.js?build=fix-20261106-22';
+import {cabGlass,cabPane} from './cab-glazing.js?build=cabins-20261106-23';
+import * as T from '../three.module.js?build=cabins-20261106-23';
+import {V,add,block,pin,rod,hose} from './geometry.js?build=cabins-20261106-23';
+import {roundedBlock,roundedPlate} from './sculpted.js?build=cabins-20261106-23';
+import {lettering} from './volvo-style.js?build=cabins-20261106-23';
+import {BUCKET} from './bucket-config.js?build=cabins-20261106-23';
+import {BUCKET_INNER_WIDTH} from './material-volume.js?build=cabins-20261106-23';
+import {batchMeshes} from '../batching.js?build=cabins-20261106-23';
 
 export function miningHouse(house,M,machine){
  const shovel=machine.kind==='face-shovel',hitachi=machine.id==='hitachi';
@@ -55,19 +56,20 @@ export function miningHouse(house,M,machine){
 }
 
 export function miningCab(cab,M,machine){
+ M={...M,glass:cabGlass(M.glass)};
  const shovel=machine.kind==='face-shovel',hitachi=machine.id==='hitachi';
  const roof=shovel?2.14:hitachi?1.84:2.0;
  cab.name=shovel?'Liebherr elevated twin-screen cab':hitachi?'Hitachi sloped EX cab':'Komatsu wide protective cab';
  if(!hitachi&&!shovel){
  for(const z of [-.79,.79])for(const x of [-.87,.82])rod(cab,M.dark,V(x,.40,z),V(x,2.04,z),.06);
- for(let i=0;i<4;i++)rod(cab,M.dark,V(.87,.62+i*.32,-.77),V(.87,.62+i*.32,.77),.018);
+ for(let i=0;i<2;i++)rod(cab,M.dark,V(.87,.52+i*.14,-.77),V(.87,.52+i*.14,.77),.018);
  }
  if(shovel)for(const z of [-.78,.78])rod(cab,M.steel,V(-.8,1.88,z),V(.85,1.88,z),.025);
  roundedBlock(cab,M.dark,[1.85,.28,1.73],[0,.01,0],.06);
  for(const side of [-1,1]){
   const z=side*.77;
   roundedPlate(cab,M.paint,[[-.88,.11],[.89,.11],[.89,.48],[-.88,.48]],.08,z,{corner:.05,bevel:.01});
-  roundedPlate(cab,M.glass,[[-.77,.5],[.72,.5],[hitachi?.57:.72,roof-.15],[-.77,roof-.15]],.014,z,{corner:.025,bevel:.002});
+  cabPane(cab,M.glass,[[-.77,.5],[.72,.5],[hitachi?.57:.72,roof-.15],[-.77,roof-.15]],z);
   for(const x of [-.84,.04,.8])rod(cab,M.dark,V(x,.45,z),V(x,roof-.08,z),.035);
   rod(cab,M.dark,V(-.84,roof-.08,z),V(.8,roof-.08,z),.04);
   block(cab,M.dark,[.19,.035,.04],[-.45,.57,z+side*.035],.005);

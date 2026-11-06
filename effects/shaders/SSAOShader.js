@@ -1,7 +1,7 @@
 import {
 	Matrix4,
 	Vector2
-} from '../../three.module.js?build=fix-20261106-22';
+} from '../../three.module.js?build=cabins-20261106-23';
 
 /**
  * References:

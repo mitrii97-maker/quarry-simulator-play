@@ -1,12 +1,13 @@
-import {MACHINE} from './material-volume.js?build=fix-20261106-22';
-import * as T from '../three.module.js?build=fix-20261106-22';
-import {V,add,block,rod} from './geometry.js?build=fix-20261106-22';
-import {roundedBlock} from './sculpted.js?build=fix-20261106-22';
-import {batchMeshes} from '../batching.js?build=fix-20261106-22';
+import {MACHINE} from './material-volume.js?build=cabins-20261106-23';
+import * as T from '../three.module.js?build=cabins-20261106-23';
+import {V,add,block,rod} from './geometry.js?build=cabins-20261106-23';
+import {roundedBlock} from './sculpted.js?build=cabins-20261106-23';
+import {batchMeshes} from '../batching.js?build=cabins-20261106-23';
 
 // Fixed cockpit geometry. Keep the whole front viewing aperture clear: the
 // instruments sit on the low sill/right console, never on the windscreen.
 export function makeCabinInterior(cab,M){
+ const roof=MACHINE.id==='liebherr'?2.14:MACHINE.id==='hitachi'?1.84:MACHINE.id==='komatsu'?2:1.9;
  const cockpit=new T.Group();cockpit.name='Operator cockpit';cab.add(cockpit);
  const trim=M.dark.clone();trim.color.set(MACHINE.id==='hitachi'?'#514b42':MACHINE.id==='komatsu'?'#243c49':MACHINE.id==='liebherr'?'#66645a':'#414b50');trim.roughness=.92;trim.metalness=.03;trim.envMapIntensity=.65;
  const soft=M.seat.clone();soft.color.set(MACHINE.id==='hitachi'?'#3e4144':MACHINE.id==='komatsu'?'#243246':MACHINE.id==='liebherr'?'#544c40':'#353e41');soft.roughness=.98;soft.metalness=0;
@@ -50,6 +51,41 @@ export function makeCabinInterior(cab,M){
  // Right-hand display backing: small enough to leave the lower window clear.
  roundedBlock(cockpit,trim,[.095,.25,.35],[.57,.59,.43],.025);
  for(let i=0;i<4;i++)block(cockpit,i===0?M.display:mat,[.02,.026,.038],[.625,.42,.30+i*.08],.006);
- roundedBlock(cockpit,trim,[1.38,.04,1.32],[-.10,1.77,0],.02);
+ roundedBlock(cockpit,trim,[1.38,.04,1.32],[-.10,roof-.12,0],.02);
+ // Molded door pockets, visible latches and paired hinges stay below eye level.
+ for(const side of [-1,1]){
+  roundedBlock(cockpit,trim,[.48,.17,.075],[-.30,.39,side*.64],.018);
+  block(cockpit,M.steel,[.13,.035,.035],[.13,.70,side*.65],.008);
+  for(const y of [.57,1.35])block(cockpit,trim,[.08,.10,.035],[-.70,y,side*.69],.01);
+  // Narrow window seals follow straight planar edges, with no transparent double skins.
+  rod(cockpit,mat,V(-.69,.48,side*.71),V(.70,.48,side*.71),.012);
+ }
+ // Parked wiper at the lower screen corner does not cross the digging view.
+ rod(cockpit,mat,V(.78,.48,-.57),V(.75,.66,-.36),.009);
+ rod(cockpit,mat,V(.75,.66,-.36),V(.73,.68,-.10),.014);
+ // Seat suspension, belt buckle and stitched upholstery are coherent with the model scale.
+ for(let i=0;i<4;i++)rod(cockpit,M.steel,V(-.49+i*.10,.19,-.18),V(-.39+i*.10,.35,.18),.013);
+ rod(cockpit,mat,V(-.12,.60,-.25),V(-.44,1.12,.25),.022);
+ block(cockpit,M.paint,[.055,.07,.04],[-.04,.58,.27],.008);
+ for(const z of [-.16,0,.16])rod(cockpit,trim,V(-.43,.72,z),V(-.47,1.12,z),.006);
+ // Brand-specific overhead HVAC and console layouts; switches are large touch-like shapes.
+ const overheadZ=MACHINE.id==='komatsu'?-.43:MACHINE.id==='hitachi'?.40:0;
+ roundedBlock(cockpit,trim,[.48,.065,.27],[-.10,roof-.18,overheadZ],.018);
+ for(let i=0;i<5;i++)block(cockpit,mat,[.025,.012,.16],[-.27+i*.065,roof-.218,overheadZ],.003);
+ const panelZ=MACHINE.id==='hitachi'?.53:MACHINE.id==='komatsu'?-.53:.52;
+ for(let i=0;i<(MACHINE.id==='liebherr'?5:3);i++){
+  const switchCap=block(cockpit,i===0?M.lamp:trim,[.058,.025,.047],[.14+i*.075,.58,panelZ],.008);
+  switchCap.name='Raised tactile console switch';
+ }
+ if(MACHINE.id==='liebherr'){
+  roundedBlock(cockpit,trim,[.40,.09,.40],[-.22,.69,.53],.025);
+  for(let i=0;i<3;i++)add(cockpit,new T.CylinderGeometry(.035,.035,.025,10),mat,-.33+i*.09,.75,.53);
+ }else if(MACHINE.id==='komatsu'){
+  rod(cockpit,M.steel,V(-.47,.58,-.49),V(-.32,.75,-.49),.018);
+ }else if(MACHINE.id==='hitachi'){
+  roundedBlock(cockpit,mat,[.20,.10,.13],[-.56,.50,.52],.02);
+ }else{
+  roundedBlock(cockpit,trim,[.18,.12,.17],[-.50,.49,-.52],.025);
+ }
  batchMeshes(cockpit);return {group:cockpit};
 }

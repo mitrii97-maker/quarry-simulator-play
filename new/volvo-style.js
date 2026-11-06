@@ -1,6 +1,7 @@
-import * as T from '../three.module.js?build=fix-20261106-22';
-import {V,add,block,plate,pin,rod} from './geometry.js?build=fix-20261106-22';
-import {roundedBlock,roundedPlate,roundedOutline} from './sculpted.js?build=fix-20261106-22';
+import {cabGlass,cabPane} from './cab-glazing.js?build=cabins-20261106-23';
+import * as T from '../three.module.js?build=cabins-20261106-23';
+import {V,add,block,plate,pin,rod} from './geometry.js?build=cabins-20261106-23';
+import {roundedBlock,roundedPlate,roundedOutline} from './sculpted.js?build=cabins-20261106-23';
 function fitFleetPlates(house,M){
  const canvas=document.createElement('canvas');
  canvas.width=512;canvas.height=128;
@@ -54,6 +55,7 @@ export function volvoBody(house,M){
  fitFleetPlates(house,M);
 }
 export function volvoCab(cab,M){
+ M={...M,glass:cabGlass(M.glass)};
  const outline=[[-.86,.12],[.86,.12],[.84,1.15],[.51,1.85],[-.57,1.88],[-.83,1.62]];
  roundedBlock(cab,M.boom,[1.74,.22,1.57],[0,0,0],.1);
  roundedBlock(cab,M.paint,[1.84,.2,1.76],[-.06,1.9,0],.095);
@@ -65,16 +67,16 @@ export function volvoCab(cab,M){
  for(const z of [-.73,.73]){
   roundedPlate(cab,M.paint,[[-.83,.1],[.87,.1],[.86,.39],[.39,.5],[-.12,.27],[-.83,.29]],.045,z,{corner:.11,bevel:.012});
   const path=roundedOutline(outline,.12).getPoints(72).map(p=>V(p.x,p.y,z));path.push(path[0]);add(cab,new T.TubeGeometry(new T.CatmullRomCurve3(path),88,.052,10,false),M.boom);
-  roundedPlate(cab,M.glass,[[-.69,.48],[.02,.48],[.02,1.7],[-.49,1.72],[-.69,1.5]],.012,z,{corner:.09,bevel:.002});
-  roundedPlate(cab,M.glass,[[.11,.51],[.73,.51],[.71,1.11],[.43,1.69],[.11,1.7]],.012,z,{corner:.09,bevel:.002});
+  cabPane(cab,M.glass,[[-.69,.48],[.02,.48],[.02,1.7],[-.49,1.72],[-.69,1.5]],z);
+  cabPane(cab,M.glass,[[.11,.51],[.73,.51],[.71,1.11],[.43,1.69],[.11,1.7]],z);
   rod(cab,M.boom,V(.065,.47,z),V(.065,1.76,z),.031);
   rod(cab,M.boom,V(-.74,.42,z),V(.77,.43,z),.028);
  }
  // Sloping front screen, so the cab silhouette follows the reference rather than a box.
- const front=new T.BufferGeometry();front.setAttribute('position',new T.Float32BufferAttribute([.83,.46,-.66,.83,.46,.66,.51,1.78,.66,.51,1.78,-.66],3));front.setIndex([0,1,2,0,2,3]);front.computeVertexNormals();add(cab,front,M.glass);
+ const front=new T.BufferGeometry();front.setAttribute('position',new T.Float32BufferAttribute([.83,.46,-.66,.83,.46,.66,.51,1.78,.66,.51,1.78,-.66],3));front.setIndex([0,1,2,0,2,3]);front.computeVertexNormals();add(cab,front,M.glass).castShadow=false;
  for(const z of [-.69,.69])rod(cab,M.boom,V(.85,.43,z),V(.51,1.81,z),.044);
  rod(cab,M.boom,V(.51,1.81,-.69),V(.51,1.81,.69),.044);
- block(cab,M.glass,[.012,1.23,1.3],[-.8,.93,0],0);
+ const rear=add(cab,new T.PlaneGeometry(1.3,1.23),M.glass,-.8,.93,0);rear.rotation.y=-Math.PI/2;rear.castShadow=false;
  // The operator's front window is deliberately unobstructed: no diagonal
  // wiper rod. Interior furniture is authored separately below the sight line.
 }

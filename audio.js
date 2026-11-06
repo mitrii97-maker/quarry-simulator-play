@@ -1,4 +1,4 @@
-import {machineryMix} from './new/audio-state.js?build=fix-20261106-22';
+import {machineryMix} from './new/audio-state.js?build=cabins-20261106-23';
 const FILES={idle:'engine-idle.wav',working:'engine-load.wav',contact:'rock-contact.mp3',dump:'rock-fall.mp3',scrape:'metal-scrape.mp3'};
 // All machinery/ore layers are field recordings. No oscillator substitutes for
 // the diesel. Audio is decoded once, loops are bounded, effects have a voice cap.
