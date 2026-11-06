@@ -1,6 +1,6 @@
-import * as T from '../three.module.js?build=cabins-20261106-24';
-import {aggregateMaterial} from './dry-fines.js?build=cabins-20261106-24';
-import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=cabins-20261106-24';
+import * as T from '../three.module.js?build=traffic-20261106-25';
+import {aggregateMaterial} from './dry-fines.js?build=traffic-20261106-25';
+import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=traffic-20261106-25';
 // One reused surface buffer for all current undercuts. Ordinary settled terrain
 // returns to the existing height mesh; interior walls/ceilings are real faces.
 export function createFrontBankRenderer(scene,source,bank){

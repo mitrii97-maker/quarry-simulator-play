@@ -1,10 +1,10 @@
-import * as T from '../three.module.js?build=cabins-20261106-24';
-import {V,add,block,pin,rod} from './geometry.js?build=cabins-20261106-24';
-import {roundedPlate,roundedBlock} from './sculpted.js?build=cabins-20261106-24';
-import {lettering} from './volvo-style.js?build=cabins-20261106-24';
-import {batchMeshes} from '../batching.js?build=cabins-20261106-24';
-import {HAULER_BODY as B,bodyRear,bodyFront,bodyTopRear,bodyTopFront,bodyRimAt} from './hauler-body-config.js?build=cabins-20261106-24';
-import {makeTruckHoist} from './truck-hoist.js?build=cabins-20261106-24';
+import * as T from '../three.module.js?build=traffic-20261106-25';
+import {V,add,block,pin,rod} from './geometry.js?build=traffic-20261106-25';
+import {roundedPlate,roundedBlock} from './sculpted.js?build=traffic-20261106-25';
+import {lettering} from './volvo-style.js?build=traffic-20261106-25';
+import {batchMeshes} from '../batching.js?build=traffic-20261106-25';
+import {HAULER_BODY as B,bodyRear,bodyFront,bodyTopRear,bodyTopFront,bodyRimAt} from './hauler-body-config.js?build=traffic-20261106-25';
+import {makeTruckHoist} from './truck-hoist.js?build=traffic-20261106-25';
 
 const cache=new WeakMap();
 function haulerMaterials(source){

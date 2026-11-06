@@ -1,15 +1,15 @@
-import {createHaulLod} from './haul-lod.js?build=cabins-20261106-24';
-import {advanceHauler} from './haul-drive.js?build=cabins-20261106-24';
-import {bodyContains} from './hauler-body-config.js?build=cabins-20261106-24';
-import {createSuspension,stepSuspension} from './truck-suspension.js?build=cabins-20261106-24';
-import {makeTruckLoad} from './truck-load.js?build=cabins-20261106-24';
-import {makeHauler} from './haul-model.js?build=cabins-20261106-24';
-import * as T from '../three.module.js?build=cabins-20261106-24';
-import {V} from './geometry.js?build=cabins-20261106-24';
-import {batchMeshes} from '../batching.js?build=cabins-20261106-24';
-import {ground} from './world.js?build=cabins-20261106-24';
-import {DUMP} from './dump-layout.js?build=cabins-20261106-24';
-import {BED,bedWorldPoint} from './truck-load.js?build=cabins-20261106-24';
+import {createHaulLod} from './haul-lod.js?build=traffic-20261106-25';
+import {advanceHauler} from './haul-drive.js?build=traffic-20261106-25';
+import {bodyContains} from './hauler-body-config.js?build=traffic-20261106-25';
+import {createSuspension,stepSuspension} from './truck-suspension.js?build=traffic-20261106-25';
+import {makeTruckLoad} from './truck-load.js?build=traffic-20261106-25';
+import {makeHauler} from './haul-model.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=traffic-20261106-25';
+import {V} from './geometry.js?build=traffic-20261106-25';
+import {batchMeshes} from '../batching.js?build=traffic-20261106-25';
+import {ground} from './world.js?build=traffic-20261106-25';
+import {DUMP} from './dump-layout.js?build=traffic-20261106-25';
+import {BED,bedWorldPoint} from './truck-load.js?build=traffic-20261106-25';
 export function createTruck(scene,M,x,z,index){const root=new T.Group();scene.add(root);root.position.set(x,0,z);root.rotation.y=Math.PI/2;
  const {wheels,bed,bedPivot,tailgate,hoist,signals}=makeHauler(root,M,index);
  const load=makeTruckLoad(M.freshRock),cargo=load.mesh;bed.add(cargo);root.position.y=ground(x,z);
@@ -30,7 +30,7 @@ export function driveTruck(t,dt,time,{dumpSite,transport}={}){
  if(t.state==='returning'&&t.dumpSlot&&Math.hypot(t.x-t.dumpSlot.x,t.z-t.dumpSlot.z)>15){dumpSite?.release(t);t.dumpSlot=null;}
  // Dispatch uses road clearance; reserve tipping space only near the dump entrance.
  if(t.state==='leaving'&&t.tonnes>.001&&!t.dumpSlot&&dumpSite){
-  const index=t.index??0;if(t.x>48&&dumpSite.sectors.allowed(index,t))t.dumpSlot=dumpSite.reserve(t,index);
+  const index=t.index??0;if(t.x>48)t.dumpSlot=dumpSite.reserve(t,index);
   if(!t.dumpSlot&&t.x>35)t.trafficLimit=Math.min(t.trafficLimit??Infinity,Math.sqrt(2*1.4*Math.max(0,60-t.x)));
  }
  if(t.route){const r=t.route,move=advanceHauler(t,r,dt),d=move.distance,delta=move.delta;

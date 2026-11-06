@@ -4,11 +4,11 @@ import {
 	NoBlending,
 	Vector2,
 	WebGLRenderTarget
-} from '../../three.module.js?build=cabins-20261106-24';
-import { CopyShader } from '../shaders/CopyShader.js?build=cabins-20261106-24';
-import { ShaderPass } from './ShaderPass.js?build=cabins-20261106-24';
-import { MaskPass } from './MaskPass.js?build=cabins-20261106-24';
-import { ClearMaskPass } from './MaskPass.js?build=cabins-20261106-24';
+} from '../../three.module.js?build=traffic-20261106-25';
+import { CopyShader } from '../shaders/CopyShader.js?build=traffic-20261106-25';
+import { ShaderPass } from './ShaderPass.js?build=traffic-20261106-25';
+import { MaskPass } from './MaskPass.js?build=traffic-20261106-25';
+import { ClearMaskPass } from './MaskPass.js?build=traffic-20261106-25';
 
 class EffectComposer {
 

@@ -1,4 +1,4 @@
-import {Vector3} from '../three.module.js?build=cabins-20261106-24';
+import {Vector3} from '../three.module.js?build=traffic-20261106-25';
 // Heavy vehicles reserve a short swept corridor, not a single point. This
 // controller only supplies speed limits; routes, loads and tipping stay owned
 // by haul.js. All path buffers are reused and refreshed at 10 Hz.
@@ -9,8 +9,10 @@ function segmentDistance(ax,az,bx,bz,cx,cz,dx,dz){
 function conflict(a,i,b,j){const ai=i*5,bj=j*5,ax=a[ai],az=a[ai+1],ac=a[ai+2]*1.8,as=a[ai+3]*1.8,bx=b[bj],bz=b[bj+1],bc=b[bj+2]*1.8,bs=b[bj+3]*1.8;return segmentDistance(ax-ac,az-as,ax+ac,az+as,bx-bc,bz-bs,bx+bc,bz+bs)<6.5;}
 export function createTraffic(){let clock=1,junctionOwner=null;const point=new Vector3(),out={waiting:0,moving:0},blockers=[new Float64Array(SIZE*5),new Float64Array(SIZE*5),new Float64Array(SIZE*5)];
  function update(trucks,dt,machine=null,dozer=null,dumpDozer=null){clock+=dt;if(clock<.1)return out;clock=0;out.waiting=out.moving=0;
-  for(const t of trucks){const p=t.trafficPath??=new Float64Array(SIZE*5),r=t.route;t.trafficLimit=Infinity;t.trafficWaiting=false;for(let i=0;i<SIZE;i++){let x=t.x,z=t.z,c=Math.cos(t.yaw),s=-Math.sin(t.yaw),distance=0;if(r&&i>0){distance=Math.min(DIST[i],r.length-r.distance);const u=Math.min(1,(r.distance+distance)/r.length);r.curve.getPointAt(u,point);x=point.x;z=point.z;r.curve.getTangentAt(u,point);c=point.x;s=point.z;}const k=i*5;p[k]=x;p[k+1]=z;p[k+2]=c;p[k+3]=s;p[k+4]=distance;}}
-  const first=(A,B)=>{const rank={dumpBacking:8,parkingBacking:7,leaving:6,returning:9,backing:4,coming:3,queueing:2};return (rank[A.state]||0)===(rank[B.state]||0)?(A.index??0)<(B.index??0):(rank[A.state]||0)>(rank[B.state]||0);};
+  // A stopped gate queue occupies its current footprint, not the future tipping loop.
+  for(const t of trucks){const p=t.trafficPath??=new Float64Array(SIZE*5),r=t.state==='leaving'&&!t.dumpSlot&&t.x>48&&(t.route?.speed||0)<.2?null:t.route;t.trafficLimit=Infinity;t.trafficWaiting=false;for(let i=0;i<SIZE;i++){let x=t.x,z=t.z,c=Math.cos(t.yaw),s=-Math.sin(t.yaw),distance=0;if(r&&i>0){distance=Math.min(DIST[i],r.length-r.distance);const u=Math.min(1,(r.distance+distance)/r.length);r.curve.getPointAt(u,point);x=point.x;z=point.z;r.curve.getTangentAt(u,point);c=point.x;s=point.z;}const k=i*5;p[k]=x;p[k+1]=z;p[k+2]=c;p[k+3]=s;p[k+4]=distance;}}
+  // On the shared approach, let the permitted/leading truck clear before followers.
+  const first=(A,B)=>{if(A.state==='leaving'&&B.state==='leaving'&&!!A.dumpSlot!==!!B.dumpSlot)return !!A.dumpSlot;if(A.state==='leaving'&&B.state==='leaving'&&A.x>30&&B.x>30&&A.z> -60&&B.z> -60&&Math.abs(A.x-B.x)>2)return A.x>B.x;const rank={dumpBacking:8,parkingBacking:7,leaving:6,returning:9,backing:4,coming:3,queueing:2};return (rank[A.state]||0)===(rank[B.state]||0)?(A.index??0)<(B.index??0):(rank[A.state]||0)>(rank[B.state]||0);};
   const limit=(t,d)=>{const cap=Math.sqrt(2*1.65*Math.max(0,d-9));if(cap<t.trafficLimit){t.trafficLimit=cap;t.trafficWaiting=cap<.2;}};
   // One movement owns the crossing between the loading loop and haul road.
   // Hold the next vehicle before entering, rather than stopping two trucks nose-to-nose.

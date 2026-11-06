@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=cabins-20261106-24';
+import * as T from '../three.module.js?build=traffic-20261106-25';
 
 // One seamless linear-data tile carries dirt, rain streaks and fine abrasion.
 // Sampling in machine coordinates keeps the coating attached to the moving part.

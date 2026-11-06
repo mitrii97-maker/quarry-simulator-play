@@ -1,14 +1,14 @@
-import {SectorLeases} from './sector-leases.js?build=cabins-20261106-24';
-import * as T from '../three.module.js?build=cabins-20261106-24';
-import {GranularGrid} from './granular.js?build=cabins-20261106-24';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=cabins-20261106-24';
-import {createHeightFines} from './dry-fines.js?build=cabins-20261106-24';
-import {DUMP,dumpBermHeight} from './dump-layout.js?build=cabins-20261106-24';
-import {ORE} from './material-volume.js?build=cabins-20261106-24';
-import {recordDump} from './levels.js?build=cabins-20261106-24';
-import {ground} from './world.js?build=cabins-20261106-24';
-import {block,rod,V} from './geometry.js?build=cabins-20261106-24';
-import {batchMeshes} from '../batching.js?build=cabins-20261106-24';
+import {SectorLeases} from './sector-leases.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=traffic-20261106-25';
+import {GranularGrid} from './granular.js?build=traffic-20261106-25';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=traffic-20261106-25';
+import {createHeightFines} from './dry-fines.js?build=traffic-20261106-25';
+import {DUMP,dumpBermHeight} from './dump-layout.js?build=traffic-20261106-25';
+import {ORE} from './material-volume.js?build=traffic-20261106-25';
+import {recordDump} from './levels.js?build=traffic-20261106-25';
+import {ground} from './world.js?build=traffic-20261106-25';
+import {block,rod,V} from './geometry.js?build=traffic-20261106-25';
+import {batchMeshes} from '../batching.js?build=traffic-20261106-25';
 export function makeDumpSite(scene,M){
  const field=new GranularGrid(DUMP.width,DUMP.depth,60,90,{density:ORE.looseDensity,slope:.9,staticSlope:1.2,cohesion:.08,mobility:2.8});
  // Immutable receiving terrain: reuse its vertex samples for the cover,
@@ -26,7 +26,7 @@ export function makeDumpSite(scene,M){
  berm.update(bermY,bermCover);berm.mesh.name='Continuous irregular safety berm made of rock';
  const bermStones=chunkBatch(dress,M.freshRock,2400,'Angular clasts embedded in safety berm');
  packHeightField(bermStones,{nx:12,nz:76,cell:.25,x:31.2,z:-82.5,floor:(x,z)=>ground(x,z)-dumpBermHeight(x,z),height:dumpBermHeight,seed:981,layers:2});
- batchMeshes(dress);let revision=-1,clock=0,quiet=0,cursor=0;const sectors=new SectorLeases(DUMP.bays),slots=sectors.trucks;let heapClock=1,heapCache=[];
+ batchMeshes(dress);let revision=-1,clock=0,quiet=0,cursor=0;const sectors=new SectorLeases(DUMP.bays),slots=sectors.trucks;const waiting=new Set();let heapClock=1,heapCache=[];
  const contains=(x,z)=>Math.abs(x-DUMP.x)<DUMP.width/2&&Math.abs(z-DUMP.z)<DUMP.depth/2;
  function height(x,z){return contains(x,z)?floorAt(x,z)+field.heightAt(x-DUMP.x,z-DUMP.z):-Infinity}
  function deposit(x,z,mass){if(!contains(x,z)||!(mass>0))return 0;field.depositDry(x-DUMP.x,z-DUMP.z,mass,{repose:.9,aspect:1.08});quiet=0;recordDump(mass);return mass;}
@@ -48,8 +48,8 @@ export function makeDumpSite(scene,M){
   for(let row=0;row<91;row++)for(let col=0;col<61;col++){const k=row*61+col,h=field.heightAt(-DUMP.width/2+col*field.dx,-DUMP.depth/2+row*field.dz);heights[k]=floors[k]+h;cover[k]=h>.002?1:0;}fines.update(heights,cover);
   packHeightField(pieces,{nx:100,nz:45,cell:.4,x:DUMP.x-DUMP.width/2,z:DUMP.z-DUMP.depth/2,floor:floorAt,height:(x,z)=>Math.max(0,field.heightAt(x-DUMP.x,z-DUMP.z)-.06),seed:760});
  }
- function reserve(truck,preferred=null){if((sectors.dozers.size||sectors.trucks.size)&&!Array.from(sectors.trucks.values()).includes(truck))return null;const index=sectors.reserveTruck(truck,preferred);return index<0?null:{index,x:DUMP.truckX,z:DUMP.bays[index]};}
- function release(truck){sectors.release(truck);}
+ function reserve(truck,preferred=null){if(!Array.from(sectors.trucks.values()).includes(truck)){waiting.add(truck);if(waiting.values().next().value!==truck)return null;}if((sectors.dozers.size||sectors.trucks.size)&&!Array.from(sectors.trucks.values()).includes(truck))return null;const index=sectors.reserveTruck(truck,preferred);if(index>=0)waiting.delete(truck);return index<0?null:{index,x:DUMP.truckX,z:DUMP.bays[index]};}
+ function release(truck){waiting.delete(truck);sectors.release(truck);}
  function heapTargets(){
   if(heapClock<.8)return heapCache;heapClock=0;heapCache=[];
   for(let index=0;index<DUMP.bays.length;index++){
@@ -68,6 +68,6 @@ export function makeDumpSite(scene,M){
  }
  function spreadBlade(x,z,yaw,mass){if(!(mass>0))return 0;const xx=Math.max(DUMP.x-DUMP.width/2+1,Math.min(DUMP.x+DUMP.width/2-1,x));field.deposit(xx-DUMP.x,z-DUMP.z,mass,{rx:.70,rz:1.9});quiet=0;heapClock=1;return mass;}
 
- function reset(){field.clear();pieces.begin();pieces.finish();fines.clear();sectors.clear();heapCache=[];heapClock=1;cursor=0;quiet=0;revision=-1;clock=0;}
+ function reset(){field.clear();pieces.begin();pieces.finish();fines.clear();sectors.clear();waiting.clear();heapCache=[];heapClock=1;cursor=0;quiet=0;revision=-1;clock=0;}
  return {field,pieces,fines,contains,height,deposit,gradeStrip,update,reserve,release,reset,heapTargets,collectBlade,spreadBlade,sectors,get busy(){return slots.size>0},gradient(x,z){const e=.12,h=(xx,zz)=>floorAt(xx,zz)+field.heightAt(xx-DUMP.x,zz-DUMP.z);return {x:(h(x+e,z)-h(x-e,z))/(2*e),z:(h(x,z+e)-h(x,z-e))/(2*e)}}};
 }

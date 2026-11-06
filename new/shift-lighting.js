@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=cabins-20261106-24';
-import {ShiftTime} from './day-night.js?build=cabins-20261106-24';
+import * as T from '../three.module.js?build=traffic-20261106-25';
+import {ShiftTime} from './day-night.js?build=traffic-20261106-25';
 export function createShiftLighting({scene,renderer,sun,hemisphere,sky,rig,materials}){
  let night=false;try{night=localStorage.getItem('quarry-night-shift')==='1'}catch{}
  const state=new ShiftTime(night),colors={top:[new T.Color('#487cac'),new T.Color('#040b19')],bottom:[new T.Color('#efdbc1'),new T.Color('#18283d')],fog:[new T.Color('#becbd2'),new T.Color('#111e30')],sun:[new T.Color('#ffdfb0'),new T.Color('#a7c8f2')],hemi:[new T.Color('#d5e9ff'),new T.Color('#91abd1')],ground:[new T.Color('#69717b'),new T.Color('#172436')]};

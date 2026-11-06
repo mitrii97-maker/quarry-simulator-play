@@ -1,4 +1,4 @@
-import {HAULER_BODY as B,bodyFront,bodyTopFront,bodyTopRear,bodyRimAt} from './hauler-body-config.js?build=cabins-20261106-24';
+import {HAULER_BODY as B,bodyFront,bodyTopFront,bodyTopRear,bodyRimAt} from './hauler-body-config.js?build=traffic-20261106-25';
 // Surfaces shared by bucket/fragment contacts. Local +X points toward the cab.
 export function truckLocal(truck,x,z){const dx=x-truck.x,dz=z-truck.z,c=Math.cos(truck.yaw),s=Math.sin(truck.yaw);return {x:c*dx-s*dz,z:s*dx+c*dz};}
 export function truckSurfaceY(truck,x,y,z){const pitch=truck.pitch||0,roll=truck.roll||0;return (truck.root?.position.y||0)+(x*Math.sin(pitch)+y*Math.cos(pitch))*Math.cos(roll)-z*Math.sin(roll);}

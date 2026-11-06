@@ -1,8 +1,8 @@
 import {
 	ShaderMaterial,
 	UniformsUtils
-} from '../../three.module.js?build=cabins-20261106-24';
-import { Pass, FullScreenQuad } from './Pass.js?build=cabins-20261106-24';
+} from '../../three.module.js?build=traffic-20261106-25';
+import { Pass, FullScreenQuad } from './Pass.js?build=traffic-20261106-25';
 
 class ShaderPass extends Pass {
 

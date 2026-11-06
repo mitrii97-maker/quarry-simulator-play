@@ -1,12 +1,12 @@
-import {HAULER_BODY} from './hauler-body-config.js?build=cabins-20261106-24';
-import {createTruckFillProfile} from './truck-fill-profile.js?build=cabins-20261106-24';
-import {createHeightFines} from './dry-fines.js?build=cabins-20261106-24';
-import {truckSurfaceY} from './truck-contact.js?build=cabins-20261106-24';
-import {chunkBatch} from './chunk-packing.js?build=cabins-20261106-24';
-import {packTruckClasts} from './truck-clasts.js?build=cabins-20261106-24';
-import * as T from '../three.module.js?build=cabins-20261106-24';
-import {GranularGrid} from './granular.js?build=cabins-20261106-24';
-import {ORE} from './material-volume.js?build=cabins-20261106-24';
+import {HAULER_BODY} from './hauler-body-config.js?build=traffic-20261106-25';
+import {createTruckFillProfile} from './truck-fill-profile.js?build=traffic-20261106-25';
+import {createHeightFines} from './dry-fines.js?build=traffic-20261106-25';
+import {truckSurfaceY} from './truck-contact.js?build=traffic-20261106-25';
+import {chunkBatch} from './chunk-packing.js?build=traffic-20261106-25';
+import {packTruckClasts} from './truck-clasts.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=traffic-20261106-25';
+import {GranularGrid} from './granular.js?build=traffic-20261106-25';
+import {ORE} from './material-volume.js?build=traffic-20261106-25';
 export const BED=HAULER_BODY;
 // Payload remains 100t; this is the retained model's visual capacity calibration,
 // analogous to the compact bucket. Receivers and settled packets use this SAME

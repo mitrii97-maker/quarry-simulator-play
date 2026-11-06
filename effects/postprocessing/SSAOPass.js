@@ -21,13 +21,13 @@ import {
 	Vector3,
 	WebGLRenderTarget,
 	ZeroFactor
-} from '../../three.module.js?build=cabins-20261106-24';
-import { Pass, FullScreenQuad } from './Pass.js?build=cabins-20261106-24';
-import { SimplexNoise } from '../math/SimplexNoise.js?build=cabins-20261106-24';
-import { SSAOShader } from '../shaders/SSAOShader.js?build=cabins-20261106-24';
-import { SSAOBlurShader } from '../shaders/SSAOShader.js?build=cabins-20261106-24';
-import { SSAODepthShader } from '../shaders/SSAOShader.js?build=cabins-20261106-24';
-import { CopyShader } from '../shaders/CopyShader.js?build=cabins-20261106-24';
+} from '../../three.module.js?build=traffic-20261106-25';
+import { Pass, FullScreenQuad } from './Pass.js?build=traffic-20261106-25';
+import { SimplexNoise } from '../math/SimplexNoise.js?build=traffic-20261106-25';
+import { SSAOShader } from '../shaders/SSAOShader.js?build=traffic-20261106-25';
+import { SSAOBlurShader } from '../shaders/SSAOShader.js?build=traffic-20261106-25';
+import { SSAODepthShader } from '../shaders/SSAOShader.js?build=traffic-20261106-25';
+import { CopyShader } from '../shaders/CopyShader.js?build=traffic-20261106-25';
 
 class SSAOPass extends Pass {
 
