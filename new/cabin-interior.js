@@ -1,8 +1,8 @@
-import {MACHINE} from './material-volume.js?build=cabins-20261106-23';
-import * as T from '../three.module.js?build=cabins-20261106-23';
-import {V,add,block,rod} from './geometry.js?build=cabins-20261106-23';
-import {roundedBlock} from './sculpted.js?build=cabins-20261106-23';
-import {batchMeshes} from '../batching.js?build=cabins-20261106-23';
+import {MACHINE} from './material-volume.js?build=cabins-20261106-24';
+import * as T from '../three.module.js?build=cabins-20261106-24';
+import {V,add,block,rod} from './geometry.js?build=cabins-20261106-24';
+import {roundedBlock} from './sculpted.js?build=cabins-20261106-24';
+import {batchMeshes} from '../batching.js?build=cabins-20261106-24';
 
 // Fixed cockpit geometry. Keep the whole front viewing aperture clear: the
 // instruments sit on the low sill/right console, never on the windscreen.
@@ -13,7 +13,7 @@ export function makeCabinInterior(cab,M){
  const soft=M.seat.clone();soft.color.set(MACHINE.id==='hitachi'?'#3e4144':MACHINE.id==='komatsu'?'#243246':MACHINE.id==='liebherr'?'#544c40':'#353e41');soft.roughness=.98;soft.metalness=0;
  const mat=M.rubber.clone();mat.color.set('#171e22');mat.roughness=1;mat.metalness=0;
  if(MACHINE.id==='liebherr'){
- for(const z of [-.42,.15]){const screen=block(cockpit,M.dark,[.045,.29,.31],[.52,.69,z],.025);screen.rotation.z=-.15;block(cockpit,M.display,[.009,.23,.25],[.547,.7,z],.01);}
+
  block(cockpit,trim,[.75,.14,.38],[.05,.42,.63],.04);
  }else if(MACHINE.id==='hitachi'){
  block(cockpit,trim,[.52,.32,.20],[.15,.57,.57],.04);

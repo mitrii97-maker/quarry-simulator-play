@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=cabins-20261106-23';
-import {oreGeometry} from './ore-geometry.js?build=cabins-20261106-23';
+import * as T from '../three.module.js?build=cabins-20261106-24';
+import {oreGeometry} from './ore-geometry.js?build=cabins-20261106-24';
 export function stoneKey(x,y,z){return (Math.imul(x+1024,73856093)^Math.imul(y+1024,19349663)^Math.imul(z+1024,83492791))>>>0;}
 export function stoneRandom(key,salt=0){let n=(key+Math.imul(salt+1,2654435761))>>>0;n=Math.imul(n^n>>>16,2246822507);n=Math.imul(n^n>>>13,3266489909);return ((n^n>>>16)>>>0)/4294967296;}
 // Stable lithology/shape choices, shared by every batch. These are all bounded

@@ -1,5 +1,5 @@
-import * as T from './three.module.js?build=cabins-20261106-23';
-import {BENCH_HEIGHT} from './layout.js?build=cabins-20261106-23';
+import * as T from './three.module.js?build=cabins-20261106-24';
+import {BENCH_HEIGHT} from './layout.js?build=cabins-20261106-24';
 export function chasePose(yaw,bucket,aspect){
  const forward=new T.Vector3(-Math.cos(yaw),0,Math.sin(yaw));
  const distance=aspect<.8?21:16;

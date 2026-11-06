@@ -1,5 +1,5 @@
-import {MACHINES,currentMachine,FREE_MACHINE_TRIAL} from './machine-config.js?build=cabins-20261106-23';
-import {loadFleet,selectMachine} from './fleet-store.js?build=cabins-20261106-23';
+import {MACHINES,currentMachine,FREE_MACHINE_TRIAL} from './machine-config.js?build=cabins-20261106-24';
+import {loadFleet,selectMachine} from './fleet-store.js?build=cabins-20261106-24';
 
 function silhouette(machine){
  const shovel=machine.kind==='face-shovel',tall=shovel?7:0;

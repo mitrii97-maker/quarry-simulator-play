@@ -1,14 +1,14 @@
-import {SectorLeases} from './sector-leases.js?build=cabins-20261106-23';
-import * as T from '../three.module.js?build=cabins-20261106-23';
-import {GranularGrid} from './granular.js?build=cabins-20261106-23';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=cabins-20261106-23';
-import {createHeightFines} from './dry-fines.js?build=cabins-20261106-23';
-import {DUMP,dumpBermHeight} from './dump-layout.js?build=cabins-20261106-23';
-import {ORE} from './material-volume.js?build=cabins-20261106-23';
-import {recordDump} from './levels.js?build=cabins-20261106-23';
-import {ground} from './world.js?build=cabins-20261106-23';
-import {block,rod,V} from './geometry.js?build=cabins-20261106-23';
-import {batchMeshes} from '../batching.js?build=cabins-20261106-23';
+import {SectorLeases} from './sector-leases.js?build=cabins-20261106-24';
+import * as T from '../three.module.js?build=cabins-20261106-24';
+import {GranularGrid} from './granular.js?build=cabins-20261106-24';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=cabins-20261106-24';
+import {createHeightFines} from './dry-fines.js?build=cabins-20261106-24';
+import {DUMP,dumpBermHeight} from './dump-layout.js?build=cabins-20261106-24';
+import {ORE} from './material-volume.js?build=cabins-20261106-24';
+import {recordDump} from './levels.js?build=cabins-20261106-24';
+import {ground} from './world.js?build=cabins-20261106-24';
+import {block,rod,V} from './geometry.js?build=cabins-20261106-24';
+import {batchMeshes} from '../batching.js?build=cabins-20261106-24';
 export function makeDumpSite(scene,M){
  const field=new GranularGrid(DUMP.width,DUMP.depth,60,90,{density:ORE.looseDensity,slope:.9,staticSlope:1.2,cohesion:.08,mobility:2.8});
  // Immutable receiving terrain: reuse its vertex samples for the cover,

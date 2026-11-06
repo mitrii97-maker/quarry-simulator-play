@@ -1,5 +1,5 @@
-import {loadCareer} from './operator.js?build=cabins-20261106-23';
-import {levelConfig} from './career-config.js?build=cabins-20261106-23';
+import {loadCareer} from './operator.js?build=cabins-20261106-24';
+import {levelConfig} from './career-config.js?build=cabins-20261106-24';
 export const TRUCK_CAPACITY=100;
 export let LEVEL_TONNES=levelConfig(loadCareer().nextLevel).targetTonnes;
 export let TRUCKS_PER_LEVEL=Math.ceil(LEVEL_TONNES/TRUCK_CAPACITY);

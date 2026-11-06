@@ -1,4 +1,4 @@
-import {MACHINE} from './material-volume.js?build=cabins-20261106-23';
+import {MACHINE} from './material-volume.js?build=cabins-20261106-24';
 // The tracks travel along the shelf's X axis; upper-house slew remains independent.
 const TRACK_X=[-2.4,-1.2,0,1.2,2.4],TRACK_Z=[-1.35,1.35],supportHeights=new Float64Array(10);
 export function supportPose(x,z,ground){

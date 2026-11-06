@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=cabins-20261106-23';
+import * as T from '../three.module.js?build=cabins-20261106-24';
 // Shared coating variation: created once and reused by every cloned vehicle
 // material. Paint is coated; the cutting steel and tracks remain rough/worn.
 export function industrialFinish(M,assets){

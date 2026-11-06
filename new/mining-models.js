@@ -1,11 +1,11 @@
-import {cabGlass,cabPane} from './cab-glazing.js?build=cabins-20261106-23';
-import * as T from '../three.module.js?build=cabins-20261106-23';
-import {V,add,block,pin,rod,hose} from './geometry.js?build=cabins-20261106-23';
-import {roundedBlock,roundedPlate} from './sculpted.js?build=cabins-20261106-23';
-import {lettering} from './volvo-style.js?build=cabins-20261106-23';
-import {BUCKET} from './bucket-config.js?build=cabins-20261106-23';
-import {BUCKET_INNER_WIDTH} from './material-volume.js?build=cabins-20261106-23';
-import {batchMeshes} from '../batching.js?build=cabins-20261106-23';
+import {cabGlass,cabPane} from './cab-glazing.js?build=cabins-20261106-24';
+import * as T from '../three.module.js?build=cabins-20261106-24';
+import {V,add,block,pin,rod,hose} from './geometry.js?build=cabins-20261106-24';
+import {roundedBlock,roundedPlate} from './sculpted.js?build=cabins-20261106-24';
+import {lettering} from './volvo-style.js?build=cabins-20261106-24';
+import {BUCKET} from './bucket-config.js?build=cabins-20261106-24';
+import {BUCKET_INNER_WIDTH} from './material-volume.js?build=cabins-20261106-24';
+import {batchMeshes} from '../batching.js?build=cabins-20261106-24';
 
 export function miningHouse(house,M,machine){
  const shovel=machine.kind==='face-shovel',hitachi=machine.id==='hitachi';
@@ -59,7 +59,7 @@ export function miningCab(cab,M,machine){
  M={...M,glass:cabGlass(M.glass)};
  const shovel=machine.kind==='face-shovel',hitachi=machine.id==='hitachi';
  const roof=shovel?2.14:hitachi?1.84:2.0;
- cab.name=shovel?'Liebherr elevated twin-screen cab':hitachi?'Hitachi sloped EX cab':'Komatsu wide protective cab';
+ cab.name=shovel?'Liebherr elevated panoramic cab':hitachi?'Hitachi sloped EX cab':'Komatsu wide protective cab';
  if(!hitachi&&!shovel){
  for(const z of [-.79,.79])for(const x of [-.87,.82])rod(cab,M.dark,V(x,.40,z),V(x,2.04,z),.06);
  for(let i=0;i<2;i++)rod(cab,M.dark,V(.87,.52+i*.14,-.77),V(.87,.52+i*.14,.77),.018);

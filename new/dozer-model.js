@@ -1,8 +1,8 @@
-import * as T from '../three.module.js?build=cabins-20261106-23';
-import {V,add,block,pin,rod,cylinderRig,hose} from './geometry.js?build=cabins-20261106-23';
-import {roundedPlate,roundedBlock} from './sculpted.js?build=cabins-20261106-23';
-import {trackBelt} from './track-belt.js?build=cabins-20261106-23';
-import {batchMeshes} from '../batching.js?build=cabins-20261106-23';
+import * as T from '../three.module.js?build=cabins-20261106-24';
+import {V,add,block,pin,rod,cylinderRig,hose} from './geometry.js?build=cabins-20261106-24';
+import {roundedPlate,roundedBlock} from './sculpted.js?build=cabins-20261106-24';
+import {trackBelt} from './track-belt.js?build=cabins-20261106-24';
+import {batchMeshes} from '../batching.js?build=cabins-20261106-24';
 
 // The grader uses the same metre scale, steel and work-light materials as the
 // excavator. +X is forward; the chassis origin is the ground contact plane.

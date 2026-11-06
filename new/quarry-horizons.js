@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=cabins-20261106-23';
-import {ground} from './world.js?build=cabins-20261106-23';
+import * as T from '../three.module.js?build=cabins-20261106-24';
+import {ground} from './world.js?build=cabins-20261106-24';
 export function createQuarryHorizons(scene,M){
  const rows=48,segments=192,positions=[],colors=[],uv=[],indices=[];
  for(let j=0;j<=rows;j++)for(let i=0;i<=segments;i++){

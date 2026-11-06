@@ -1,6 +1,6 @@
-import {unit} from './charge-shape.js?build=cabins-20261106-23';
-import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP,BUCKET_VOLUME} from './material-volume.js?build=cabins-20261106-23';
-import {gridVolumeWeights,solveFilledSurface,sampleGrid} from './fill-profile.js?build=cabins-20261106-23';
+import {unit} from './charge-shape.js?build=cabins-20261106-24';
+import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP,BUCKET_VOLUME} from './material-volume.js?build=cabins-20261106-24';
+import {gridVolumeWeights,solveFilledSurface,sampleGrid} from './fill-profile.js?build=cabins-20261106-24';
 const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
 const a=BUCKET_CONTAINER[0],b=BUCKET_CONTAINER.at(-1),length=Math.hypot(a[0]-b[0],a[1]-b[1]);
 export const RIM_UP=[-(a[1]-b[1])/length,(a[0]-b[0])/length,0],RIM_ALONG=[RIM_UP[1],-RIM_UP[0],0],RIM_CENTER=[(a[0]+b[0])/2,(a[1]+b[1])/2-BUCKET_SHELL_DROP,0];
