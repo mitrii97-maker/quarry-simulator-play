@@ -1,57 +1,58 @@
-import {createQuarryHorizons} from './quarry-horizons.js?build=traffic-20261106-25';
-import {MachineSystems} from './machine-systems.js?build=traffic-20261106-25';
-import {createTabletPanel} from './cab-tablet.js?build=traffic-20261106-25';
-import {saveTerrain,restoreTerrain} from './world.js?build=traffic-20261106-25';
-import {restoreLevel} from './levels.js?build=traffic-20261106-25';
-import {FREE_MACHINE_TRIAL} from './machine-config.js?build=traffic-20261106-25';
-import {createFleetShop} from './fleet-shop.js?build=traffic-20261106-25';
-import {recordDelivery} from './fleet-store.js?build=traffic-20261106-25';
-import {MACHINE} from './material-volume.js?build=traffic-20261106-25';
-import {addMountainBackdrop} from './mountain-backdrop.js?build=traffic-20261106-25';
-import {CarryAssist} from './carry-assist.js?build=traffic-20261106-25';
-import {CameraResponse} from './camera-response.js?build=traffic-20261106-25';
-import {PARKING} from './production-layout.js?build=traffic-20261106-25';
-import {createTraffic} from './traffic.js?build=traffic-20261106-25';
-import {OperatorShift,loadOptions,saveOptions,loadCareer,completeCareer} from './operator.js?build=traffic-20261106-25';
-import {createOperatorPanel} from './operator-panel.js?build=traffic-20261106-25';
-import {createProductionYard} from './production-yard.js?build=traffic-20261106-25';
-import {makeQuarrySky} from './quarry-sky.js?build=traffic-20261106-25';
-import {ShaderPass} from '../effects/postprocessing/ShaderPass.js?build=traffic-20261106-25';
-import {FXAAShader} from '../effects/shaders/FXAAShader.js?build=traffic-20261106-25';
-import {cameraFov,CABIN_VIEW} from './camera-layout.js?build=traffic-20261106-25';
-import {makeDumpSite} from './dump-site.js?build=traffic-20261106-25';
-import {createDozer} from './dozer.js?build=traffic-20261106-25';
-import {createDumpGrader} from './dump-grader.js?build=traffic-20261106-25';
-import {createShiftLighting} from './shift-lighting.js?build=traffic-20261106-25';
-import {stepChassis} from './chassis.js?build=traffic-20261106-25';
-import {loadVisualAssets} from './assets.js?build=traffic-20261106-25';
-import {createSnowfall} from './winter.js?build=traffic-20261106-25';
-import {levelState,recordDispatch,recordTransportSpill,finishIfReady,nextLevel as advanceLevel,LEVEL_TONNES,TRUCK_CAPACITY,TRUCKS_PER_LEVEL} from './levels.js?build=traffic-20261106-25';
-import {BUCKET_TONNES,BUCKET_VOLUME,BUCKET_INNER_WIDTH} from './material-volume.js?build=traffic-20261106-25';
-import {loadingBay,updateLoadingBay} from './loading-bay.js?build=traffic-20261106-25';
-import {BUCKET,releaseRate,dischargeMouth,FACE_SHOVEL} from './bucket-config.js?build=traffic-20261106-25';
-import * as T from '../three.module.js?build=traffic-20261106-25';
+import {placeSun,createContactShadows} from './quarry-shadows.js?build=lighting-20261106-26';
+import {createQuarryHorizons} from './quarry-horizons.js?build=lighting-20261106-26';
+import {MachineSystems} from './machine-systems.js?build=lighting-20261106-26';
+import {createTabletPanel} from './cab-tablet.js?build=lighting-20261106-26';
+import {saveTerrain,restoreTerrain} from './world.js?build=lighting-20261106-26';
+import {restoreLevel} from './levels.js?build=lighting-20261106-26';
+import {FREE_MACHINE_TRIAL} from './machine-config.js?build=lighting-20261106-26';
+import {createFleetShop} from './fleet-shop.js?build=lighting-20261106-26';
+import {recordDelivery} from './fleet-store.js?build=lighting-20261106-26';
+import {MACHINE} from './material-volume.js?build=lighting-20261106-26';
+import {addMountainBackdrop} from './mountain-backdrop.js?build=lighting-20261106-26';
+import {CarryAssist} from './carry-assist.js?build=lighting-20261106-26';
+import {CameraResponse} from './camera-response.js?build=lighting-20261106-26';
+import {PARKING} from './production-layout.js?build=lighting-20261106-26';
+import {createTraffic} from './traffic.js?build=lighting-20261106-26';
+import {OperatorShift,loadOptions,saveOptions,loadCareer,completeCareer} from './operator.js?build=lighting-20261106-26';
+import {createOperatorPanel} from './operator-panel.js?build=lighting-20261106-26';
+import {createProductionYard} from './production-yard.js?build=lighting-20261106-26';
+import {makeQuarrySky} from './quarry-sky.js?build=lighting-20261106-26';
+import {ShaderPass} from '../effects/postprocessing/ShaderPass.js?build=lighting-20261106-26';
+import {FXAAShader} from '../effects/shaders/FXAAShader.js?build=lighting-20261106-26';
+import {cameraFov,CABIN_VIEW} from './camera-layout.js?build=lighting-20261106-26';
+import {makeDumpSite} from './dump-site.js?build=lighting-20261106-26';
+import {createDozer} from './dozer.js?build=lighting-20261106-26';
+import {createDumpGrader} from './dump-grader.js?build=lighting-20261106-26';
+import {createShiftLighting} from './shift-lighting.js?build=lighting-20261106-26';
+import {stepChassis} from './chassis.js?build=lighting-20261106-26';
+import {loadVisualAssets} from './assets.js?build=lighting-20261106-26';
+import {createSnowfall} from './winter.js?build=lighting-20261106-26';
+import {levelState,recordDispatch,recordTransportSpill,finishIfReady,nextLevel as advanceLevel,LEVEL_TONNES,TRUCK_CAPACITY,TRUCKS_PER_LEVEL} from './levels.js?build=lighting-20261106-26';
+import {BUCKET_TONNES,BUCKET_VOLUME,BUCKET_INNER_WIDTH} from './material-volume.js?build=lighting-20261106-26';
+import {loadingBay,updateLoadingBay} from './loading-bay.js?build=lighting-20261106-26';
+import {BUCKET,releaseRate,dischargeMouth,FACE_SHOVEL} from './bucket-config.js?build=lighting-20261106-26';
+import * as T from '../three.module.js?build=lighting-20261106-26';
 
-import {EffectComposer} from '../effects/postprocessing/EffectComposer.js?build=traffic-20261106-25';
-import {RenderPass} from '../effects/postprocessing/RenderPass.js?build=traffic-20261106-25';
-import {SSAOPass} from '../effects/postprocessing/SSAOPass.js?build=traffic-20261106-25';
-import {OutputPass} from '../effects/postprocessing/OutputPass.js?build=traffic-20261106-25';
-import {makeMaterials,makeWorld,frontState,ground,resetTerrain,stepMaterial,drainCaveIns,shelfMass,looseMass} from './world.js?build=traffic-20261106-25';
-import {makeExcavator,forward,bucketFrame,framePoint} from './rig.js?build=traffic-20261106-25';
-import {bucketContact,createSuspension} from './truck-suspension.js?build=traffic-20261106-25';
-import {START,stepRig,bucketSamples,truckHeight,soilContact} from './physics.js?build=traffic-20261106-25';
-import {createTruck,makeRoute,driveTruck,catches,recoverEmptyFleet} from './haul.js?build=traffic-20261106-25';
-import {V,add} from './geometry.js?build=traffic-20261106-25';
-import {QuarryAudio} from '../audio.js?build=traffic-20261106-25';
-import {makeRockSystem} from './rock-system.js?build=traffic-20261106-25';
-import {QUALITY,QualityGovernor,FrameMetrics} from './render-quality.js?build=traffic-20261106-25';
-import {FixedClock} from './frame-clock.js?build=traffic-20261106-25';
-import {bindInputs,HornGesture} from './input.js?build=traffic-20261106-25';
+import {EffectComposer} from '../effects/postprocessing/EffectComposer.js?build=lighting-20261106-26';
+import {RenderPass} from '../effects/postprocessing/RenderPass.js?build=lighting-20261106-26';
+import {SSAOPass} from '../effects/postprocessing/SSAOPass.js?build=lighting-20261106-26';
+import {OutputPass} from '../effects/postprocessing/OutputPass.js?build=lighting-20261106-26';
+import {makeMaterials,makeWorld,frontState,ground,resetTerrain,stepMaterial,drainCaveIns,shelfMass,looseMass} from './world.js?build=lighting-20261106-26';
+import {makeExcavator,forward,bucketFrame,framePoint} from './rig.js?build=lighting-20261106-26';
+import {bucketContact,createSuspension} from './truck-suspension.js?build=lighting-20261106-26';
+import {START,stepRig,bucketSamples,truckHeight,soilContact} from './physics.js?build=lighting-20261106-26';
+import {createTruck,makeRoute,driveTruck,catches,recoverEmptyFleet} from './haul.js?build=lighting-20261106-26';
+import {V,add} from './geometry.js?build=lighting-20261106-26';
+import {QuarryAudio} from '../audio.js?build=lighting-20261106-26';
+import {makeRockSystem} from './rock-system.js?build=lighting-20261106-26';
+import {QUALITY,QualityGovernor,FrameMetrics} from './render-quality.js?build=lighting-20261106-26';
+import {FixedClock} from './frame-clock.js?build=lighting-20261106-26';
+import {bindInputs,HornGesture} from './input.js?build=lighting-20261106-26';
 const options=loadOptions();options.autoSupply=true;const shift=new OperatorShift(),traffic=createTraffic(),carryAssist=new CarryAssist(),cameraResponse=new CameraResponse();let queueRequested=false,manualRequest=false,operatorPanel=null,fleetShop=null,tabletPanel=null;const systems=new MachineSystems(MACHINE);
 const deliveryMass=new Map();
 function landedDelivery(id,tonnes){const previous=deliveryMass.get(id)||0,amount=previous+tonnes;deliveryMass.set(id,amount);if(previous<98&&amount>=98){const progress=recordDelivery(id,amount);if(progress.awarded)fleetShop?.refresh();}}
 const $=id=>document.getElementById(id),scene=new T.Scene(),renderer=new T.WebGLRenderer({antialias:false,powerPreference:'high-performance'});
-renderer.setPixelRatio(Math.min(devicePixelRatio,QUALITY[1].dpr));renderer.setSize(innerWidth,innerHeight);renderer.info.autoReset=false;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;document.body.prepend(renderer.domElement);
+renderer.setPixelRatio(Math.min(devicePixelRatio,QUALITY[1].dpr));renderer.setSize(innerWidth,innerHeight);renderer.info.autoReset=false;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;document.body.prepend(renderer.domElement);
 scene.background=new T.Color('#a5becf');scene.fog=new T.FogExp2('#c0d1df',.0075);
 const sky=await makeQuarrySky(scene);
 let environmentTarget;
@@ -71,6 +72,7 @@ const visualAssets=await loadVisualAssets(renderer,value=>window.quarryBoot?.pro
 const M=makeMaterials(renderer,visualAssets),world=makeWorld(scene,M),weather=createSnowfall(scene),rig=makeExcavator(scene,M),trucks=PARKING.xs.map((x,index)=>createTruck(scene,M,x,PARKING.z,index));
 createQuarryHorizons(scene,M);
 const dumpSite=makeDumpSite(scene,M),dozer=createDozer(scene,M,p=>rocks.puff(V(p.x,p.y,p.z),.13)),dumpGrader=createDumpGrader(scene,M,dumpSite,p=>rocks.puff(V(p.x,p.y,p.z),.09));
+const contacts=createContactShadows(scene,world.height,rig,trucks);
 const lighting=createShiftLighting({scene,renderer,sun,hemisphere,sky,rig,materials:M});
 function lightingButton(){const night=lighting.snapshot().night;$('dayNight').textContent=night?'☾':'☀';$('dayNight').setAttribute('aria-pressed',String(night));$('dayNight').setAttribute('aria-label',night?'Включить день':'Включить ночь')}
 $('dayNight').onclick=()=>{lighting.toggle();lightingButton()};lightingButton();
@@ -79,10 +81,10 @@ let waitingTruck=-1;
 let state={...START,velocity:{...START.velocity}},active=-1,delivered=0,view=0,time=0,impact=0,completed=0,terrainDirty=false,lastTerrainUpdate=0,paused=false,lastBlocked=false;
 try{view=Number(localStorage.getItem('quarry-rebuild-view'))||0;if(view<0||view>2)view=0}catch{}
 const camera=new T.PerspectiveCamera(50,innerWidth/innerHeight,.1,650),look=V(4,5,0);let cameraReady=false;
-const composer=new EffectComposer(renderer);composer.renderTarget1.samples=2;composer.renderTarget2.samples=2;composer.addPass(new RenderPass(scene,camera));class ScaledSSAO extends SSAOPass{setSize(w,h){super.setSize(Math.max(1,Math.round(w*(this.scale??.5))),Math.max(1,Math.round(h*(this.scale??.5))))}}const ao=new ScaledSSAO(scene,camera,innerWidth,innerHeight,12);ao.kernelRadius=.95;ao.minDistance=.002;ao.maxDistance=.065;composer.addPass(ao);composer.addPass(new OutputPass());const fxaa=new ShaderPass(FXAAShader);fxaa.enabled=false;composer.addPass(fxaa);
+const composer=new EffectComposer(renderer);composer.renderTarget1.samples=2;composer.renderTarget2.samples=2;composer.addPass(new RenderPass(scene,camera));class ScaledSSAO extends SSAOPass{setSize(w,h){super.setSize(Math.max(1,Math.round(w*(this.scale??.5))),Math.max(1,Math.round(h*(this.scale??.5))))}}const ao=new ScaledSSAO(scene,camera,innerWidth,innerHeight,12);ao.kernelRadius=.65;ao.minDistance=.001;ao.maxDistance=.018;composer.addPass(ao);composer.addPass(new OutputPass());const fxaa=new ShaderPass(FXAAShader);fxaa.enabled=false;composer.addPass(fxaa);
 let quality=QUALITY[1],contextLost=false,pendingQuality=null;const metrics=new FrameMetrics(),governor=new QualityGovernor(profile=>{pendingQuality=profile});
 function resizeRendering(){const width=Math.round(window.visualViewport?.width||innerWidth),height=Math.round(window.visualViewport?.height||innerHeight);camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,quality.dpr));renderer.setSize(width,height);composer.setPixelRatio(renderer.getPixelRatio());composer.setSize(width,height);fxaa.uniforms.resolution.value.set(1/(width*renderer.getPixelRatio()),1/(height*renderer.getPixelRatio()));}
-function applyQuality(profile){quality=profile;fxaa.enabled=profile.samples===0;ao.enabled=profile.ao>0;ao.scale=profile.ao||.5;for(const target of [composer.renderTarget1,composer.renderTarget2]){target.samples=profile.samples;target.dispose()}if(sun.shadow.mapSize.x!==profile.shadow){sun.shadow.mapSize.set(profile.shadow,profile.shadow);sun.shadow.map?.dispose();sun.shadow.map=null;}weather.setCount(profile.snow);resizeRendering();renderer.shadowMap.needsUpdate=true;}
+function applyQuality(profile){quality=profile;fxaa.enabled=profile.samples===0;ao.enabled=profile.ao>0;ao.scale=profile.ao||.5;for(const target of [composer.renderTarget1,composer.renderTarget2]){target.samples=profile.samples;target.dispose()}if(sun.shadow.mapSize.x!==profile.shadow){sun.shadow.mapSize.set(profile.shadow,profile.shadow);sun.shadow.map?.dispose();sun.shadow.map=null;}placeSun(sun,{baseX:0,baseY:0,baseZ:0},profile);weather.setCount(profile.snow);resizeRendering();renderer.shadowMap.needsUpdate=true;}
 applyQuality(quality);
 const audio=new QuarryAudio();audio.muted=options.muted;$('sound').textContent=options.muted?'♪̸':'♫';$('sound').setAttribute('aria-pressed',String(!options.muted));addEventListener('pointerdown',()=>audio.start(),{once:true});
 $('sound').onclick=()=>{audio.start();const muted=audio.mute();$('sound').textContent=muted?'♪̸':'♫';$('sound').setAttribute('aria-pressed',String(!muted));$('sound').setAttribute('aria-label',muted?'Включить звук':'Отключить звук');options.muted=muted;saveOptions(options)};
@@ -159,8 +161,8 @@ const targetFov=cameraFov(view,camera.aspect);if(!cameraReady){cameraBase.copy(p
  if(uiClock>=.1){uiClock=0;for(const id of ['driveForward','driveBack'])$(id).style.borderColor=lastBlocked?'#d69b70':'#ffffff40';textChanged('tons',Math.round(levelState().dumped)+' т');updateDozerButton();textChanged('loads',Math.round(t?.tonnes||0)+' / '+TRUCK_CAPACITY);textChanged('bucketFill',Math.round(state.payload*100)+'%');$('horn').dataset.status=queueRequested?'Следующий в очереди':t?.trafficWaiting?'Ожидает проезда':t?.state==='ready'?'Под погрузкой':['coming','backing','staging'].includes(t?.state)?'Подъезжает':'';$('rightStick').style.borderColor=state.payload>.94?'#a8d2a2':presentDigging?'#e9bc70':'#ffffff35';$('horn').style.borderColor=t?.state==='ready'?'#a8d2a2':['coming','staging','backing','repositioning'].includes(t?.state)?'#8ac4d9':'#ffffff35';$('view').textContent=['◉','▣','↗'][view];updateLevelHUD();}
  if(audioClock>=1/30){audioClock=0;let yard=dozer.busy?.4:0,yardPan=0,yardSpeed=0;audioRight.set(1,0,0).applyQuaternion(camera.quaternion);for(const truck of trucks){const dx=truck.x-camera.position.x,dz=truck.z-camera.position.z,distance=Math.hypot(dx,dz),weight=(truck.route?.speed?Math.min(1,truck.route.speed/4):truck.state==='unloading'?.65:.12)*12/(12+distance);if(weight>yard){yard=weight;yardPan=(dx*audioRight.x+dz*audioRight.z)/Math.max(1,distance);yardSpeed=(truck.route?.speed||0)/9;}}audio.update(motion+Math.abs(state.driveSpeed||0)*.9,presentDigging,presentDumping,{boom:state.velocity.boom,stick:state.velocity.stick,curl:state.velocity.curl,slew:state.velocity.yaw,drive:state.driveSpeed,cutRate:presentCutRate,flowRate:presentFlowRate,cabin:view===1,yard,yardPan,yardSpeed});}
  shadowClock+=dt;const pose=[renderState.baseX,renderState.baseY,renderState.baseZ,renderState.yaw,renderState.boom,renderState.stick,renderState.curl,renderState.pitch,renderState.roll,renderState.payload],loadRevision=trucks.reduce((sum,t)=>sum+t.load.field.revision,0),truckMotion=trucks.some(t=>!['parked','ready'].includes(t.state)||t.suspension&&Math.abs(t.suspension.v)+Math.abs(t.suspension.vp)+Math.abs(t.suspension.vr)>.001),moving=pose.some((v,i)=>Math.abs(v-shadowPose[i])>.0005),revision=world.metrics.updates;
- if(shadowClock>=1/30&&(moving||truckMotion||dozer.busy||dumpGrader.busy||rocks.mesh.visible||shadowCharge!==rig.charge.shape||shadowRevision!==revision||shadowLoadRevision!==loadRevision||Number.isNaN(shadowPose[0]))){shadowClock=0;shadowPose.set(pose);shadowRevision=revision;shadowLoadRevision=loadRevision;shadowCharge=rig.charge.shape;sun.target.position.set(renderState.baseX,2,renderState.baseZ);sun.position.set(renderState.baseX-25,34,renderState.baseZ-31);renderer.shadowMap.needsUpdate=true;}
- productionYard.update(dt,trucks,renderState,rocks,rig,shift.pressure);lighting.update(dt);composer.render(dt);
+ if(shadowClock>=1/quality.shadowHz&&(moving||truckMotion||dozer.busy||dumpGrader.busy||rocks.mesh.visible||shadowCharge!==rig.charge.shape||shadowRevision!==revision||shadowLoadRevision!==loadRevision||Number.isNaN(shadowPose[0]))){shadowClock=0;shadowPose.set(pose);shadowRevision=revision;shadowLoadRevision=loadRevision;shadowCharge=rig.charge.shape;placeSun(sun,renderState,quality);renderer.shadowMap.needsUpdate=true;}
+ productionYard.update(dt,trucks,renderState,rocks,rig,shift.pressure);const nightBlend=lighting.update(dt);contacts.update(dt,renderState,nightBlend);composer.render(dt);
 }
 const shaderWarmup={ready:false,milliseconds:0};const clock=new FixedClock({maxSteps:12});let lastPresented=null;function animate(now){requestAnimationFrame(animate);if(paused||document.hidden){clock.reset();lastPresented=null;return}const start=performance.now(),elapsed=lastPresented===null?0:now-lastPresented;lastPresented=now;const frame=clock.advance(now,tick);renderFrame(frame.dt||1/60,frame.alpha);const cpu=performance.now()-start;if(elapsed>0&&elapsed<60000){metrics.record(elapsed,cpu);options.quality==='auto'&&governor.sample(Math.min(100,elapsed),Math.min(.5,elapsed/1000))}if(!window.quarryBoot?.isReady)window.quarryBoot?.ready();}
 renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();contextLost=true;setPaused(true);window.quarryBoot?.waiting('Восстанавливаем изображение…')});

@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=lighting-20261106-26';
 const cache=new WeakMap();
 export function cabGlass(base){if(cache.has(base))return cache.get(base);const m=base.clone();m.name='Flat clear safety glazing';m.color.set('#b4cad0');m.opacity=.105;m.roughness=.035;m.metalness=0;m.envMapIntensity=.35;m.depthWrite=false;m.side=T.DoubleSide;m.normalMap=null;m.bumpMap=null;cache.set(base,m);return m;}
 export function cabPane(parent,material,points,z){

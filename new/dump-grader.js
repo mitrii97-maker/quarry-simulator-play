@@ -1,9 +1,9 @@
-import * as T from '../three.module.js?build=traffic-20261106-25';
-import {makeDozer} from './dozer-model.js?build=traffic-20261106-25';
-import {ground} from './world.js?build=traffic-20261106-25';
-import {DUMP} from './dump-layout.js?build=traffic-20261106-25';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=traffic-20261106-25';
-import {ORE} from './material-volume.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=lighting-20261106-26';
+import {makeDozer} from './dozer-model.js?build=lighting-20261106-26';
+import {ground} from './world.js?build=lighting-20261106-26';
+import {DUMP} from './dump-layout.js?build=lighting-20261106-26';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=lighting-20261106-26';
+import {ORE} from './material-volume.js?build=lighting-20261106-26';
 const HOME={x:40,z:-112},STAGE=35.8,SAFE_EDGE=30.8,CAPACITY=16;
 const clamp=T.MathUtils.clamp,wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
 export function createDumpGrader(scene,M,dump,onWork=null){

@@ -1,16 +1,16 @@
-import {aggregateMaterial} from './dry-fines.js?build=traffic-20261106-25';
-import {aggregateClusterGeometry} from './aggregate-cluster.js?build=traffic-20261106-25';
-import {loadImpact} from './truck-suspension.js?build=traffic-20261106-25';
-import {oreGeometry} from './ore-geometry.js?build=traffic-20261106-25';
-import * as T from '../three.module.js?build=traffic-20261106-25';
-import {V} from './geometry.js?build=traffic-20261106-25';
-import {ground,depositLoose} from './world.js?build=traffic-20261106-25';
-import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js?build=traffic-20261106-25';
-import {catches} from './haul.js?build=traffic-20261106-25';
-import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js?build=traffic-20261106-25';
-import {TRUCK_CAPACITY,recordLoaded} from './levels.js?build=traffic-20261106-25';
-import {hardTruckSurface} from './truck-contact.js?build=traffic-20261106-25';
-import {dryGrainVelocity} from './dry-material.js?build=traffic-20261106-25';
+import {aggregateMaterial} from './dry-fines.js?build=lighting-20261106-26';
+import {aggregateClusterGeometry} from './aggregate-cluster.js?build=lighting-20261106-26';
+import {loadImpact} from './truck-suspension.js?build=lighting-20261106-26';
+import {oreGeometry} from './ore-geometry.js?build=lighting-20261106-26';
+import * as T from '../three.module.js?build=lighting-20261106-26';
+import {V} from './geometry.js?build=lighting-20261106-26';
+import {ground,depositLoose} from './world.js?build=lighting-20261106-26';
+import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js?build=lighting-20261106-26';
+import {catches} from './haul.js?build=lighting-20261106-26';
+import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js?build=lighting-20261106-26';
+import {TRUCK_CAPACITY,recordLoaded} from './levels.js?build=lighting-20261106-26';
+import {hardTruckSurface} from './truck-contact.js?build=lighting-20261106-26';
+import {dryGrainVelocity} from './dry-material.js?build=lighting-20261106-26';
 
 export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDelivery=()=>{}){
  const count=720,particles=Array.from({length:count},()=>({life:0,mass:0,p:V(),v:V(),rotation:V(),r:.1,kind:'fall',captureMass:0,landed:false,start:V(),target:V()})),mesh=new T.InstancedMesh(oreGeometry(),material,count*2),dummy=new T.Object3D(),up=V(0,1,0);
@@ -20,7 +20,7 @@ export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDe
  const queued=[],color=new T.Color();for(let i=0;i<count*2;i++){color.set('#ffffff').multiplyScalar(.74+Math.random()*.36);mesh.setColorAt(i,color);dummy.scale.setScalar(0);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix)}
  const dustCount=120,puffs=Array.from({length:dustCount},()=>({life:0,total:1,p:V(),v:V(),size:0})),dustPos=new Float32Array(dustCount*3),dustSize=new Float32Array(dustCount),dustAlpha=new Float32Array(dustCount),dustGeometry=new T.BufferGeometry();let puffCursor=0;
  dustGeometry.setAttribute('position',new T.BufferAttribute(dustPos,3));dustGeometry.setAttribute('size',new T.BufferAttribute(dustSize,1));dustGeometry.setAttribute('alpha',new T.BufferAttribute(dustAlpha,1));
- const dustMaterial=new T.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{tint:{value:new T.Color('#bbb0a0')}},vertexShader:'attribute float size;attribute float alpha;varying float a;void main(){a=alpha;vec4 p=modelViewMatrix*vec4(position,1.);gl_PointSize=clamp(size*280./max(1.,-p.z),0.,85.);gl_Position=projectionMatrix*p;}',fragmentShader:'uniform vec3 tint;varying float a;void main(){float r=length(gl_PointCoord-.5)*2.;float opacity=pow(max(0.,1.-r*r),2.)*a;if(opacity<.003)discard;gl_FragColor=vec4(tint,opacity);\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}'}),dust=new T.Points(dustGeometry,dustMaterial);dust.frustumCulled=false;dust.name='Local impact dust';dust.visible=false;scene.add(dust);
+ const dustMaterial=new T.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{tint:{value:new T.Color('#aaa69b')},illumination:{value:1},haze:{value:new T.Color('#b9c6cc')},fogDensity:{value:.0032}},vertexShader:'attribute float size;attribute float alpha;varying float a;varying float distanceToEye;void main(){a=alpha;vec4 p=modelViewMatrix*vec4(position,1.);distanceToEye=-p.z;gl_PointSize=clamp(size*280./max(1.,-p.z),0.,85.);gl_Position=projectionMatrix*p;}',fragmentShader:'uniform vec3 tint;uniform float illumination;uniform vec3 haze;uniform float fogDensity;varying float a;varying float distanceToEye;void main(){float r=length(gl_PointCoord-.5)*2.;float opacity=pow(max(0.,1.-r*r),2.)*a;if(opacity<.003)discard;float fogAmount=1.-exp(-pow(distanceToEye*fogDensity,2.));gl_FragColor=vec4(mix(tint*illumination,haze,fogAmount),opacity*(1.-fogAmount));\n#include <tonemapping_fragment>\n#include <colorspace_fragment>\n}'}),dust=new T.Points(dustGeometry,dustMaterial);dust.frustumCulled=false;dust.name='Local impact dust';dust.visible=false;scene.add(dust);
  function puff(point,energy=.2){const n=Math.min(7,1+Math.floor(energy*6));for(let i=0;i<n;i++){const d=puffs[puffCursor++%dustCount];d.p.copy(point);d.v.set((Math.random()-.5)*.45,.12+Math.random()*.35,(Math.random()-.5)*.45);d.total=d.life=.45+Math.random()*.65;d.size=.18+Math.random()*.24+Math.min(.45,energy*.25)}}
  function slot(){for(let n=0;n<count;n++){const p=particles[cursor++%count];if(p.life<=0||p.mass<=1e-10&&p.life<.35&&!(p.kind==='scoop'&&p.captureMass>0))return p}return null}
  function emit(point,velocity,mass,kind='fall',deliveryId=null){
@@ -81,7 +81,7 @@ export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDe
   fine.count=visibleFine;fine.visible=visibleFine>0;if(visibleFine){fine.instanceMatrix.clearUpdateRanges();fine.instanceMatrix.addUpdateRange(0,visibleFine*16);fine.instanceMatrix.needsUpdate=true;}
   mesh.count=visible;mesh.visible=visible>0;if(visible){mesh.instanceMatrix.clearUpdateRanges();mesh.instanceMatrix.addUpdateRange(0,visible*16);mesh.instanceMatrix.needsUpdate=true;}
   for(let i=0;i<dustCount;i++){const d=puffs[i];if(d.life>0){d.life-=dt;d.v.multiplyScalar(Math.exp(-dt*1.5));d.p.addScaledVector(d.v,dt);const u=1-d.life/d.total;const j=visibleDust++;dustPos[j*3]=d.p.x;dustPos[j*3+1]=d.p.y;dustPos[j*3+2]=d.p.z;dustSize[j]=d.size*(.4+u*2);dustAlpha[j]=Math.sin(Math.PI*Math.max(0,Math.min(1,u)))*.14;}else{dustSize[i]=dustAlpha[i]=0}}
-  dust.visible=visibleDust>0;dustGeometry.setDrawRange(0,visibleDust);if(visibleDust)for(const attribute of Object.values(dustGeometry.attributes)){attribute.clearUpdateRanges();attribute.addUpdateRange(0,visibleDust*attribute.itemSize);attribute.needsUpdate=true;}
+  dustMaterial.uniforms.illumination.value=.12+.88*(scene.environmentIntensity??.55)/.55;if(scene.fog){dustMaterial.uniforms.haze.value.copy(scene.fog.color);dustMaterial.uniforms.fogDensity.value=scene.fog.density;}dust.visible=visibleDust>0;dustGeometry.setDrawRange(0,visibleDust);if(visibleDust)for(const attribute of Object.values(dustGeometry.attributes)){attribute.clearUpdateRanges();attribute.addUpdateRange(0,visibleDust*attribute.itemSize);attribute.needsUpdate=true;}
   if(impactEnergy>0)onImpact(impactEnergy,impactSurface);return impactEnergy;
  }
  function reset(){for(const p of particles){p.life=0;p.mass=0;p.captureMass=0}for(const p of puffs)p.life=0;pending=0;queued.length=0;lastEmitter=null;delivered=spilled=0;mesh.count=0;mesh.visible=fine.visible=dust.visible=false;fine.count=0;}

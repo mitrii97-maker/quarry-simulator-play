@@ -1,14 +1,14 @@
-import {SectorLeases} from './sector-leases.js?build=traffic-20261106-25';
-import * as T from '../three.module.js?build=traffic-20261106-25';
-import {GranularGrid} from './granular.js?build=traffic-20261106-25';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=traffic-20261106-25';
-import {createHeightFines} from './dry-fines.js?build=traffic-20261106-25';
-import {DUMP,dumpBermHeight} from './dump-layout.js?build=traffic-20261106-25';
-import {ORE} from './material-volume.js?build=traffic-20261106-25';
-import {recordDump} from './levels.js?build=traffic-20261106-25';
-import {ground} from './world.js?build=traffic-20261106-25';
-import {block,rod,V} from './geometry.js?build=traffic-20261106-25';
-import {batchMeshes} from '../batching.js?build=traffic-20261106-25';
+import {SectorLeases} from './sector-leases.js?build=lighting-20261106-26';
+import * as T from '../three.module.js?build=lighting-20261106-26';
+import {GranularGrid} from './granular.js?build=lighting-20261106-26';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=lighting-20261106-26';
+import {createHeightFines} from './dry-fines.js?build=lighting-20261106-26';
+import {DUMP,dumpBermHeight} from './dump-layout.js?build=lighting-20261106-26';
+import {ORE} from './material-volume.js?build=lighting-20261106-26';
+import {recordDump} from './levels.js?build=lighting-20261106-26';
+import {ground} from './world.js?build=lighting-20261106-26';
+import {block,rod,V} from './geometry.js?build=lighting-20261106-26';
+import {batchMeshes} from '../batching.js?build=lighting-20261106-26';
 export function makeDumpSite(scene,M){
  const field=new GranularGrid(DUMP.width,DUMP.depth,60,90,{density:ORE.looseDensity,slope:.9,staticSlope:1.2,cohesion:.08,mobility:2.8});
  // Immutable receiving terrain: reuse its vertex samples for the cover,

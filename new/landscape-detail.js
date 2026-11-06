@@ -1,6 +1,6 @@
-import * as T from '../three.module.js?build=traffic-20261106-25';
-import {snowOnRock} from './winter-materials.js?build=traffic-20261106-25';
-import {heightMeshSample} from './height-patch.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=lighting-20261106-26';
+import {snowOnRock} from './winter-materials.js?build=lighting-20261106-26';
+import {heightMeshSample} from './height-patch.js?build=lighting-20261106-26';
 // A continuous, terraced patch replaces the coarse hillside, so ledges cannot
 // float above/intersect an unmodified mountain. All edges meet the original mesh.
 const GRID={width:132,depth:45,nx:132,nz:112,x:0,z:49.5};

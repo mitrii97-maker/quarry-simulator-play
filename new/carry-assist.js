@@ -1,5 +1,5 @@
-import {BUCKET} from './bucket-config.js?build=traffic-20261106-25';
-import {bucketUp} from './charge-shape.js?build=traffic-20261106-25';
+import {BUCKET} from './bucket-config.js?build=lighting-20261106-26';
+import {bucketUp} from './charge-shape.js?build=lighting-20261106-26';
 const wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
 const attitude=s=>{const n=bucketUp(s);return Math.atan2(n[0],n[1]);};
 // Optional free-air attitude hold. It changes only the curl command, never the

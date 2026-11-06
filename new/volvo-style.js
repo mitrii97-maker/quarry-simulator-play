@@ -1,7 +1,7 @@
-import {cabGlass,cabPane} from './cab-glazing.js?build=traffic-20261106-25';
-import * as T from '../three.module.js?build=traffic-20261106-25';
-import {V,add,block,plate,pin,rod} from './geometry.js?build=traffic-20261106-25';
-import {roundedBlock,roundedPlate,roundedOutline} from './sculpted.js?build=traffic-20261106-25';
+import {cabGlass,cabPane} from './cab-glazing.js?build=lighting-20261106-26';
+import * as T from '../three.module.js?build=lighting-20261106-26';
+import {V,add,block,plate,pin,rod} from './geometry.js?build=lighting-20261106-26';
+import {roundedBlock,roundedPlate,roundedOutline} from './sculpted.js?build=lighting-20261106-26';
 function fitFleetPlates(house,M){
  const canvas=document.createElement('canvas');
  canvas.width=512;canvas.height=128;

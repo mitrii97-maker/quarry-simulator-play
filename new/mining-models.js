@@ -1,11 +1,11 @@
-import {cabGlass,cabPane} from './cab-glazing.js?build=traffic-20261106-25';
-import * as T from '../three.module.js?build=traffic-20261106-25';
-import {V,add,block,pin,rod,hose} from './geometry.js?build=traffic-20261106-25';
-import {roundedBlock,roundedPlate} from './sculpted.js?build=traffic-20261106-25';
-import {lettering} from './volvo-style.js?build=traffic-20261106-25';
-import {BUCKET} from './bucket-config.js?build=traffic-20261106-25';
-import {BUCKET_INNER_WIDTH} from './material-volume.js?build=traffic-20261106-25';
-import {batchMeshes} from '../batching.js?build=traffic-20261106-25';
+import {cabGlass,cabPane} from './cab-glazing.js?build=lighting-20261106-26';
+import * as T from '../three.module.js?build=lighting-20261106-26';
+import {V,add,block,pin,rod,hose} from './geometry.js?build=lighting-20261106-26';
+import {roundedBlock,roundedPlate} from './sculpted.js?build=lighting-20261106-26';
+import {lettering} from './volvo-style.js?build=lighting-20261106-26';
+import {BUCKET} from './bucket-config.js?build=lighting-20261106-26';
+import {BUCKET_INNER_WIDTH} from './material-volume.js?build=lighting-20261106-26';
+import {batchMeshes} from '../batching.js?build=lighting-20261106-26';
 
 export function miningHouse(house,M,machine){
  const shovel=machine.kind==='face-shovel',hitachi=machine.id==='hitachi';

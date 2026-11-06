@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=traffic-20261106-25';
-import {RGBELoader} from './rgbe-loader.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=lighting-20261106-26';
+import {RGBELoader} from './rgbe-loader.js?build=lighting-20261106-26';
 
 // The same measured winter sky drives visible clouds and the metal/glass reflections.
 export async function makeQuarrySky(scene) {
@@ -10,6 +10,7 @@ export async function makeQuarrySky(scene) {
     uniforms: {
       panorama: {value: environment},
       night: {value: 0}, time: {value: 0},
+      horizon: {value: new T.Color('#b9c6cc')},
       top: {value: new T.Color('#091424')},
       bottom: {value: new T.Color('#28384a')}
     },
@@ -25,6 +26,7 @@ export async function makeQuarrySky(scene) {
       uniform float night;
       uniform vec3 top;
       uniform vec3 bottom;
+      uniform vec3 horizon;
       varying vec3 direction;
       void main() {
         vec3 n = normalize(direction);
@@ -33,6 +35,8 @@ export async function makeQuarrySky(scene) {
         vec3 darkness = mix(bottom, top, smoothstep(0., .85, n.y));
         float clouds = clamp(dot(light,vec3(.2126,.7152,.0722)),0.,1.);
         vec3 color = mix(light*.78, darkness*(.65+clouds*.35), night);
+        // Match distant atmospheric scattering to the visible low sky.
+        color = mix(color, horizon, .52*(1.-smoothstep(-.08,.14,n.y)));
         gl_FragColor = vec4(color,1.);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>

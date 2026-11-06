@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=traffic-20261106-25';
-import {add} from './geometry.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=lighting-20261106-26';
+import {add} from './geometry.js?build=lighting-20261106-26';
 
 // Fillet the silhouette, then round its depth edges. Keep broad steel faces flat.
 export function roundedOutline(points,radius=.15,closed=true){

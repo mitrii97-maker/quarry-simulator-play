@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=traffic-20261106-25';
+import * as T from '../three.module.js?build=lighting-20261106-26';
 
 export function makeRollerFaces(root,material){
  const seed=new T.CylinderGeometry(.026,.026,.025,6).toNonIndexed();seed.rotateX(Math.PI/2);const input=seed.attributes.position,vertices=[];

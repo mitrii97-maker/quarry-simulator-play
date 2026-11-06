@@ -1,8 +1,8 @@
 // Presentation quality only: simulation cadence, reserves and contacts never change.
 export const QUALITY=[
- {name:'economy',dpr:1,samples:0,ao:0,shadow:1024,snow:480},
- {name:'balanced',dpr:1.35,samples:2,ao:.5,shadow:2048,snow:800},
- {name:'high',dpr:1.65,samples:4,ao:.7,shadow:2048,snow:1100}
+ {name:'economy',dpr:1,samples:0,ao:0,shadow:1024,shadowSpan:44,shadowHz:20,snow:480},
+ {name:'balanced',dpr:1.35,samples:2,ao:.5,shadow:2048,shadowSpan:56,shadowHz:30,snow:800},
+ {name:'high',dpr:1.65,samples:4,ao:.7,shadow:2048,shadowSpan:64,shadowHz:30,snow:1100}
 ];
 export class QualityGovernor {
  constructor(onChange,{level=1}={}){this.level=level;this.onChange=onChange;this.elapsed=0;this.slow=0;this.fast=0;this.average=16.67;this.cooldown=6;}
