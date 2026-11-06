@@ -1,11 +1,14 @@
-import * as T from '../three.module.js?build=intro-20261106-27';
-import {V,add,block,pin,rod,hose,plate} from './geometry.js?build=intro-20261106-27';
+import * as T from '../three.module.js?build=volvo-review-v2';
+import {V,add,block,pin,rod,hose,plate} from './geometry.js?build=volvo-review-v2';
 function bolt(parent,M,x,y,z,axis='z',r=.035){const b=add(parent,new T.CylinderGeometry(r,r,.035,6),M.steel,x,y,z);if(axis==='z')b.rotation.x=Math.PI/2;if(axis==='x')b.rotation.z=Math.PI/2;return b}
 export function detailExcavator(parts,M){const {root,house,cab,shoulder,stick,bucket}=parts;
+ // Reference Volvo has its own service panels.
+ if(!parts.referenceVolvo){
  // Service hatches, seams, latches and tie-down eyes.
  for(const z of [-1.36,1.36]){block(house,M.dark,[1.1,.66,.018],[-1.35,.51,z],.035);block(house,M.paint,[1.04,.6,.025],[-1.35,.51,z+Math.sign(z)*.015],.035);for(const x of [-1.75,-.95])for(const y of [.29,.73])bolt(house,M,x,y,z+Math.sign(z)*.04);block(house,M.steel,[.17,.03,.045],[-.96,.52,z+Math.sign(z)*.07],.01);}
  for(const x of [-2.35,-1.95])rod(house,M.dark,V(x,1.06,-.5),V(x,1.06,.5),.025);
  for(let i=0;i<10;i++)block(house,M.black,[.9,.018,.045],[-1.2,1.08,-.7+i*.14],.005);
+ }
  // Cab door seal, hinges, handle, mirror and roof work lights.
 
  block(cab,M.dark,[.035,.25,.07],[-.4,.42,-.79],.01);for(const y of [.5,1.45])block(cab,M.steel,[.08,.13,.04],[-.77,y,-.79],.01);

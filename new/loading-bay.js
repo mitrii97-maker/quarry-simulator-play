@@ -1,6 +1,6 @@
-import {bucketWorldPoint} from './rig.js?build=intro-20261106-27';
-import {BUCKET} from './bucket-config.js?build=intro-20261106-27';
-import {BED} from './truck-load.js?build=intro-20261106-27';
+import {bucketWorldPoint} from './rig.js?build=volvo-review-v2';
+import {BUCKET} from './bucket-config.js?build=volvo-review-v2';
+import {BED} from './truck-load.js?build=volvo-review-v2';
 
 // A comfortable, raised unloading posture at 90 degrees to the tracks. Use
 // the same rigid-body transform as the actual bucket, including ground tilt.

@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=intro-20261106-27';
-import {ground} from './world.js?build=intro-20261106-27';
+import * as T from '../three.module.js?build=volvo-review-v2';
+import {ground} from './world.js?build=volvo-review-v2';
 export function createQuarryHorizons(scene,M){
  const rows=48,segments=192,positions=[],colors=[],uv=[],indices=[];
  for(let j=0;j<=rows;j++)for(let i=0;i<=segments;i++){
