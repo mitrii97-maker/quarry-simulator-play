@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=intro-20261106-27';
+import * as T from '../three.module.js?build=volvo-review-v2';
 export function terrainWinter(material,maps,progress,exposure){
  material.onBeforeCompile=shader=>{
   Object.assign(shader.uniforms,{quarryRock:{value:maps.rock.color},quarrySnow:{value:maps.snow.color},quarryEarthRoughness:{value:maps.gravel.roughness},quarryRockRoughness:{value:maps.rock.roughness},quarrySnowRoughness:{value:maps.snow.roughness},quarryEarthNormal:{value:maps.gravel.normal},quarryRockNormal:{value:maps.rock.normal},quarrySnowNormal:{value:maps.snow.normal},quarryProgress:{value:progress()},quarryDigMap:{value:exposure}});

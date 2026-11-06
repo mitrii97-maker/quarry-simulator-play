@@ -1,7 +1,9 @@
-import * as T from '../three.module.js?build=intro-20261106-27';
-import {roundedBlock} from './sculpted.js?build=intro-20261106-27';
-import {lettering} from './volvo-style.js?build=intro-20261106-27';
+import {referenceVolvoCounterweight} from './volvo-reference.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=volvo-review-v2';
+import {roundedBlock} from './sculpted.js?build=volvo-review-v2';
+import {lettering} from './volvo-style.js?build=volvo-review-v2';
 export function addCounterweight(house,M,machine){
+ if(machine.id==='volvo')return referenceVolvoCounterweight(house,M,lettering);
  const width=machine.id==='liebherr'?3.65:machine.id==='volvo'?3.02:3.30;
  const height=machine.id==='liebherr'?1.56:1.34;
  const radius=machine.id==='hitachi'?.30:machine.id==='volvo'?.26:.13;

@@ -1,16 +1,16 @@
-import {aggregateMaterial} from './dry-fines.js?build=intro-20261106-27';
-import {aggregateClusterGeometry} from './aggregate-cluster.js?build=intro-20261106-27';
-import {loadImpact} from './truck-suspension.js?build=intro-20261106-27';
-import {oreGeometry} from './ore-geometry.js?build=intro-20261106-27';
-import * as T from '../three.module.js?build=intro-20261106-27';
-import {V} from './geometry.js?build=intro-20261106-27';
-import {ground,depositLoose} from './world.js?build=intro-20261106-27';
-import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js?build=intro-20261106-27';
-import {catches} from './haul.js?build=intro-20261106-27';
-import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js?build=intro-20261106-27';
-import {TRUCK_CAPACITY,recordLoaded} from './levels.js?build=intro-20261106-27';
-import {hardTruckSurface} from './truck-contact.js?build=intro-20261106-27';
-import {dryGrainVelocity} from './dry-material.js?build=intro-20261106-27';
+import {aggregateMaterial} from './dry-fines.js?build=volvo-review-v2';
+import {aggregateClusterGeometry} from './aggregate-cluster.js?build=volvo-review-v2';
+import {loadImpact} from './truck-suspension.js?build=volvo-review-v2';
+import {oreGeometry} from './ore-geometry.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=volvo-review-v2';
+import {V} from './geometry.js?build=volvo-review-v2';
+import {ground,depositLoose} from './world.js?build=volvo-review-v2';
+import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js?build=volvo-review-v2';
+import {catches} from './haul.js?build=volvo-review-v2';
+import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js?build=volvo-review-v2';
+import {TRUCK_CAPACITY,recordLoaded} from './levels.js?build=volvo-review-v2';
+import {hardTruckSurface} from './truck-contact.js?build=volvo-review-v2';
+import {dryGrainVelocity} from './dry-material.js?build=volvo-review-v2';
 
 export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDelivery=()=>{}){
  const count=720,particles=Array.from({length:count},()=>({life:0,mass:0,p:V(),v:V(),rotation:V(),r:.1,kind:'fall',captureMass:0,landed:false,start:V(),target:V()})),mesh=new T.InstancedMesh(oreGeometry(),material,count*2),dummy=new T.Object3D(),up=V(0,1,0);

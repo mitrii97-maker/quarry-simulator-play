@@ -1,12 +1,12 @@
-import {haulClearance} from './haul-corridor.js?build=intro-20261106-27';
-import {createTrackImprints} from './track-imprints.js?build=intro-20261106-27';
-import * as T from '../three.module.js?build=intro-20261106-27';
-import {makeDozer} from './dozer-model.js?build=intro-20261106-27';
-import {ground,ungradedHeight,gradingTargets,recoveryReceivers,bladeCollect,tuckBlade,depositLoose,ungradedMass} from './world.js?build=intro-20261106-27';
-import {dozerClear,dozerPath,dozerLine} from './dozer-navigation.js?build=intro-20261106-27';
-export {dozerClear,dozerPath} from './dozer-navigation.js?build=intro-20261106-27';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=intro-20261106-27';
-import {ORE} from './material-volume.js?build=intro-20261106-27';
+import {haulClearance} from './haul-corridor.js?build=volvo-review-v2';
+import {createTrackImprints} from './track-imprints.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=volvo-review-v2';
+import {makeDozer} from './dozer-model.js?build=volvo-review-v2';
+import {ground,ungradedHeight,gradingTargets,recoveryReceivers,bladeCollect,tuckBlade,depositLoose,ungradedMass} from './world.js?build=volvo-review-v2';
+import {dozerClear,dozerPath,dozerLine} from './dozer-navigation.js?build=volvo-review-v2';
+export {dozerClear,dozerPath} from './dozer-navigation.js?build=volvo-review-v2';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=volvo-review-v2';
+import {ORE} from './material-volume.js?build=volvo-review-v2';
 const HOME={x:12,z:8},CAPACITY=12;
 const wrap=a=>Math.atan2(Math.sin(a),Math.cos(a)),clamp=T.MathUtils.clamp;
 export function createDozer(scene,M,onBladeWork=null){

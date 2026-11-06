@@ -1,14 +1,14 @@
-import * as T from '../three.module.js?build=intro-20261106-27';
-import {V,add,block,pin,rod} from './geometry.js?build=intro-20261106-27';
-import {roundedOutline,roundedPlate,curvedShell} from './sculpted.js?build=intro-20261106-27';
-import {batchMeshes} from '../batching.js?build=intro-20261106-27';
-import {BUCKET} from './bucket-config.js?build=intro-20261106-27';
-import {BUCKET_INNER_WIDTH,MACHINE} from './material-volume.js?build=intro-20261106-27';
+import * as T from '../three.module.js?build=volvo-review-v2';
+import {V,add,block,pin,rod} from './geometry.js?build=volvo-review-v2';
+import {roundedOutline,roundedPlate,curvedShell} from './sculpted.js?build=volvo-review-v2';
+import {batchMeshes} from '../batching.js?build=volvo-review-v2';
+import {BUCKET} from './bucket-config.js?build=volvo-review-v2';
+import {BUCKET_INNER_WIDTH,MACHINE} from './material-volume.js?build=volvo-review-v2';
 
 // A heavy, open-mouth excavator bucket in the existing metre-scale envelope.
 // Its local -X cutting edge, pin and interior remain aligned with the simulation.
 export function makeBucketShell(bucket,materials){
- const steel=materials.bucket.clone();steel.color.set(MACHINE.id==='hitachi'?'#4b504d':MACHINE.id==='komatsu'?'#555b57':'#717571');steel.normalMap=null;steel.roughness=.68;steel.metalness=.57;
+ const steel=materials.bucket.clone();steel.color.set(MACHINE.id==='hitachi'?'#4b504d':MACHINE.id==='komatsu'?'#555b57':'#424745');steel.normalMap=null;steel.roughness=.68;steel.metalness=.57;
  const edge=materials.steel.clone();edge.color.set('#a2a6a2');edge.roughness=.44;edge.metalness=.78;
  const dark=materials.bucket.clone();dark.color.set('#3c4240');dark.normalMap=null;dark.roughness=.80;dark.metalness=.36;
  const sideWear=steel.clone();sideWear.color.set('#616660');sideWear.roughness=.78;

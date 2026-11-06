@@ -21,13 +21,13 @@ import {
 	Vector3,
 	WebGLRenderTarget,
 	ZeroFactor
-} from '../../three.module.js?build=intro-20261106-27';
-import { Pass, FullScreenQuad } from './Pass.js?build=intro-20261106-27';
-import { SimplexNoise } from '../math/SimplexNoise.js?build=intro-20261106-27';
-import { SSAOShader } from '../shaders/SSAOShader.js?build=intro-20261106-27';
-import { SSAOBlurShader } from '../shaders/SSAOShader.js?build=intro-20261106-27';
-import { SSAODepthShader } from '../shaders/SSAOShader.js?build=intro-20261106-27';
-import { CopyShader } from '../shaders/CopyShader.js?build=intro-20261106-27';
+} from '../../three.module.js?build=volvo-review-v2';
+import { Pass, FullScreenQuad } from './Pass.js?build=volvo-review-v2';
+import { SimplexNoise } from '../math/SimplexNoise.js?build=volvo-review-v2';
+import { SSAOShader } from '../shaders/SSAOShader.js?build=volvo-review-v2';
+import { SSAOBlurShader } from '../shaders/SSAOShader.js?build=volvo-review-v2';
+import { SSAODepthShader } from '../shaders/SSAOShader.js?build=volvo-review-v2';
+import { CopyShader } from '../shaders/CopyShader.js?build=volvo-review-v2';
 
 class SSAOPass extends Pass {
 

@@ -1,4 +1,4 @@
-import * as T from './three.module.js?build=intro-20261106-27';
+import * as T from './three.module.js?build=volvo-review-v2';
 // Local +X points back toward the machine: this is a backhoe bucket.
 export function makeBackhoeBucket({shell,cutting,soil}){
  const group=new T.Group();
