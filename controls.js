@@ -1,4 +1,4 @@
-import {BENCH_HEIGHT} from './layout.js?build=volvo-review-v2';
+import {BENCH_HEIGHT} from './layout.js?build=boom-20261107-30';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function updateControls(state,left,right,dt,resistance=0){
  const v={yaw:0,reach:0,height:0,curl:0,...state.velocity};

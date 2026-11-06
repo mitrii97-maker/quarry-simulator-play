@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {V,add,block,pin,rod,hose,plate} from './geometry.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {V,add,block,pin,rod,hose,plate} from './geometry.js?build=boom-20261107-30';
 function bolt(parent,M,x,y,z,axis='z',r=.035){const b=add(parent,new T.CylinderGeometry(r,r,.035,6),M.steel,x,y,z);if(axis==='z')b.rotation.x=Math.PI/2;if(axis==='x')b.rotation.z=Math.PI/2;return b}
 export function detailExcavator(parts,M){const {root,house,cab,shoulder,stick,bucket}=parts;
  // Reference Volvo has its own service panels.

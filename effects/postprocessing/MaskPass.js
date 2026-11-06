@@ -1,4 +1,4 @@
-import { Pass } from './Pass.js?build=volvo-review-v2';
+import { Pass } from './Pass.js?build=boom-20261107-30';
 
 class MaskPass extends Pass {
 

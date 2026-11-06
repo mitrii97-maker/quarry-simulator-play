@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {RGBELoader} from './rgbe-loader.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {RGBELoader} from './rgbe-loader.js?build=boom-20261107-30';
 
 // The same measured winter sky drives visible clouds and the metal/glass reflections.
 export async function makeQuarrySky(scene) {

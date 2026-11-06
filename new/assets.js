@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {terrainMaps} from '../materials.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {terrainMaps} from '../materials.js?build=boom-20261107-30';
 // AO and displacement are not sampled by our materials: don't download six unused maps.
 export async function loadVisualAssets(renderer,onProgress=()=>{}){
  const loader=new T.TextureLoader(),all={};let done=0;

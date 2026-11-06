@@ -1,4 +1,4 @@
-import {currentMachine} from './machine-config.js?build=volvo-review-v2';
+import {currentMachine} from './machine-config.js?build=boom-20261107-30';
 // One length unit is one metre. Loose ore expands when cut out of the bank.
 export const MACHINE = currentMachine();
 export const ORE={bankDensity:6.4,looseDensity:5.2};

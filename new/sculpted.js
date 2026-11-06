@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {add} from './geometry.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {add} from './geometry.js?build=boom-20261107-30';
 
 // Fillet the silhouette, then round its depth edges. Keep broad steel faces flat.
 export function roundedOutline(points,radius=.15,closed=true){

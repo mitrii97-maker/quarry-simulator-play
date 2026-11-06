@@ -1,5 +1,5 @@
-import * as T from './three.module.js?build=volvo-review-v2';
-import {BENCH_HEIGHT} from './layout.js?build=volvo-review-v2';
+import * as T from './three.module.js?build=boom-20261107-30';
+import {BENCH_HEIGHT} from './layout.js?build=boom-20261107-30';
 export function chasePose(yaw,bucket,aspect){
  const forward=new T.Vector3(-Math.cos(yaw),0,Math.sin(yaw));
  const distance=aspect<.8?21:16;

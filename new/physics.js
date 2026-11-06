@@ -1,13 +1,13 @@
-import {levelConfig} from './career-config.js?build=volvo-review-v2';
-import {levelState} from './levels.js?build=volvo-review-v2';
-import {bodyContains} from './hauler-body-config.js?build=volvo-review-v2';
-import {BED} from './truck-load.js?build=volvo-review-v2';
-import {takeRock} from './levels.js?build=volvo-review-v2';
-import {BUCKET,opening,FACE_SHOVEL} from './bucket-config.js?build=volvo-review-v2';
-import {forward,bucketWorldPoint,bucketFrame,framePoint} from './rig.js?build=volvo-review-v2';
-import {ground,canDig,excavateSweep,excavateFront,relieveFrontContact,gradeBucketSweep,benchFloor,isUpperFace,isFrontRegion,bankSolidAt,bankPenetration,supportFrontWithBucket,BENCH_HEIGHT} from './world.js?build=volvo-review-v2';
-import {BUCKET_TONNES,BUCKET_INNER_WIDTH,BUCKET_CUT_HALF_WIDTH,BUCKET_WORKING_WIDTH,MACHINE} from './material-volume.js?build=volvo-review-v2';
-import {hardTruckSurface,truckLocal} from './truck-contact.js?build=volvo-review-v2';
+import {levelConfig} from './career-config.js?build=boom-20261107-30';
+import {levelState} from './levels.js?build=boom-20261107-30';
+import {bodyContains} from './hauler-body-config.js?build=boom-20261107-30';
+import {BED} from './truck-load.js?build=boom-20261107-30';
+import {takeRock} from './levels.js?build=boom-20261107-30';
+import {BUCKET,opening,FACE_SHOVEL} from './bucket-config.js?build=boom-20261107-30';
+import {forward,bucketWorldPoint,bucketFrame,framePoint} from './rig.js?build=boom-20261107-30';
+import {ground,canDig,excavateSweep,excavateFront,relieveFrontContact,gradeBucketSweep,benchFloor,isUpperFace,isFrontRegion,bankSolidAt,bankPenetration,supportFrontWithBucket,BENCH_HEIGHT} from './world.js?build=boom-20261107-30';
+import {BUCKET_TONNES,BUCKET_INNER_WIDTH,BUCKET_CUT_HALF_WIDTH,BUCKET_WORKING_WIDTH,MACHINE} from './material-volume.js?build=boom-20261107-30';
+import {hardTruckSurface,truckLocal} from './truck-contact.js?build=boom-20261107-30';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const START={yaw:FACE_SHOVEL?Math.PI:0,boom:FACE_SHOVEL?.8:.76,stick:FACE_SHOVEL?-1.65:-1.95,curl:FACE_SHOVEL?1:BUCKET.workOpen,shovelDoor:0,payload:0,baseX:FACE_SHOVEL?3:0,baseZ:0,baseY:FACE_SHOVEL?-.11:BENCH_HEIGHT-.11,pitch:0,roll:0,driveSpeed:0,velocity:{yaw:0,boom:0,stick:0,curl:0}};
 export function bucketSamples(s){const edge=BUCKET_INNER_WIDTH*.49;return offsets.flatMap(([x,y])=>[-edge,0,edge].map(z=>bucketWorldPoint(s,x,y-BUCKET.drop,z)))}

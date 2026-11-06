@@ -1,10 +1,10 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {V,add,block,pin,rod} from './geometry.js?build=volvo-review-v2';
-import {roundedPlate,roundedBlock} from './sculpted.js?build=volvo-review-v2';
-import {lettering} from './volvo-style.js?build=volvo-review-v2';
-import {batchMeshes} from '../batching.js?build=volvo-review-v2';
-import {HAULER_BODY as B,bodyRear,bodyFront,bodyTopRear,bodyTopFront,bodyRimAt} from './hauler-body-config.js?build=volvo-review-v2';
-import {makeTruckHoist} from './truck-hoist.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {V,add,block,pin,rod} from './geometry.js?build=boom-20261107-30';
+import {roundedPlate,roundedBlock} from './sculpted.js?build=boom-20261107-30';
+import {lettering} from './volvo-style.js?build=boom-20261107-30';
+import {batchMeshes} from '../batching.js?build=boom-20261107-30';
+import {HAULER_BODY as B,bodyRear,bodyFront,bodyTopRear,bodyTopFront,bodyRimAt} from './hauler-body-config.js?build=boom-20261107-30';
+import {makeTruckHoist} from './truck-hoist.js?build=boom-20261107-30';
 
 const cache=new WeakMap();
 function haulerMaterials(source){

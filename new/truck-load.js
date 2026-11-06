@@ -1,12 +1,12 @@
-import {HAULER_BODY} from './hauler-body-config.js?build=volvo-review-v2';
-import {createTruckFillProfile} from './truck-fill-profile.js?build=volvo-review-v2';
-import {createHeightFines} from './dry-fines.js?build=volvo-review-v2';
-import {truckSurfaceY} from './truck-contact.js?build=volvo-review-v2';
-import {chunkBatch} from './chunk-packing.js?build=volvo-review-v2';
-import {packTruckClasts} from './truck-clasts.js?build=volvo-review-v2';
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {GranularGrid} from './granular.js?build=volvo-review-v2';
-import {ORE} from './material-volume.js?build=volvo-review-v2';
+import {HAULER_BODY} from './hauler-body-config.js?build=boom-20261107-30';
+import {createTruckFillProfile} from './truck-fill-profile.js?build=boom-20261107-30';
+import {createHeightFines} from './dry-fines.js?build=boom-20261107-30';
+import {truckSurfaceY} from './truck-contact.js?build=boom-20261107-30';
+import {chunkBatch} from './chunk-packing.js?build=boom-20261107-30';
+import {packTruckClasts} from './truck-clasts.js?build=boom-20261107-30';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {GranularGrid} from './granular.js?build=boom-20261107-30';
+import {ORE} from './material-volume.js?build=boom-20261107-30';
 export const BED=HAULER_BODY;
 // Payload remains 100t; this is the retained model's visual capacity calibration,
 // analogous to the compact bucket. Receivers and settled packets use this SAME

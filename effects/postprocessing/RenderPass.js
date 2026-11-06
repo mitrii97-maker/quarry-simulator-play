@@ -1,7 +1,7 @@
 import {
 	Color
-} from '../../three.module.js?build=volvo-review-v2';
-import { Pass } from './Pass.js?build=volvo-review-v2';
+} from '../../three.module.js?build=boom-20261107-30';
+import { Pass } from './Pass.js?build=boom-20261107-30';
 
 class RenderPass extends Pass {
 

@@ -1,8 +1,8 @@
 import {
 	ShaderMaterial,
 	UniformsUtils
-} from '../../three.module.js?build=volvo-review-v2';
-import { Pass, FullScreenQuad } from './Pass.js?build=volvo-review-v2';
+} from '../../three.module.js?build=boom-20261107-30';
+import { Pass, FullScreenQuad } from './Pass.js?build=boom-20261107-30';
 
 class ShaderPass extends Pass {
 

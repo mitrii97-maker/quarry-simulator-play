@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {roundedBlock} from './sculpted.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {roundedBlock} from './sculpted.js?build=boom-20261107-30';
 const pages=['ПОГРУЗКА','МАШИНА','СМЕНА'];
 const n=(v,d=0)=>Number(v||0).toLocaleString('ru-RU',{maximumFractionDigits:d});
 export function tabletRows(data,page){const s=data.systems||{},l=data.level||{};

@@ -1,6 +1,6 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {aggregateMaterial} from './dry-fines.js?build=volvo-review-v2';
-import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {aggregateMaterial} from './dry-fines.js?build=boom-20261107-30';
+import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=boom-20261107-30';
 // One reused surface buffer for all current undercuts. Ordinary settled terrain
 // returns to the existing height mesh; interior walls/ceilings are real faces.
 export function createFrontBankRenderer(scene,source,bank){

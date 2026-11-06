@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
 
 export function makeRollerFaces(root,material,spacing=1.35,width=1.12){
  const seed=new T.CylinderGeometry(.026,.026,.025,6).toNonIndexed();seed.rotateX(Math.PI/2);const input=seed.attributes.position,vertices=[];

@@ -3,7 +3,7 @@ import {
 	Float32BufferAttribute,
 	OrthographicCamera,
 	Mesh
-} from '../../three.module.js?build=volvo-review-v2';
+} from '../../three.module.js?build=boom-20261107-30';
 
 class Pass {
 

@@ -1,6 +1,6 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {snowOnRock} from './winter-materials.js?build=volvo-review-v2';
-import {heightMeshSample} from './height-patch.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {snowOnRock} from './winter-materials.js?build=boom-20261107-30';
+import {heightMeshSample} from './height-patch.js?build=boom-20261107-30';
 // A continuous, terraced patch replaces the coarse hillside, so ledges cannot
 // float above/intersect an unmodified mountain. All edges meet the original mesh.
 const GRID={width:132,depth:45,nx:132,nz:112,x:0,z:49.5};

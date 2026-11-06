@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {ground,digZone} from './world.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {ground,digZone} from './world.js?build=boom-20261107-30';
 // Bounded, purely visual compaction marks. No physical terrain displacement.
 export function createTrackImprints(scene,{spacing=1.12,width:stampWidth=.82,length=.58,capacity=768,offset=-.5,height=ground,lift=.018,opacity=.47,name='Compacted heavy-machine tracks'}={}){
  const width=64,texHeight=32,pixels=new Uint8Array(width*texHeight*4);for(let y=0;y<texHeight;y++)for(let x=0;x<width;x++){const i=(y*width+x)*4,edge=Math.min(x/(width-1),1-x/(width-1),y/(texHeight-1),1-y/(texHeight-1)),rib=(x+Math.abs(y-texHeight/2)*.65)%14,shade=rib<4?.9:.3;pixels[i]=pixels[i+1]=pixels[i+2]=220;pixels[i+3]=Math.min(1,edge*9)*shade*190;}

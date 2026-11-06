@@ -1,14 +1,14 @@
-import {SectorLeases} from './sector-leases.js?build=volvo-review-v2';
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {GranularGrid} from './granular.js?build=volvo-review-v2';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=volvo-review-v2';
-import {createHeightFines} from './dry-fines.js?build=volvo-review-v2';
-import {DUMP,dumpBermHeight} from './dump-layout.js?build=volvo-review-v2';
-import {ORE} from './material-volume.js?build=volvo-review-v2';
-import {recordDump} from './levels.js?build=volvo-review-v2';
-import {ground} from './world.js?build=volvo-review-v2';
-import {block,rod,V} from './geometry.js?build=volvo-review-v2';
-import {batchMeshes} from '../batching.js?build=volvo-review-v2';
+import {SectorLeases} from './sector-leases.js?build=boom-20261107-30';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {GranularGrid} from './granular.js?build=boom-20261107-30';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=boom-20261107-30';
+import {createHeightFines} from './dry-fines.js?build=boom-20261107-30';
+import {DUMP,dumpBermHeight} from './dump-layout.js?build=boom-20261107-30';
+import {ORE} from './material-volume.js?build=boom-20261107-30';
+import {recordDump} from './levels.js?build=boom-20261107-30';
+import {ground} from './world.js?build=boom-20261107-30';
+import {block,rod,V} from './geometry.js?build=boom-20261107-30';
+import {batchMeshes} from '../batching.js?build=boom-20261107-30';
 export function makeDumpSite(scene,M){
  const field=new GranularGrid(DUMP.width,DUMP.depth,60,90,{density:ORE.looseDensity,slope:.9,staticSlope:1.2,cohesion:.08,mobility:2.8});
  // Immutable receiving terrain: reuse its vertex samples for the cover,

@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
 
 // A constant light-space grid keeps stationary shadow edges fixed while driving.
 export const SUN_OFFSET=new T.Vector3(-38,52,-22);

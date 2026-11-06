@@ -1,23 +1,24 @@
-import {VOLVO_REFERENCE,referenceVolvoArm} from './volvo-reference.js?build=volvo-review-v2';
-import {makeCabTablet} from './cab-tablet.js?build=volvo-review-v2';
-import {addCounterweight} from './counterweight.js?build=volvo-review-v2';
-import {MACHINE,BUCKET_TONNES} from './material-volume.js?build=volvo-review-v2';
-import {miningHouse,miningCab,miningArm,makeFaceShovel} from './mining-models.js?build=volvo-review-v2';
-import {applyMachineWear} from './machine-patina.js?build=volvo-review-v2';
-import {makeBucketShell} from './bucket-model.js?build=volvo-review-v2';
-import {volvoBody,volvoCab,volvoArmMarkings,volvoTrackFrames} from './volvo-style.js?build=volvo-review-v2';
-import {chassisPoint} from './chassis.js?build=volvo-review-v2';
-import {trackBelt} from './track-belt.js?build=volvo-review-v2';
-import {makeRollerFaces} from './track-rollers.js?build=volvo-review-v2';
-import {makeCabinInterior} from './cabin-interior.js?build=volvo-review-v2';
-import {CABIN_VIEW} from './camera-layout.js?build=volvo-review-v2';
-import {detailExcavator} from './detailing.js?build=volvo-review-v2';
-import {BUCKET} from './bucket-config.js?build=volvo-review-v2';
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {V,add,block,plate,pin,rod,cylinderRig,hose} from './geometry.js?build=volvo-review-v2';
-import {batchMeshes} from '../batching.js?build=volvo-review-v2';
-import {roundedPlate} from './sculpted.js?build=volvo-review-v2';
-import {makeBucketLoad} from './bucket-load.js?build=volvo-review-v2';
+import {VOLVO_REFERENCE,referenceVolvoArm} from './volvo-reference.js?build=boom-20261107-30';
+import {USER_BOOM} from './volvo-user-boom.js?build=boom-20261107-30';
+import {makeCabTablet} from './cab-tablet.js?build=boom-20261107-30';
+import {addCounterweight} from './counterweight.js?build=boom-20261107-30';
+import {MACHINE,BUCKET_TONNES} from './material-volume.js?build=boom-20261107-30';
+import {miningHouse,miningCab,miningArm,makeFaceShovel} from './mining-models.js?build=boom-20261107-30';
+import {applyMachineWear} from './machine-patina.js?build=boom-20261107-30';
+import {makeBucketShell} from './bucket-model.js?build=boom-20261107-30';
+import {volvoBody,volvoCab,volvoArmMarkings,volvoTrackFrames} from './volvo-style.js?build=boom-20261107-30';
+import {chassisPoint} from './chassis.js?build=boom-20261107-30';
+import {trackBelt} from './track-belt.js?build=boom-20261107-30';
+import {makeRollerFaces} from './track-rollers.js?build=boom-20261107-30';
+import {makeCabinInterior} from './cabin-interior.js?build=boom-20261107-30';
+import {CABIN_VIEW} from './camera-layout.js?build=boom-20261107-30';
+import {detailExcavator} from './detailing.js?build=boom-20261107-30';
+import {BUCKET} from './bucket-config.js?build=boom-20261107-30';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {V,add,block,plate,pin,rod,cylinderRig,hose} from './geometry.js?build=boom-20261107-30';
+import {batchMeshes} from '../batching.js?build=boom-20261107-30';
+import {roundedPlate} from './sculpted.js?build=boom-20261107-30';
+import {makeBucketLoad} from './bucket-load.js?build=boom-20261107-30';
 export const ARM={boom:5.8,stick:4.4,base:2.05};
 export function bucketWorldPoint(state,x=0,y=0,z=0){const a=state.boom,b=a+state.stick,angle=b+state.curl,reach=.55+5.8*Math.cos(a)+4.4*Math.cos(b),height=ARM.base+5.8*Math.sin(a)+4.4*Math.sin(b),xx=reach+x*Math.cos(angle)-y*Math.sin(angle),yy=height+x*Math.sin(angle)+y*Math.cos(angle);return chassisPoint(state,Math.cos(state.yaw)*xx+Math.sin(state.yaw)*z,yy,-Math.sin(state.yaw)*xx+Math.cos(state.yaw)*z)}
 export function forward(state){return {...bucketWorldPoint(state),angle:state.boom+state.stick+state.curl}}
@@ -62,7 +63,7 @@ export function makeExcavator(scene,materials){
  // All shell parts share one rigid frame. Merge their repeated materials with
  // the pin hardware; semantic groups retain tip/ear metadata for validation.
  if(MACHINE.kind!=='face-shovel')for(const group of [bucketModel.body,bucketModel.teeth,bucketModel.mounts])for(const mesh of [...group.children])if(mesh.isMesh)bucket.add(mesh);
- pin(bucket,M.steel,0,0,0,.15,1.1);pin(shoulder,M.steel,0,0,0,.24,1.05);pin(stick,M.steel,0,0,0,.21,.95);
+ pin(bucket,M.steel,0,0,0,.15,1.1);if(MACHINE.id!=='volvo'){pin(shoulder,M.steel,0,0,0,.24,1.05);pin(stick,M.steel,0,0,0,.21,.95);}
  // Correctly anchored boom, stick and bucket actuators.
  const lifts=[-.46,.46].map(z=>({z,c:cylinderRig(house,M.boom,M.chrome,{radius:.19,rodRadius:.105})}));
  const stickRam=cylinderRig(shoulder,M.boom,M.chrome,{radius:.17,rodRadius:.095}),bucketRam=cylinderRig(stick,M.boom,M.chrome,{radius:.16,rodRadius:.09});
@@ -70,14 +71,14 @@ export function makeExcavator(scene,materials){
  const bellcrank=new T.Group();bellcrank.position.set(3.65,.2,0);stick.add(bellcrank);for(const z of [-.33,.33])plate(bellcrank,M.boom,[[0,-.08],[.38,.4],[.58,.29],[.15,-.1]],.09,z);
  const linkA=rod(stick,M.steel,V(),V(1,0,0),.06),linkB=rod(stick,M.steel,V(),V(1,0,0),.06);
  linkA.userData.dynamic=true;linkB.userData.dynamic=true;
- for(const z of [-.31,.31])hose(shoulder,M.black,[V(.2,.31,z),V(1.2,MACHINE.id==='volvo'?1.33:.97,z),V(2.5,MACHINE.id==='volvo'?1.59:1.18,z),V(3.4,MACHINE.id==='volvo'?1.16:.87,z),V(4.6,MACHINE.id==='volvo'?.67:.52,z),V(5.4,.38,z)]);
+ for(const side of [-1,1]){const custom=MACHINE.id==='volvo',z=side*(custom?.20:.31);hose(shoulder,M.black,[V(.2,custom?.43:.31,z),V(1.2,custom?.96:.97,z),V(2.5,custom?1.40:1.18,z),V(3.4,custom?1.14:.87,z),V(4.6,custom?.68:.52,z),V(5.4,custom?.43:.38,z)]);}
  hose(stick,M.black,[V(.1,.46,.28),V(1.2,.49,.28),V(2.8,.3,.28),V(3.5,.31,.28)]);
  const charge=makeBucketLoad(M.freshRock),cargo=charge.group;bucket.add(cargo);if(MACHINE.kind==='face-shovel'){cargo.rotation.y=Math.PI;const entry=charge.entryPoint;charge.entryPoint=(z,out)=>{const point=entry(-z,out);point.x*=-1;point.z*=-1;return point;};}
  let lastPose=[],digRock=0,digVelocity=0,lastPressure=0,lastBoomSpeed=0;
  function update(s,dt=1/30){const h=Math.min(.04,dt),pressure=s.digPressure||0,target=-pressure*MACHINE.vibration-(s.payload||0)*.008;digVelocity+=(target-digRock)*48*h-digVelocity*5.5*h+(pressure-lastPressure)*.17;digRock+=digVelocity*h;digVelocity+=((s.velocity?.boom||0)-lastBoomSpeed)*(s.payload||0)*.045;lastBoomSpeed=s.velocity?.boom||0;lastPressure=pressure;digRock=T.MathUtils.clamp(digRock,-.035,.035);const pose=[s.baseX,s.baseY,s.baseZ,s.roll,s.pitch,s.yaw,s.boom,s.stick,s.curl,digRock];if(pose.some((value,i)=>value!==lastPose[i])){lastPose=pose;root.position.set(s.baseX||0,s.baseY??4,s.baseZ||0);root.rotation.set((s.roll||0)+digRock*Math.sin(s.yaw)*.6,0,(s.pitch||0)+digRock*Math.cos(s.yaw),'ZXY');house.rotation.y=s.yaw;shoulder.rotation.z=s.boom;stick.rotation.z=s.stick;bucket.rotation.z=s.curl;
   const rot=(x,y,a)=>V(x*Math.cos(a)-y*Math.sin(a),x*Math.sin(a)+y*Math.cos(a),0);
-  for(const {z,c} of lifts){const a=V(.1,-.05,z),b=rot(2.15,.15,s.boom).add(shoulder.position);b.z=z;c.update(a,b)}
-  stickRam.update(V(2.55,MACHINE.id==='volvo'?1.60:1.18,.12),rot(-.72,.27,s.stick).add(V(5.8,0,.12)));
+  for(const {z,c} of lifts){const a=V(.1,-.05,z),b=rot(...(MACHINE.id==='volvo'?USER_BOOM.lift:[2.15,.15]),s.boom).add(shoulder.position);b.z=z;c.update(a,b)}
+  stickRam.update(V(...(MACHINE.id==='volvo'?USER_BOOM.stickRam:[2.55,1.18]),.12),rot(-.72,.27,s.stick).add(V(5.8,0,.12)));
   const linkage=solveBucketLink(s.curl);bellcrank.rotation.z=linkage.angle;const crank=V(linkage.x,linkage.y,0);bucketRam.update(V(-.65,.28,0),crank);
   const bucketAnchor=rot(.32,.3,s.curl).add(V(4.4,0,0));for(const [i,l] of [linkA,linkB].entries()){const a=crank.clone(),b=bucketAnchor.clone();a.z=b.z=i?.35:-.35;const d=b.sub(a);l.position.copy(a).addScaledVector(d,.5);l.scale.y=d.length();l.quaternion.setFromUnitVectors(V(0,1,0),d.normalize())}
   }bucketModel.update?.(s.shovelDoor||0);charge.update(s,dt);

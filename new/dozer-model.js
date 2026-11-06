@@ -1,8 +1,8 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {V,add,block,pin,rod,cylinderRig,hose} from './geometry.js?build=volvo-review-v2';
-import {roundedPlate,roundedBlock} from './sculpted.js?build=volvo-review-v2';
-import {trackBelt} from './track-belt.js?build=volvo-review-v2';
-import {batchMeshes} from '../batching.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {V,add,block,pin,rod,cylinderRig,hose} from './geometry.js?build=boom-20261107-30';
+import {roundedPlate,roundedBlock} from './sculpted.js?build=boom-20261107-30';
+import {trackBelt} from './track-belt.js?build=boom-20261107-30';
+import {batchMeshes} from '../batching.js?build=boom-20261107-30';
 
 // The grader uses the same metre scale, steel and work-light materials as the
 // excavator. +X is forward; the chassis origin is the ground contact plane.

@@ -9,9 +9,9 @@ import {
 	ACESFilmicToneMapping,
 	NeutralToneMapping,
 	SRGBTransfer
-} from '../../three.module.js?build=volvo-review-v2';
-import { Pass, FullScreenQuad } from './Pass.js?build=volvo-review-v2';
-import { OutputShader } from '../shaders/OutputShader.js?build=volvo-review-v2';
+} from '../../three.module.js?build=boom-20261107-30';
+import { Pass, FullScreenQuad } from './Pass.js?build=boom-20261107-30';
+import { OutputShader } from '../shaders/OutputShader.js?build=boom-20261107-30';
 
 class OutputPass extends Pass {
 

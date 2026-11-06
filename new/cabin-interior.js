@@ -1,8 +1,8 @@
-import {MACHINE} from './material-volume.js?build=volvo-review-v2';
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {V,add,block,rod} from './geometry.js?build=volvo-review-v2';
-import {roundedBlock} from './sculpted.js?build=volvo-review-v2';
-import {batchMeshes} from '../batching.js?build=volvo-review-v2';
+import {MACHINE} from './material-volume.js?build=boom-20261107-30';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {V,add,block,rod} from './geometry.js?build=boom-20261107-30';
+import {roundedBlock} from './sculpted.js?build=boom-20261107-30';
+import {batchMeshes} from '../batching.js?build=boom-20261107-30';
 
 // Fixed cockpit geometry. Keep the whole front viewing aperture clear: the
 // instruments sit on the low sill/right console, never on the windscreen.

@@ -1,7 +1,8 @@
-import {batchMeshes} from '../batching.js?build=volvo-review-v2';
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {V,add,rod,pin} from './geometry.js?build=volvo-review-v2';
-import {roundedBlock,roundedPlate} from './sculpted.js?build=volvo-review-v2';
+import {batchMeshes} from '../batching.js?build=boom-20261107-30';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {V,add,rod,pin} from './geometry.js?build=boom-20261107-30';
+import {roundedBlock,roundedPlate} from './sculpted.js?build=boom-20261107-30';
+import {makeUserVolvoBoom} from './volvo-user-boom.js?build=boom-20261107-30';
 
 // EC700CL reference silhouette. Attachment/pin coordinates retain the game's
 // established FK; this module owns presentation, never digging or capacity.
@@ -46,9 +47,8 @@ export function referenceVolvoCounterweight(house,M,letter){
  rod(group,M.boom,V(-4.44,.23,-.8),V(-4.44,.23,.8),.023);batchMeshes(group);return group;
 }
 export function referenceVolvoArm(shoulder,stick,M){
- const boom=roundedPlate(shoulder,M.boom,[[0,-.29],[.65,.02],[1.63,.62],[2.31,.82],[3.77,.32],[5.78,-.24],[5.97,-.09],[5.91,.19],[4.16,.77],[2.48,1.48],[1.83,1.55],[.77,.91],[.12,.43]],.76,0,{corner:.14,bevel:.036});boom.name='EC700CL arched tapered fabricated boom';
+ const boom=makeUserVolvoBoom(shoulder,M.boom);
  const arm=roundedPlate(stick,M.boom,[[-1.15,-.08],[-1.22,.22],[-.99,.58],[-.61,.69],[.18,.51],[1.70,.40],[3.93,.22],[4.48,.12],[4.49,-.15],[2.15,-.26],[.13,-.46],[-.68,-.34]],.48,0,{corner:.10,bevel:.025});arm.name='EC700CL tapered dipper with rear cylinder clevis';
  pin(stick,M.steel,-.72,.27,0,.14,.85);
- for(const side of [-1,1]){const z=side*.397;rod(shoulder,M.boom,V(.38,.04,z),V(1.78,1.02,z),.012);rod(shoulder,M.boom,V(2.65,1.26,z),V(5.46,.22,z),.012);}
  return {boom,arm};
 }

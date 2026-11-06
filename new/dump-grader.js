@@ -1,9 +1,9 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {makeDozer} from './dozer-model.js?build=volvo-review-v2';
-import {ground} from './world.js?build=volvo-review-v2';
-import {DUMP} from './dump-layout.js?build=volvo-review-v2';
-import {chunkBatch,packHeightField} from './chunk-packing.js?build=volvo-review-v2';
-import {ORE} from './material-volume.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {makeDozer} from './dozer-model.js?build=boom-20261107-30';
+import {ground} from './world.js?build=boom-20261107-30';
+import {DUMP} from './dump-layout.js?build=boom-20261107-30';
+import {chunkBatch,packHeightField} from './chunk-packing.js?build=boom-20261107-30';
+import {ORE} from './material-volume.js?build=boom-20261107-30';
 const HOME={x:40,z:-112},STAGE=35.8,SAFE_EDGE=30.8,CAPACITY=16;
 const clamp=T.MathUtils.clamp,wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
 export function createDumpGrader(scene,M,dump,onWork=null){

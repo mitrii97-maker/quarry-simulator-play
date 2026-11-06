@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
 
 // A ring beyond the playable quarry. The periodic ridgelines close without
 // a seam and share one mesh and material, including the snow on the peaks.

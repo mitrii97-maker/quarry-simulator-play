@@ -10,7 +10,7 @@ import {
  	MeshStandardMaterial,
  	PointLight,
  	Scene,
-} from './three.module.js?build=volvo-review-v2';
+} from './three.module.js?build=boom-20261107-30';
 
 class RoomEnvironment extends Scene {
 

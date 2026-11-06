@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
 
 // A packet remains one pooled mass parcel. Its silhouette consists of chipped,
 // interlocking grains, never a smooth liquid blob or extra physical bodies.

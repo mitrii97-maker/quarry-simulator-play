@@ -1,5 +1,5 @@
-import {HAULER_BODY as B} from './hauler-body-config.js?build=volvo-review-v2';
-import {stoneKey,stoneRandom} from './chunk-packing.js?build=volvo-review-v2';
+import {HAULER_BODY as B} from './hauler-body-config.js?build=boom-20261107-30';
+import {stoneKey,stoneRandom} from './chunk-packing.js?build=boom-20261107-30';
 // Shared deterministic packing. No lattice rows or height-contour terraces.
 // Larger clasts occupy space first; fines occupy the intervals between them.
 const points=[];

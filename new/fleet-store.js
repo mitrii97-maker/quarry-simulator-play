@@ -1,5 +1,5 @@
-import {loadCareer} from './operator.js?build=volvo-review-v2';
-import {MACHINES,currentMachine,FREE_MACHINE_TRIAL} from './machine-config.js?build=volvo-review-v2';
+import {loadCareer} from './operator.js?build=boom-20261107-30';
+import {MACHINES,currentMachine,FREE_MACHINE_TRIAL} from './machine-config.js?build=boom-20261107-30';
 const KEY='quarry-fleet-v1';
 export function loadFleet(){
  let data={};

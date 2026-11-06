@@ -1,4 +1,4 @@
-import {FOREMAN_NAME,INTRO_LINES,CONTROL_LESSONS,readIntro,writeIntro} from './foreman-story.js?build=volvo-review-v2';
+import {FOREMAN_NAME,INTRO_LINES,CONTROL_LESSONS,readIntro,writeIntro} from './foreman-story.js?build=boom-20261107-30';
 
 export function createForemanIntro({storage=localStorage,hasSave=false,legacyProgress=false,onPause,onNewGame,onStart,onFrame}){
  let progress=readIntro(storage,hasSave||legacyProgress),phase='closed',timer=0,typed=0,lastTick=0,ready=false,confirmation=false,started=hasSave,focusBefore=null;

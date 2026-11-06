@@ -1,6 +1,6 @@
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=volvo-review-v2';
-import {createHeightFines} from './dry-fines.js?build=volvo-review-v2';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=boom-20261107-30';
+import {createHeightFines} from './dry-fines.js?build=boom-20261107-30';
 // Replace exposed snow/terrain triangles with the deformed dry fine fraction
 // and embedded fracture clasts, in both colour and depth passes.
 export function maskExposedBank(geometry,exposure,offsetX=-7.5,bounds=null){

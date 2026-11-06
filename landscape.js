@@ -1,4 +1,4 @@
-import * as T from './three.module.js?build=volvo-review-v2';
+import * as T from './three.module.js?build=boom-20261107-30';
 export function mountainRing(){
  const sectors=144,radii=[78,100,135,180,240,300],positions=[],colors=[],indices=[];
  for(let row=0;row<radii.length;row++)for(let i=0;i<=sectors;i++){const a=(i%sectors)/sectors*Math.PI*2;const ridge=25+Math.sin(a*5+.3)*9+Math.sin(a*11)*5+Math.sin(a*23+1)*3;const heights=[0,ridge*.35,ridge*1.35,ridge*1.8,ridge*.75,0];const h=heights[row];const r=radii[row]+(row===0||row===5?0:Math.sin(a*13)*4);positions.push(Math.cos(a)*r,h,Math.sin(a)*r);const c=new T.Color().setRGB(.42+h*.0015,.40+h*.0017,.36+h*.0022);colors.push(c.r,c.g,c.b);if(row<radii.length-1&&i<sectors){const n=row*(sectors+1)+i;indices.push(n,n+sectors+1,n+1,n+1,n+sectors+1,n+sectors+2)}}

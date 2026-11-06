@@ -4,11 +4,11 @@ import {
 	NoBlending,
 	Vector2,
 	WebGLRenderTarget
-} from '../../three.module.js?build=volvo-review-v2';
-import { CopyShader } from '../shaders/CopyShader.js?build=volvo-review-v2';
-import { ShaderPass } from './ShaderPass.js?build=volvo-review-v2';
-import { MaskPass } from './MaskPass.js?build=volvo-review-v2';
-import { ClearMaskPass } from './MaskPass.js?build=volvo-review-v2';
+} from '../../three.module.js?build=boom-20261107-30';
+import { CopyShader } from '../shaders/CopyShader.js?build=boom-20261107-30';
+import { ShaderPass } from './ShaderPass.js?build=boom-20261107-30';
+import { MaskPass } from './MaskPass.js?build=boom-20261107-30';
+import { ClearMaskPass } from './MaskPass.js?build=boom-20261107-30';
 
 class EffectComposer {
 

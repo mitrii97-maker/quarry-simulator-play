@@ -1,10 +1,10 @@
-import {createHeightFines} from './dry-fines.js?build=volvo-review-v2';
-import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=volvo-review-v2';
-import {createChargeProfile,chargeSurfacePoint,CHARGE_GRID,RIM_CENTER,RIM_UP,RIM_ALONG} from './heaped-charge.js?build=volvo-review-v2';
-import * as T from '../three.module.js?build=volvo-review-v2';
-import {bucketUp} from './charge-shape.js?build=volvo-review-v2';
-import {DryChargeSurface} from './dry-material.js?build=volvo-review-v2';
-import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP} from './material-volume.js?build=volvo-review-v2';
+import {createHeightFines} from './dry-fines.js?build=boom-20261107-30';
+import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=boom-20261107-30';
+import {createChargeProfile,chargeSurfacePoint,CHARGE_GRID,RIM_CENTER,RIM_UP,RIM_ALONG} from './heaped-charge.js?build=boom-20261107-30';
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {bucketUp} from './charge-shape.js?build=boom-20261107-30';
+import {DryChargeSurface} from './dry-material.js?build=boom-20261107-30';
+import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP} from './material-volume.js?build=boom-20261107-30';
 // A fixed dry packing is built once. Filling only exposes occupied cells;
 // changing the fill must never inflate a stone or shuffle the previous layer.
 const PACKING=(()=>{
