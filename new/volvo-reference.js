@@ -11,7 +11,7 @@ function deck(parent,material,points,height,y){const o=roundedPlate(parent,mater
 export function referenceVolvoBody(house,M,letter){
  const group=new T.Group();group.name='EC700CL yellow engine and service enclosure';house.add(group);
  const outline=[[-3.08,-1.67],[.98,-1.67],[1.42,-1.27],[1.42,1.27],[.98,1.67],[-3.08,1.67]];
- deck(group,M.boom,outline,.22,.04);
+ deck(group,M.boom,outline,.20,.015);
  roundedBlock(group,M.paint,[2.40,1.27,3.34],[-1.88,.75,0],.09);
  roundedBlock(group,M.paint,[1.85,1.02,1.45],[.23,.64,.87],.07);
  roundedBlock(group,M.paint,[2.00,.34,2.76],[-2.12,1.43,.08],.08);
