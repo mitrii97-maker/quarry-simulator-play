@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=lighting-20261106-26';
+import * as T from '../three.module.js?build=intro-20261106-27';
 // A fractured, asymmetrical clast rather than a regular round polyhedron.
 // Identical source vertices receive identical displacement, so facets remain
 // joined. Flat normals preserve broad broken faces at the original triangle

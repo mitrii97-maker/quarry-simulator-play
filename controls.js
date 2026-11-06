@@ -1,4 +1,4 @@
-import {BENCH_HEIGHT} from './layout.js?build=lighting-20261106-26';
+import {BENCH_HEIGHT} from './layout.js?build=intro-20261106-27';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function updateControls(state,left,right,dt,resistance=0){
  const v={yaw:0,reach:0,height:0,curl:0,...state.velocity};

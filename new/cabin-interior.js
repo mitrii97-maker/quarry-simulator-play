@@ -1,8 +1,8 @@
-import {MACHINE} from './material-volume.js?build=lighting-20261106-26';
-import * as T from '../three.module.js?build=lighting-20261106-26';
-import {V,add,block,rod} from './geometry.js?build=lighting-20261106-26';
-import {roundedBlock} from './sculpted.js?build=lighting-20261106-26';
-import {batchMeshes} from '../batching.js?build=lighting-20261106-26';
+import {MACHINE} from './material-volume.js?build=intro-20261106-27';
+import * as T from '../three.module.js?build=intro-20261106-27';
+import {V,add,block,rod} from './geometry.js?build=intro-20261106-27';
+import {roundedBlock} from './sculpted.js?build=intro-20261106-27';
+import {batchMeshes} from '../batching.js?build=intro-20261106-27';
 
 // Fixed cockpit geometry. Keep the whole front viewing aperture clear: the
 // instruments sit on the low sill/right console, never on the windscreen.

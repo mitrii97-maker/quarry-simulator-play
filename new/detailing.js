@@ -1,5 +1,5 @@
-import * as T from '../three.module.js?build=lighting-20261106-26';
-import {V,add,block,pin,rod,hose,plate} from './geometry.js?build=lighting-20261106-26';
+import * as T from '../three.module.js?build=intro-20261106-27';
+import {V,add,block,pin,rod,hose,plate} from './geometry.js?build=intro-20261106-27';
 function bolt(parent,M,x,y,z,axis='z',r=.035){const b=add(parent,new T.CylinderGeometry(r,r,.035,6),M.steel,x,y,z);if(axis==='z')b.rotation.x=Math.PI/2;if(axis==='x')b.rotation.z=Math.PI/2;return b}
 export function detailExcavator(parts,M){const {root,house,cab,shoulder,stick,bucket}=parts;
  // Service hatches, seams, latches and tie-down eyes.

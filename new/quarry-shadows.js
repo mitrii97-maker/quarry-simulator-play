@@ -1,4 +1,4 @@
-import * as T from '../three.module.js?build=lighting-20261106-26';
+import * as T from '../three.module.js?build=intro-20261106-27';
 
 // A constant light-space grid keeps stationary shadow edges fixed while driving.
 export const SUN_OFFSET=new T.Vector3(-38,52,-22);

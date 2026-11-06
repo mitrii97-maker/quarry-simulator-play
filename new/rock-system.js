@@ -1,16 +1,16 @@
-import {aggregateMaterial} from './dry-fines.js?build=lighting-20261106-26';
-import {aggregateClusterGeometry} from './aggregate-cluster.js?build=lighting-20261106-26';
-import {loadImpact} from './truck-suspension.js?build=lighting-20261106-26';
-import {oreGeometry} from './ore-geometry.js?build=lighting-20261106-26';
-import * as T from '../three.module.js?build=lighting-20261106-26';
-import {V} from './geometry.js?build=lighting-20261106-26';
-import {ground,depositLoose} from './world.js?build=lighting-20261106-26';
-import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js?build=lighting-20261106-26';
-import {catches} from './haul.js?build=lighting-20261106-26';
-import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js?build=lighting-20261106-26';
-import {TRUCK_CAPACITY,recordLoaded} from './levels.js?build=lighting-20261106-26';
-import {hardTruckSurface} from './truck-contact.js?build=lighting-20261106-26';
-import {dryGrainVelocity} from './dry-material.js?build=lighting-20261106-26';
+import {aggregateMaterial} from './dry-fines.js?build=intro-20261106-27';
+import {aggregateClusterGeometry} from './aggregate-cluster.js?build=intro-20261106-27';
+import {loadImpact} from './truck-suspension.js?build=intro-20261106-27';
+import {oreGeometry} from './ore-geometry.js?build=intro-20261106-27';
+import * as T from '../three.module.js?build=intro-20261106-27';
+import {V} from './geometry.js?build=intro-20261106-27';
+import {ground,depositLoose} from './world.js?build=intro-20261106-27';
+import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js?build=intro-20261106-27';
+import {catches} from './haul.js?build=intro-20261106-27';
+import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js?build=intro-20261106-27';
+import {TRUCK_CAPACITY,recordLoaded} from './levels.js?build=intro-20261106-27';
+import {hardTruckSurface} from './truck-contact.js?build=intro-20261106-27';
+import {dryGrainVelocity} from './dry-material.js?build=intro-20261106-27';
 
 export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDelivery=()=>{}){
  const count=720,particles=Array.from({length:count},()=>({life:0,mass:0,p:V(),v:V(),rotation:V(),r:.1,kind:'fall',captureMass:0,landed:false,start:V(),target:V()})),mesh=new T.InstancedMesh(oreGeometry(),material,count*2),dummy=new T.Object3D(),up=V(0,1,0);

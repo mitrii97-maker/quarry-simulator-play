@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head><script>
+(()=>{const key='quarry-foreman-qa-20261106';let data;try{data=JSON.parse(sessionStorage.getItem(key)||'null')}catch{}data=data||{'quarry-operator-options-v1':JSON.stringify({quality:'economy',muted:true})};const flush=()=>sessionStorage.setItem(key,JSON.stringify(data));Object.defineProperty(window,'localStorage',{value:{getItem:k=>data[k]??null,setItem:(k,v)=>{data[k]=String(v);flush()},removeItem:k=>{delete data[k];flush()}}});})();
+</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="viewport-fit=cover,width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>КАРЬЕР — Heavy Operator</title>
+  <link rel="stylesheet" href="new/operator-ui.css?v=intro-20261106-27">
+  <link rel="stylesheet" href="new/foreman-intro.css?v=intro-20261106-27">
+</head>
+<body>
+<div class="rotate-screen" role="status"><svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><rect x="22" y="24" width="56" height="40" rx="6" stroke="currentColor" stroke-width="3"/><path d="M68 14A38 38 0 0 0 13 48m0 0-5-12m5 12 12-5M32 82a38 38 0 0 0 55-34m0 0 5 12m-5-12-12 5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><b>Поверни телефон</b><p>В горизонтальном режиме видны ковш, забой и оба рычага управления.</p></div>
+<div id="boot" class="boot" role="status">
+<section>
+  <svg class="bench-profile" viewBox="0 0 330 90" fill="none" aria-hidden="true">
+    <defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M-1 1L1 -1M0 7L7 0M6 8L8 6" stroke="currentColor" opacity=".28"/></pattern></defs>
+    <path d="M2 14h34l13 12h24l15 13h27l18 17h32l13 11h45l16-15h26l19-16h44v44H2Z" fill="url(#hatch)"/>
+    <path d="M2 14h34l13 12h24l15 13h27l18 17h32l13 11h45l16-15h26l19-16h44" stroke="currentColor" stroke-width="2"/>
+    <path d="M2 81h326M6 76v9m40-9v9m40-9v9m40-9v9m40-9v9m40-9v9m40-9v9m40-9v9m40-9v9" stroke="currentColor" opacity=".4"/>
+  </svg>
+  <small>HEAVY OPERATOR</small><h1 id="bootTitle">Открываем карьер</h1>
+<div class="boot-track"><i id="bootProgress"></i></div><p id="bootDetail">Угольный разрез · зимняя смена</p>
+<button id="bootRetry" hidden>Попробовать ещё раз</button></section></div>
+<div class="telemetry">
+<div class="stats" title="Статистика смены и настройки"><div><b id="tons">0 т</b><span>НА ОТВАЛЕ</span></div><div><b id="loads">0 / 100</b><span>КУЗОВ</span></div><div><b id="bucketFill">0%</b><span id="bucketCapacity">КОВШ</span></div></div>
+<div class="level-status" aria-label="Прогресс выработки полки">
+<div class="row"><span id="levelNumber">УРОВЕНЬ 1</span><span id="shelfRemaining">… т</span></div>
+<div class="level-track"><i id="shelfProgress"></i></div><small id="shelfTrips"></small></div></div>
+<div id="levelFinish" class="level-finish" role="dialog" aria-modal="true" aria-labelledby="finishTitle" hidden>
+<div class="level-card">
+<div class="finish-icon">✓</div><small id="finishLevel">УРОВЕНЬ 1</small><h2 id="finishTitle">Задание выполнено!</h2><p id="finishDetails"></p>
+<button id="nextLevel">Следующая полка →</button></div></div>
+<div class="tool-bank" role="group" aria-label="Обзор и оборудование">
+<button id="view" title="Камера" aria-label="Переключить камеру">▣</button>
+<button id="dayNight" title="День и ночь" aria-label="Включить ночь" aria-pressed="false">☀</button>
+<button id="sound" title="Звук" aria-label="Отключить звук" aria-pressed="true">♫</button>
+<button id="callDozer" title="Бульдозер" aria-label="Вызвать бульдозер: убрать просыпи и выровнять полку" aria-pressed="false"><svg viewBox="0 0 40 30" fill="none" aria-hidden="true"><path d="M4 20V10h8V4h10l3 7h5v10M12 10h13M18 4v7M4 13h8v7M30 13l5 8h3V9h-3v17h3M27 20l8 2" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"/><rect x="3" y="20" width="26" height="7" rx="3.5" stroke="currentColor" stroke-width="2.3"/><path d="M9 23.5h1m5 0h1m5 0h1" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></div>
+<div class="travel-controls" role="group" aria-label="Ход гусениц и сигнал">
+<button id="driveBack" aria-pressed="false" aria-label="Гусеницы назад, удерживайте кнопку"><kbd aria-hidden="true">Q</kbd>Назад</button>
+<button id="horn" aria-label="Сигнал: одно нажатие — отъезд, два — подача"><kbd aria-hidden="true">Пробел</kbd>Сигнал</button>
+<button id="driveForward" aria-pressed="false" aria-label="Гусеницы вперёд, удерживайте кнопку"><kbd aria-hidden="true">E</kbd>Вперёд</button></div>
+<div class="joystick" id="leftStick" role="group" aria-label="Поворот и рукоять"><span class="grip-label" aria-hidden="true">Рукоять <kbd>WASD</kbd></span><i></i></div>
+<div class="joystick" id="rightStick" role="group" aria-label="Ковш и стрела"><span class="grip-label" aria-hidden="true">Стрела <kbd>↑↓←→</kbd></span><i></i></div>
+<script src="new/loading-ui.js"></script>
+<script type="module" src="new/app.js?v=intro-20261106-27"></script>
+<pre id="qaIntroState" style="position:fixed;top:0;left:0;z-index:151;max-width:220px;max-height:45px;overflow:auto;font:8px monospace;background:#10202790;pointer-events:none"></pre><script type="module">
+import {snapshot} from './new/app.js?v=intro-20261106-27';
+setInterval(()=>{const s=snapshot();document.getElementById('qaIntroState').textContent=JSON.stringify({machine:s.machine,view:s.view,seconds:s.operator.seconds,baseX:s.state.baseX,boom:s.state.boom,curl:s.state.curl,level:s.level.number,onboarding:JSON.parse(localStorage.getItem('quarry-onboarding-v1')||'null'),hasSave:!!localStorage.getItem('quarry-shift-v2')});},500);
+</script></body>
+</html>
