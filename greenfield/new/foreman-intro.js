@@ -1,4 +1,4 @@
-import {FOREMAN_NAME,INTRO_LINES,CONTROL_LESSONS,readIntro,writeIntro} from './foreman-story.js?build=boom-20261107-30';
+import {FOREMAN_NAME,INTRO_LINES,CONTROL_LESSONS,readIntro,writeIntro} from './foreman-story.js';
 
 export function createForemanIntro({storage=localStorage,hasSave=false,legacyProgress=false,onPause,onNewGame,onStart,onFrame}){
  let progress=readIntro(storage,hasSave||legacyProgress),phase='closed',timer=0,typed=0,lastTick=0,ready=false,confirmation=false,started=hasSave,focusBefore=null;
@@ -29,4 +29,16 @@ export function createForemanIntro({storage=localStorage,hasSave=false,legacyPro
  const menuButton=document.createElement('button');menuButton.id='mainMenuOpen';menuButton.textContent='≡';menuButton.setAttribute('aria-label','Главное меню');menuButton.title='Главное меню';menuButton.onclick=openMenu;document.querySelector('.tool-bank').append(menuButton);
  if(progress.status==='pending')dialog();else if(progress.status==='complete'&&!hasSave){started=true;}else openMenu();
  return {openMenu,get isOpen(){return !root.hidden},get progress(){return {...progress}}};
+}
+
+// Reusable one-shot conversation for optional locations; the caller owns pause.
+export function showForemanMessage({text,onClose}){
+ const root=document.createElement('section');root.className='foreman-overlay wc-briefing';root.setAttribute('role','dialog');root.setAttribute('aria-modal','true');root.setAttribute('aria-labelledby','foremanMessageTitle');
+ root.innerHTML=`<div class="foreman-scene"><img class="foreman-portrait" src="${new URL('../assets/characters/saveliev.png',import.meta.url).href}" alt="Савельев Антон Владимирович"><div class="foreman-dialog"><header><span class="story-tag">ЖИЛЬЁ НА УЧАСТКЕ</span></header><h2 id="foremanMessageTitle">${FOREMAN_NAME}</h2><button class="story-copy" aria-label="Показать реплику целиком"><span class="story-reserve" aria-hidden="true"></span><span class="story-visible" aria-hidden="true"></span></button><p class="story-sr" aria-live="polite"></p><div class="story-bottom"><button class="story-primary" id="foremanMessageDone">Располагаюсь. Спасибо.</button></div></div></div>`;
+ document.body.append(root);const reserve=root.querySelector('.story-reserve'),visible=root.querySelector('.story-visible'),button=root.querySelector('#foremanMessageDone');reserve.textContent=text;let frame=0,start=0,finished=false;
+ function reveal(){cancelAnimationFrame(frame);visible.textContent=text;root.querySelector('.story-sr').textContent=text;}
+ function animate(now){if(!start)start=now;visible.textContent=text.slice(0,Math.floor((now-start)/22));if(visible.textContent.length<text.length)frame=requestAnimationFrame(animate);else reveal();}
+ function close(){if(finished)return;finished=true;cancelAnimationFrame(frame);root.remove();onClose();}
+ root.querySelector('.story-copy').onclick=reveal;button.onclick=close;root.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();close();}if(e.key==='Tab'){e.preventDefault();button.focus();}});button.focus();if(matchMedia('(prefers-reduced-motion:reduce)').matches)reveal();else frame=requestAnimationFrame(animate);
+ return {close};
 }

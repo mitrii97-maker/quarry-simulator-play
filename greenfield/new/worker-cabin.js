@@ -1,6 +1,6 @@
 import {CABIN_ITEMS,CABIN_GREETING,roubles} from './worker-cabin-config.js';
 import {CabinStore,cabinBalance,cabinQuote} from './worker-cabin-store.js';
-import {showForemanMessage} from './foreman-intro.js';
+import {showForemanMessage} from './foreman-intro.js?v=greenfield-boot-3';
 
 export function installWorkerCabin({renderer,environment,storage=localStorage,readLevel,onPause,onReturn,getQuality}){
  const store=new CabinStore(storage);let open=false,room=null,selected='cleaning',frame=0,loaded=false,purchasing=false,disposed=false,clock=0,token=0,briefing=null,savedExposure=1,savedAuto=false;
