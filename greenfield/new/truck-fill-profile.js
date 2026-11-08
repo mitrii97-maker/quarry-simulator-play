@@ -1,0 +1,10 @@
+import {HAULER_BODY as B} from './hauler-body-config.js?build=boom-20261107-30';
+import {gridVolumeWeights,solveFilledSurface,sampleGrid} from './fill-profile.js?build=boom-20261107-30';
+export function createTruckFillProfile(width,depth,nx,nz,rim){
+ const floor=new Float64Array(nx*nz),ceiling=new Float64Array(nx*nz),guide=new Float64Array(nx*nz),heights=new Float64Array(nx*nz),weights=gridVolumeWeights(nx,nz,width,depth);let capacity=0;
+ for(let j=0;j<nz;j++)for(let i=0;i<nx;i++){const k=j*nx+i,u=i/(nx-1),v=j/(nz-1),x=(u-.5)*width,z=(v-.5)*depth,crown=Math.pow(Math.max(0,Math.sin(Math.PI*u)),.8)*Math.pow(Math.max(0,Math.sin(Math.PI*v)),.8),irregular=1+.10*Math.sin(x*1.9+z*2.7)+.055*Math.sin(x*4.8-z*3.4);ceiling[k]=rim+(B.frontRim-B.rim)*u+.055+crown*B.heapHeight*irregular;capacity+=ceiling[k]*weights[k];}
+ let volume=0,revision=-1,draining=false,drainPhysical=null,drainDisplay=null;
+ function update(field){if(revision===field.revision)return false;revision=field.revision;if(draining){let raw=0;for(let i=0;i<heights.length;i++){heights[i]=drainPhysical[i]>1e-10?drainDisplay[i]*field.heights[i]/drainPhysical[i]:0;raw+=heights[i]*weights[i];}const target=field.mass/100*capacity,scale=raw>0?target/raw:0;for(let i=0;i<heights.length;i++)heights[i]*=scale;volume=target;return true;}
+  let guideVolume=0;for(let i=0;i<guide.length;i++)guideVolume+=field.heights[i]*weights[i];const target=field.mass/100*capacity,normalise=guideVolume>0?target/guideVolume:1;for(let i=0;i<guide.length;i++)guide[i]=field.heights[i]*normalise;volume=solveFilledSurface(guide,floor,ceiling,weights,Math.max(0,Math.min(1,field.mass/100))*capacity,heights);return true;}
+ return {heights,ceiling,weights,capacity,update,beginDischarge(field){if(!draining){draining=true;drainPhysical=field.heights.slice();drainDisplay=heights.slice();revision=-1;}},get volume(){return volume},height:(x,z)=>sampleGrid(heights,nx,nz,width,depth,x,z),clear(){heights.fill(0);volume=0;revision=-1;draining=false;drainPhysical=drainDisplay=null;}};
+}

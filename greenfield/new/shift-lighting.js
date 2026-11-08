@@ -1,0 +1,17 @@
+import * as T from '../three.module.js?build=boom-20261107-30';
+import {ShiftTime} from './day-night.js?build=boom-20261107-30';
+export function createShiftLighting({scene,renderer,sun,hemisphere,sky,rig,materials}){
+ let night=false;try{night=localStorage.getItem('quarry-night-shift')==='1'}catch{}
+ const state=new ShiftTime(night),colors={top:[new T.Color('#487cac'),new T.Color('#040b19')],bottom:[new T.Color('#efdbc1'),new T.Color('#18283d')],fog:[new T.Color('#b9c6cc'),new T.Color('#111e30')],sun:[new T.Color('#fff0db'),new T.Color('#a7c8f2')],hemi:[new T.Color('#d5e9ff'),new T.Color('#91abd1')],ground:[new T.Color('#716c61'),new T.Color('#172436')]};
+ const targets=[],lamps=[];
+ function lamp(parent,position,targetParent,targetPosition,intensity,distance,angle){const light=new T.SpotLight('#ffe6bf',0,distance,angle,.6,2);light.position.set(...position);light.castShadow=false;const target=new T.Object3D();target.position.set(...targetPosition);targetParent.add(target);light.target=target;parent.add(light);targets.push(target);lamps.push({light,intensity});return light;}
+ lamp(rig.house,[.9,4.35,-1.15],rig.house,[8,-1.5,0],420,38,.78);
+ lamp(rig.stick,[2.7,-.38,-.35],rig.bucket,[-.9,-1.45,0],65,16,.92);
+ // Static sky details add only two draws at night; no extra shadow passes.
+ const positions=[];let seed=269;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};for(let i=0;i<350;i++){const a=random()*Math.PI*2,y=.15+random()*.85,r=Math.sqrt(1-y*y)*335;positions.push(Math.cos(a)*r,y*335,Math.sin(a)*r)}
+ const starsGeometry=new T.BufferGeometry();starsGeometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));const stars=new T.Points(starsGeometry,new T.PointsMaterial({color:'#e4edff',size:1.2,sizeAttenuation:false,transparent:true,opacity:0,depthWrite:false,fog:false,toneMapped:false}));stars.name='Winter night stars';scene.add(stars);
+ const moon=new T.Mesh(new T.CircleGeometry(3.4,32),new T.MeshBasicMaterial({color:'#d9e8fa',transparent:true,opacity:0,depthWrite:false,fog:false,toneMapped:false}));moon.position.set(-25,34,-31).normalize().multiplyScalar(335);moon.lookAt(0,0,0);moon.name='Winter moon';scene.add(moon);
+ function update(dt=0){const blend=state.update(dt);if(sky.material.uniforms.night)sky.material.uniforms.night.value=blend;if(sky.material.uniforms.time)sky.material.uniforms.time.value+=Math.min(.1,dt);const mix=(key,target)=>target.copy(colors[key][0]).lerp(colors[key][1],blend);mix('fog',scene.fog.color);sky.material.uniforms.horizon.value.copy(scene.fog.color);scene.background.copy(scene.fog.color);scene.fog.density=T.MathUtils.lerp(.0032,.0065,blend);mix('sun',sun.color);sun.intensity=T.MathUtils.lerp(2.65,.22,blend);mix('hemi',hemisphere.color);mix('ground',hemisphere.groundColor);hemisphere.intensity=T.MathUtils.lerp(.34,.18,blend);scene.environmentIntensity=T.MathUtils.lerp(.55,.09,blend);renderer.toneMappingExposure=T.MathUtils.lerp(.96,1.1,blend);for(const {light,intensity} of lamps)light.intensity=intensity*blend;materials.lamp.emissiveIntensity=T.MathUtils.lerp(2,6,blend);stars.visible=moon.visible=blend>.01;stars.material.opacity=blend*.8;moon.material.opacity=blend*.94;return blend;}
+ function toggle(){state.toggle();try{localStorage.setItem('quarry-night-shift',state.night?'1':'0')}catch{}return state.night}
+ update(0);return {update,toggle,snapshot:()=>({night:state.night,blend:state.blend,workLights:lamps.map(({light})=>light.intensity)})};
+}

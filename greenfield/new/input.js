@@ -1,0 +1,26 @@
+const AXES=new Map([['KeyA',['left','x',-1]],['KeyD',['left','x',1]],['KeyW',['left','y',-1]],['KeyS',['left','y',1]],['ArrowLeft',['right','x',-1]],['ArrowRight',['right','x',1]],['ArrowUp',['right','y',-1]],['ArrowDown',['right','y',1]],['KeyQ',['drive',null,-1]],['KeyE',['drive',null,1]]]);
+export class InputState {
+ constructor(){this.touch={left:{x:0,y:0},right:{x:0,y:0},drive:0};this.keys=new Set();this.output={left:{x:0,y:0},right:{x:0,y:0},drive:0};}
+ key(code,pressed){if(!AXES.has(code))return false;if(pressed)this.keys.add(code);else this.keys.delete(code);return true;}
+ reset(){this.keys.clear();this.touch.left={x:0,y:0};this.touch.right={x:0,y:0};this.touch.drive=0;}
+ read(){const out=this.output,t=this.touch;if(this.keys.size===0)return t;out.left.x=t.left.x;out.left.y=t.left.y;out.right.x=t.right.x;out.right.y=t.right.y;out.drive=t.drive;const active=new Set();for(const code of this.keys){const [side,axis,value]=AXES.get(code),id=side+(axis||'');if(!active.has(id)){if(axis)out[side][axis]=0;else out.drive=0;active.add(id)}if(axis)out[side][axis]+=value;else out.drive+=value;}return out;}
+}
+export class HornGesture {
+ constructor({windowMs=340,onCall=()=>{},onDispatch=()=>{},schedule=(fn,ms)=>globalThis.setTimeout(fn,ms),cancel=id=>globalThis.clearTimeout(id)}={}){Object.assign(this,{windowMs,onCall,onDispatch,schedule,cancel});this.timer=null;}
+ press(){if(this.timer!==null){this.cancel(this.timer);this.timer=null;this.onCall();return 'call'}this.timer=this.schedule(()=>{this.timer=null;this.onDispatch();},this.windowMs);return 'pending';}
+ reset(){if(this.timer!==null)this.cancel(this.timer);this.timer=null;}
+}
+export function bindInputs({doc=document,win=window,enabled=()=>true,onHorn=()=>{},onPause=()=>{}}={}){
+ const state=new InputState(),abort=new AbortController(),signal=abort.signal,drive=new Set(),pads=[],driveRecords=[];const listen=(el,type,fn,options={})=>el.addEventListener(type,fn,{...options,signal});
+ for(const side of ['left','right']){const pad=doc.getElementById(side+'Stick'),knob=pad.querySelector('i'),record={side,pad,knob,pointer:null,rect:null};pads.push(record);
+  const reset=()=>{record.pointer=null;record.rect=null;state.touch[side]={x:0,y:0};knob.style.transform='translate(0px,0px)';pad.classList.remove('engaged');};record.reset=reset;
+  const move=e=>{if(e.pointerId!==record.pointer)return;const b=record.rect,r=b.width*.31,dx=e.clientX-b.left-b.width/2,dy=e.clientY-b.top-b.height/2,len=Math.hypot(dx,dy),scale=len>r?r/len:1,x=dx*scale/r,y=dy*scale/r,dead=.035,axis=v=>Math.abs(v)<dead?0:Math.sign(v)*Math.pow((Math.abs(v)-dead)/(1-dead),1.05);state.touch[side]={x:axis(x),y:axis(y)};knob.style.transform=`translate(${x*r}px,${y*r}px)`;};
+  listen(pad,'pointerdown',e=>{if(!enabled()||record.pointer!==null||e.button>0)return;e.preventDefault();record.pointer=e.pointerId;record.rect=pad.getBoundingClientRect();pad.setPointerCapture(e.pointerId);pad.classList.add('engaged');move(e)});listen(pad,'pointermove',move);for(const event of ['pointerup','pointercancel','lostpointercapture'])listen(pad,event,e=>{if(e.pointerId===record.pointer)reset()});listen(pad,'contextmenu',e=>e.preventDefault());
+ }
+ const sync=()=>{state.touch.drive=(drive.has(1)?1:0)-(drive.has(-1)?1:0);for(const [id,direction] of [['driveForward',1],['driveBack',-1]])doc.getElementById(id).setAttribute('aria-pressed',String(drive.has(direction)));};
+ for(const [id,direction] of [['driveForward',1],['driveBack',-1]]){const b=doc.getElementById(id);const record={pointer:null};driveRecords.push(record);listen(b,'pointerdown',e=>{if(!enabled()||record.pointer!==null||e.button>0)return;e.preventDefault();record.pointer=e.pointerId;b.setPointerCapture(record.pointer);drive.add(direction);sync()});const release=e=>{if(e.pointerId!==record.pointer)return;record.pointer=null;drive.delete(direction);sync()};for(const event of ['pointerup','pointercancel','lostpointercapture'])listen(b,event,release);listen(b,'keydown',e=>{if(['Space','Enter'].includes(e.code)){e.preventDefault();e.stopPropagation();if(enabled()){drive.add(direction);sync()}}});listen(b,'keyup',e=>{if(['Space','Enter'].includes(e.code)){e.preventDefault();e.stopPropagation();drive.delete(direction);sync()}});listen(b,'blur',()=>{record.pointer=null;drive.delete(direction);sync()});listen(b,'contextmenu',e=>e.preventDefault());}
+ function reset(){state.reset();drive.clear();for(const record of driveRecords)record.pointer=null;for(const pad of pads)pad.reset();sync();}
+ listen(win,'keydown',e=>{if(!enabled())return;if(e.target?.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(e.target?.tagName))return;if(state.key(e.code,true))e.preventDefault();if(e.code==='Space'&&e.target?.tagName!=='BUTTON'){e.preventDefault();if(!e.repeat)onHorn()}});listen(win,'keyup',e=>{if(state.key(e.code,false))e.preventDefault()});
+ listen(win,'blur',()=>{reset();onPause(true)});listen(win,'focus',()=>onPause(false));listen(doc,'visibilitychange',()=>{reset();onPause(doc.hidden)});listen(win,'resize',()=>{for(const pad of pads)if(pad.pointer!==null)pad.rect=pad.pad.getBoundingClientRect()});
+ return {state,inputs:state.touch,keys:state.keys,read:()=>state.read(),reset,dispose(){reset();abort.abort()}};
+}
