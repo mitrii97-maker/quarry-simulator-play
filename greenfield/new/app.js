@@ -16,6 +16,7 @@ import {CarryAssist} from './carry-assist.js';
 import {CameraResponse} from './camera-response.js';
 import {PARKING} from './production-layout.js';
 import {createTraffic} from './traffic.js';
+import {parkedTruckIndex,validActiveTruck} from './dispatch-logic.js';
 import {OperatorShift,loadOptions,saveOptions,loadCareer,completeCareer} from './operator.js';
 import {createOperatorPanel} from './operator-panel.js';
 import {createProductionYard} from './production-yard.js';
@@ -46,10 +47,10 @@ import {makeMaterials,makeWorld,frontState,ground,resetTerrain,stepMaterial,drai
 import {makeExcavator,forward,bucketFrame,framePoint} from './rig.js';
 import {bucketContact,createSuspension} from './truck-suspension.js';
 import {START,stepRig,bucketSamples,truckHeight,soilContact} from './physics.js';
-import {createTruck,makeRoute,driveTruck,catches,recoverEmptyFleet} from './haul.js';
+import {createTruck,makeRoute,driveTruck,catches,recoverEmptyFleet} from './haul.js?build=greenfield-maz-body-1';
 import {V,add} from './geometry.js';
 import {QuarryAudio} from '../audio.js';
-import {makeRockSystem} from './rock-system.js';
+import {makeRockSystem} from './rock-system.js?build=greenfield-soil-flow-1';
 import {QUALITY,QualityGovernor,FrameMetrics} from './render-quality.js';
 import {FixedClock} from './frame-clock.js';
 import {bindInputs,HornGesture} from './input.js';
@@ -104,6 +105,7 @@ function resetInputs(){inputController.reset()}
 function effectiveInputs(){return inputController.read()}
 const hornGesture=new HornGesture({onCall(){queueRequested=true;manualRequest=true;},onDispatch(){const t=trucks[active];if(!t||t.state!=='ready'){queueRequested=true;manualRequest=true;return;}t.awaitDump=false;delivered+=t.tonnes;recordDispatch(t.tonnes);shift.dispatch(t.tonnes);t.dumpSlot=null;t.dispatched=t.tonnes>0;t.deliveryId=crypto.randomUUID();if(t.tonnes>0)completed++;makeRoute(t,'leaving');active=-1;if(options.autoSupply)queueRequested=true;}});
 function serviceDispatch(){
+ if(active>=0&&!validActiveTruck(trucks[active]))active=-1;
  if(active>=0){
   if(options.autoSupply&&levelState().goalRemaining>0&&waitingTruck<0&&trucks[active].state==='ready'){
    const next=trucks.findIndex((t,i)=>i!==active&&t.state==='parked');
@@ -116,11 +118,14 @@ function serviceDispatch(){
  }
  if(!queueRequested||levelState().goalRemaining<=0)return;
  if(options.autoSupply&&!manualRequest&&levelState().remaining<.0001&&looseMass()<.0001&&state.payload<.0001){queueRequested=false;return;}
- const i=trucks.findIndex(t=>t.state==='parked');if(i<0||!traffic.apronClear(trucks,loadingBay(state)))return;
+ // A parked MAZ may start towards the quarry even while another machine is
+ // near the loading apron. Traffic spacing protects the shared road; apron
+ // clearance is only required for the final reversing manoeuvre above.
+ const i=parkedTruckIndex(trucks);if(i<0)return;
  active=i;queueRequested=false;manualRequest=false;trucks[i].dispatched=false;updateLoadingBay(trucks[i],state);makeRoute(trucks[i],'coming');
 }
 
-function horn(){if(levelState().status!=='playing'||paused)return;audio.horn();hornGesture.press();$('horn').classList.remove('sounding');void $('horn').offsetWidth;$('horn').classList.add('sounding');}
+function horn(){if(levelState().status!=='playing'||paused)return;audio.horn();if(active<0&&waitingTruck<0){queueRequested=true;manualRequest=true;serviceDispatch();}else hornGesture.press();$('horn').classList.remove('sounding');void $('horn').offsetWidth;$('horn').classList.add('sounding');}
 $('horn').onclick=horn;
 const physicsFrame={},emitterRig={charge:rig.charge,bucket:{localToWorld(point){return framePoint(physicsFrame,point.x,point.y,point.z,point)}}},mouth=V(),mouthVelocity=V(),lastMouthPoint=V(),rotation=new T.Quaternion(),rotationMatrix=new T.Matrix4();
 let hasLastMouth=false,previousState=state,trackTravel=0;

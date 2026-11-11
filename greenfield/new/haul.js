@@ -3,7 +3,7 @@ import {advanceHauler} from './haul-drive.js';
 import {bodyContains,HAULER_WHEELS as W} from './hauler-body-config.js';
 import {createSuspension,stepSuspension} from './truck-suspension.js';
 import {makeTruckLoad} from './truck-load.js';
-import {makeHauler} from './haul-model.js';
+import {makeHauler} from './haul-model.js?build=greenfield-maz-body-1';
 import * as T from '../three.module.js';
 import {V} from './geometry.js';
 import {batchMeshes} from '../batching.js';
