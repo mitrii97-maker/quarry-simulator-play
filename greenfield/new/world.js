@@ -48,6 +48,7 @@ export function digZone(x,z){return x> -25&&x<10&&Math.abs(z)<6.8}
 // reserve, rather than scaling a fixed 1000 tonnes into a small isolated heap.
 function stageConfig(){return levelConfig(levelState().number)}
 function stageElevation(){return GREENFIELD_ACTIVE?(stageConfig().floorElevation||0):0}
+function softTopsoilStage(){return GREENFIELD_ACTIVE&&stageConfig().material==='topsoil'}
 function benchUnit(x,z){const cfg=stageConfig(),faceFloor=MACHINE.kind==='face-shovel'?1-smooth(-10,-6,x):1,side=Math.abs(z-(GREENFIELD_ACTIVE?(cfg.sideShift||0):0)),width=GREENFIELD_ACTIVE?(cfg.workingWidth||6):4.8;return faceFloor*smooth(-25,-23.4,x)*(1-smooth(3.8,15,x))*(1-smooth(width,width+1.2,side));}
 export const BENCH_HEIGHT=GREENFIELD_ACTIVE?.82:2.0604548638391544;
 function baseGround(x,z){let h=benchUnit(x,z)*BENCH_HEIGHT+stageElevation();const r=Math.hypot(x,z);if(GREENFIELD_ACTIVE){const working=smooth(-31,-26,x)*(1-smooth(10,16,x))*(1-smooth(7,13,Math.abs(z))),meadow=.28*Math.sin(x*.055)+.18*Math.sin(z*.08+1.7)+.11*Math.sin((x+z)*.17);h+=meadow*(1-working);return dumpGround(x,z,h);}if(r>38){const angle=Math.atan2(z,x),ridge=20+Math.sin(angle*5)*9+Math.sin(angle*11+.5)*5+Math.sin(angle*21)*2;h+=smooth(38,73,r)*ridge*(1-smooth(120,180,r));}if(r>28)h+=(Math.sin(x*.3)*Math.cos(z*.27)+Math.sin(x*.73+z*.33)*.35)*smooth(28,45,r);return dumpGround(x,z,h);}
@@ -247,7 +248,7 @@ export function makeWorld(scene,M){
  spoilMaterial.vertexColors=false;
  const loosePieces=chunkBatch(scene,M.freshRock,8192,'Individual spilled rocks'),spoilGrains=loosePieces.mesh;spoilMaterial.visible=true;spoil.castShadow=false;spoil.receiveShadow=true;stones.visible=false;let spoilRevision=-1;const spoilHeights=new Float32Array(spoilGeometry.attributes.position.count),spoilIndices=new Uint32Array(LOOSE_AREA.nx*LOOSE_AREA.nz*6);spoilGeometry.setIndex(new T.BufferAttribute(spoilIndices,1));spoilGeometry.setDrawRange(0,0);const metrics={updates:0,bankVertices:0,spoilVertices:0,lastUpdateMs:0};let initial=true;const activeSpillCells=new Set();
  function updateSpoil(){
-  spoil.visible=spoilGrains.visible=loose.mass>1e-7;if(!spoil.visible){activeSpillCells.clear();spoilHeights.fill(0);loosePieces.begin();loosePieces.finish();return;}if(spoilRevision===loose.revision&&!bankBounds)return;spoilRevision=loose.revision;
+  const hasLoose=loose.mass>1e-7,showClasts=hasLoose&&!softTopsoilStage();spoil.visible=hasLoose;spoilGrains.visible=showClasts;if(!hasLoose){activeSpillCells.clear();spoilHeights.fill(0);loosePieces.begin();loosePieces.finish();return;}if(spoilRevision===loose.revision&&!bankBounds)return;spoilRevision=loose.revision;
   const p=spoilGeometry.attributes.position,spoilBounds=bankBounds&&looseBounds?{minX:Math.min(bankBounds.minX,looseBounds.minX),maxX:Math.max(bankBounds.maxX,looseBounds.maxX),minZ:Math.min(bankBounds.minZ,looseBounds.minZ),maxZ:Math.max(bankBounds.maxZ,looseBounds.maxZ)}:looseBounds||bankBounds;
   metrics.spoilVertices=updateHeightPatch(spoilGeometry,LOOSE_AREA,(x,z)=>bankGround(x,z)+looseHeight(x,z)+.005,spoilBounds,(x,z)=>{const h=looseHeight(x,z);return Math.max(0,Math.min(1,(h-.001)/.045));});
   const cell=.4,originX=LOOSE_AREA.x-LOOSE_AREA.width/2,originZ=LOOSE_AREA.z-LOOSE_AREA.depth/2;
@@ -260,14 +261,14 @@ export function makeWorld(scene,M){
   }
   let index=0,minX=LOOSE_AREA.nx,maxX=0,minZ=LOOSE_AREA.nz,maxZ=0;
   for(const key of activeSpillCells){const x=key%LOOSE_AREA.nx,z=Math.floor(key/LOOSE_AREA.nx),a=z*(LOOSE_AREA.nx+1)+x,b=a+1,c=a+LOOSE_AREA.nx+1,d=c+1;spoilIndices.set([a,c,b,b,c,d],index);index+=6;minX=Math.min(minX,x);maxX=Math.max(maxX,x);minZ=Math.min(minZ,z);maxZ=Math.max(maxZ,z);}
-  if(index)packHeightField(loosePieces,{nx:maxX-minX+1,nz:maxZ-minZ+1,cell,x:originX+minX*cell,z:originZ+minZ*cell,floor:bankGround,height:looseHeight,seed:400,indexX:minX,indexZ:minZ});else{loosePieces.begin();loosePieces.finish();}
+  if(index&&showClasts)packHeightField(loosePieces,{nx:maxX-minX+1,nz:maxZ-minZ+1,cell,x:originX+minX*cell,z:originZ+minZ*cell,floor:bankGround,height:looseHeight,seed:400,indexX:minX,indexZ:minZ});else{loosePieces.begin();loosePieces.finish();}
   spoilGeometry.setDrawRange(0,index);spoilGeometry.index.clearUpdateRanges();spoilGeometry.index.addUpdateRange(0,index);spoilGeometry.index.needsUpdate=true;
 
  }
  function update(){
   const start=performance.now();updateExposure();updateSpoil();for(const material of [terrain.material,face.material]){const shader=material.userData.winterShader;if(shader)shader.uniforms.quarryProgress.value=levelState().progress;}
   metrics.bankVertices=initial||bankBounds?updateHeightPatch(fine,{width:36,depth:15,nx:180,nz:76,x:-7.5,z:0},bankGround,initial?null:bankBounds):0;
-  if(initial||bankBounds){maskExposedBank(fine,removedExposure,-7.5,initial?null:bankBounds);rockBank.update(initial?null:bankBounds);frontSurface.update();}metrics.front=frontSurface.metrics();metrics.bankChunks=rockBank.pieces.mesh.count;metrics.looseChunks=loosePieces.mesh.count;
+  if(initial||bankBounds){maskExposedBank(fine,removedExposure,-7.5,initial?null:bankBounds);rockBank.update(initial?null:bankBounds);frontSurface.update();if(softTopsoilStage()){rockBank.pieces.mesh.visible=false;frontSurface.clasts.mesh.visible=false;}}metrics.front=frontSurface.metrics();metrics.bankChunks=rockBank.pieces.mesh.visible?rockBank.pieces.mesh.count:0;metrics.looseChunks=loosePieces.mesh.visible?loosePieces.mesh.count:0;
   for(let i=0;i<data.length;i++){const r=data[i];if(!initial&&(!bankBounds||r.x<bankBounds.minX||r.x>bankBounds.maxX||r.z<bankBounds.minZ||r.z>bankBounds.maxZ))continue;const grade=Math.hypot((visualGround(r.x+.4,r.z)-visualGround(r.x-.4,r.z))/.8,(visualGround(r.x,r.z+.4)-visualGround(r.x,r.z-.4))/.8),size=digZone(r.x,r.z)||grade>1.0||(Math.hypot(r.x,r.z)>32&&visualGround(r.x,r.z)>5)?0:r.r;dummy.position.set(r.x,visualGround(r.x,r.z)+size*.22,r.z);dummy.scale.set(size,size*.65,size);dummy.rotation.set(r.rot,r.rot*.7,r.rot*.3);dummy.updateMatrix();const mesh=i<nearStoneCount?stones:distantStones,slot=i<nearStoneCount?i:i-nearStoneCount;mesh.setMatrixAt(slot,dummy.matrix);mesh.instanceMatrix.needsUpdate=true;}
   if(initial){stones.computeBoundingSphere();distantStones.computeBoundingSphere();}initial=false;bankBounds=looseBounds=null;metrics.updates++;metrics.lastUpdateMs=performance.now()-start;
  }update();
