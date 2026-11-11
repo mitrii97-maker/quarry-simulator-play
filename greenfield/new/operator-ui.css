@@ -199,4 +199,22 @@ kbd {font:10px "Segoe UI",sans-serif}
 .cab-tablet-dialog[data-page="0"] .tablet-readings>div:last-child{grid-column:1/-1}
 @media(max-height:550px){.cab-tablet-dialog{max-height:96dvh}.cab-tablet-dialog header{padding-bottom:4px}.cab-tablet-dialog h2{font-size:17px;margin:2px 0}.cab-tablet-dialog nav{margin:7px 0}.cab-tablet-dialog button{padding:8px}.cab-tablet-dialog[data-page="0"] .tablet-readings{gap:6px}.cab-tablet-dialog[data-page="0"] .tablet-readings>div{padding:7px 10px;gap:3px}.cab-tablet-dialog[data-page="0"] .tablet-readings .tablet-primary dd{font-size:56px}.tablet-goal{margin:8px 0}}
 
+/* The exploration build keeps only the two readings needed during a scoop.
+   Shift totals, progress, weather, sound and fleet remain on the tablet. */
+.greenfield-mode .telemetry{width:188px;border:0;background:transparent;box-shadow:none}
+.greenfield-mode .stats{grid-template-columns:1fr 1fr;padding:8px 10px;border:1px solid var(--edge);border-radius:5px;background:#142026c9;backdrop-filter:blur(5px)}
+.greenfield-mode .stats>div:first-child{display:none}
+.greenfield-mode .stats>div:nth-child(2){padding-left:0;border-left:0}
+.greenfield-mode .stats b{font-size:18px}
+.greenfield-mode .stats span{margin-top:3px;font-size:6px;letter-spacing:.8px}
+.greenfield-mode .stats:after,.greenfield-mode .level-status,.greenfield-mode .telemetry>small{display:none}
+.greenfield-mode .tool-bank{grid-template-columns:40px 40px;gap:4px;padding:3px;border:1px solid #b6c2bf25;border-radius:6px;background:#142026a8;backdrop-filter:blur(5px)}
+.greenfield-mode .tool-bank button{width:40px;height:40px;padding:8px}
+.greenfield-mode .tool-bank #dayNight,.greenfield-mode .tool-bank #sound,.greenfield-mode .tool-bank #callDozer,.greenfield-mode #fleetOpen{display:none}
+.greenfield-mode .travel-controls button{width:60px;min-height:44px;padding:6px;font-size:8px}
+.greenfield-mode .travel-controls #horn{width:94px}
+.greenfield-mode .joystick{background:radial-gradient(circle,#1723261c 39%,#1d292c50 40%,#18232668 100%);box-shadow:none}
+@media(pointer:coarse){.greenfield-mode .grip-label{display:none}.greenfield-mode .joystick{width:108px;height:108px}.greenfield-mode .joystick i{width:44px;height:44px}.greenfield-mode .joystick i:after{inset:18px}}
+@media(orientation:landscape) and (max-height:600px){.greenfield-mode .telemetry{width:176px;top:max(8px,env(safe-area-inset-top));left:max(8px,env(safe-area-inset-left))}.greenfield-mode .stats{padding:6px 8px}.greenfield-mode .stats b{font-size:16px}.greenfield-mode .tool-bank{top:max(8px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));grid-template-columns:40px 40px}.greenfield-mode .joystick{bottom:max(8px,env(safe-area-inset-bottom))}.greenfield-mode .travel-controls{bottom:max(8px,env(safe-area-inset-bottom))}}
+
 .cab-tablet-dialog{width:min(900px,97vw)}

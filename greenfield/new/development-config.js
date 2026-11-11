@@ -5,18 +5,14 @@ export const STARTER_MACHINE_ID = 'ew160';
 export const LEGACY_MACHINE_ID = 'volvo';
 export const STARTER_TRUCK_CAPACITY = 20;
 
-export function greenfieldSelected(storage = globalThis.localStorage) {
-  if (!ENABLE_GREENFIELD_STAGE1 || !storage) return false;
-  try {
-    const selected = storage.getItem('quarry-machine-v1');
-    return selected === null || selected === STARTER_MACHINE_ID;
-  } catch {
-    return false;
-  }
+export function greenfieldSelected() {
+  // This build is published as a separate game under /greenfield/. It shares
+  // the GitHub Pages origin with the retained quarry, so browser storage may
+  // still contain that game's selected machine. The feature switch, not an
+  // unrelated old selection, is the single source of truth for this build.
+  return ENABLE_GREENFIELD_STAGE1;
 }
 
-// Node acceptance checks have no browser storage and therefore continue to
-// exercise the retained production quarry. A browser new game selects EW160.
 export const GREENFIELD_ACTIVE = greenfieldSelected();
 
 export const GREENFIELD_LAYOUT = Object.freeze({

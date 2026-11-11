@@ -1,7 +1,10 @@
-import {currentMachine} from './machine-config.js?build=boom-20261107-30';
+import {currentMachine} from './machine-config.js';
+import {GREENFIELD_ACTIVE} from './development-config.js';
 // One length unit is one metre. Loose ore expands when cut out of the bank.
 export const MACHINE = currentMachine();
-export const ORE={bankDensity:6.4,looseDensity:5.2};
+// The exploration start handles real topsoil/overburden, not the dense
+// aggregate calibration retained by the original production quarry.
+export const ORE=GREENFIELD_ACTIVE?{bankDensity:1.68,looseDensity:1.38}:{bankDensity:6.4,looseDensity:5.2};
 // Interior cross-section follows the rendered shell, with space for its steel
 // walls and the open lip. A closed bucket carries material below that lip.
 export const BUCKET_INTERIOR=[[.38,.04],[.72,-.3],[.66,-.88],[.17,-1.19],[-.58,-1.13],[-1.13,-.71]];

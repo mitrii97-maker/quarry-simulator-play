@@ -2,6 +2,8 @@ import * as T from '../three.module.js';
 import {V,add,block,rod} from './geometry.js';
 import {GREENFIELD_LAYOUT} from './development-config.js';
 import {createTrackImprints} from './track-imprints.js';
+import {levelState} from './levels.js';
+import {levelConfig} from './career-config.js';
 
 function roadMesh(scene,M,height){
  const points=[[-34,-10],[-12,-10],[8,-10],[24,-5],[42,-3],[57,-13],[71,-30],[82,-48]],width=GREENFIELD_LAYOUT.roadWidth,positions=[],uv=[],indices=[],segments=120,cross=8,curve=new T.CatmullRomCurve3(points.map(([x,z])=>V(x,0,z)),false,'centripetal'),p=V(),t=V();let distance=0,last=V();
@@ -18,13 +20,16 @@ function plantedTrees(scene,M,height){
 function fieldDetails(scene,M,height){
  const group=new T.Group();group.name='Surveyed first excavation parcel';scene.add(group);
  const stakeMat=M.paint.clone();stakeMat.color.set('#d9c04a');for(const x of [-25,-18,-11,-4,3,10])for(const z of [-7,7]){const y=height(x,z);rod(group,stakeMat,V(x,y,z),V(x,y+1.05,z),.035);block(group,M.dark,[.32,.06,.07],[x,y+.76,z],.01);}
- const canvas=document.createElement('canvas');canvas.width=640;canvas.height=180;const c=canvas.getContext('2d');c.fillStyle='#26332d';c.fillRect(0,0,640,180);c.strokeStyle='#d0ae4d';c.lineWidth=9;c.strokeRect(7,7,626,166);c.fillStyle='#f2eee1';c.font='700 44px Arial';c.textAlign='center';c.fillText(GREENFIELD_LAYOUT.startLabel,320,76);c.font='28px Arial';c.fillText('ВЫЕМКА В ГРАНИЦАХ КОЛЫШКОВ',320,126);const sign=add(group,new T.BoxGeometry(5.8,1.62,.10),new T.MeshStandardMaterial({map:new T.CanvasTexture(canvas),roughness:.8}),-26,height(-26,10)+1.7,10);rod(group,M.steel,V(-28.1,height(-28.1,10),10),V(-28.1,height(-28.1,10)+2.6,10),.055);rod(group,M.steel,V(-23.9,height(-23.9,10),10),V(-23.9,height(-23.9,10)+2.6,10),.055);
+ const canvas=document.createElement('canvas');canvas.width=640;canvas.height=180;const c=canvas.getContext('2d'),texture=new T.CanvasTexture(canvas);let shownLevel=0;function updateStage(){const state=levelState(),cfg=levelConfig(state.number);if(state.number===shownLevel)return;shownLevel=state.number;c.fillStyle='#26332d';c.fillRect(0,0,640,180);c.strokeStyle='#d0ae4d';c.lineWidth=9;c.strokeRect(7,7,626,166);c.fillStyle='#d0ae4d';c.font='700 25px Arial';c.textAlign='center';c.fillText('ЭТАП '+state.number+' · ОТМЕТКА '+(cfg.floorElevation||0).toFixed(1)+' м',320,45);c.fillStyle='#f2eee1';c.font='700 36px Arial';c.fillText(state.title.toUpperCase(),320,95,570);c.font='23px Arial';c.fillText(state.number===1?'МЯГКИЙ ПЛОДОРОДНЫЙ СЛОЙ':state.number===2?'ПРОХОДКА РАЗРЕЗНОЙ ТРАНШЕИ':state.number===3?'СЪЕЗД НА НИЖНИЙ ГОРИЗОНТ':'РАЗВИТИЕ ФРОНТА ПО УСТУПУ',320,140);texture.needsUpdate=true;}updateStage();const sign=add(group,new T.BoxGeometry(5.8,1.62,.10),new T.MeshStandardMaterial({map:texture,roughness:.8}),-26,height(-26,10)+1.7,10);rod(group,M.steel,V(-28.1,height(-28.1,10),10),V(-28.1,height(-28.1,10)+2.6,10),.055);rod(group,M.steel,V(-23.9,height(-23.9,10),10),V(-23.9,height(-23.9,10)+2.6,10),.055);
+ // Offset rows of stakes make the future trench and ramp legible in-world;
+ // each deeper phase changes side and face alignment instead of repeating a box.
+ for(const [x,z] of [[-21,-5.8],[-14,-5.1],[-7,-4.2],[0,-3.0],[7,-1.7]]){const y=height(x,z);rod(group,M.steel,V(x,y,z),V(x,y+.48,z),.025);block(group,stakeMat,[.20,.045,.045],[x,y+.40,z],.008);}
  for(const [x,z] of [[49,8],[50.1,8.2],[51.2,8.1]]){const y=height(x,z);add(group,new T.CylinderGeometry(.32,.32,.86,16),M.dark,x,y+.43,z);}
- return {group,sign};
+ return {group,sign,updateStage};
 }
 
 export function createGreenfieldSite(scene,M,height){
  const road=roadMesh(scene,M,height),trees=plantedTrees(scene,M,height),details=fieldDetails(scene,M,height);
  const tyres=createTrackImprints(scene,{spacing:1.02,width:.34,length:.55,capacity:768,offset:-1.52,height,lift:.06,opacity:.20,name:'MAZ tyre traces on dirt road'}),tracks=createTrackImprints(scene,{spacing:1.05,width:.62,length:.50,capacity:384,offset:-2.05,height,lift:.06,opacity:.18,name:'EW160 wheel traces'});let clock=0;
- return {group:details.group,road,trees,tracks,tyres,update(dt,trucks,state,rocks,rig,pressure=0){clock+=dt;for(const t of trucks)if((t.route?.speed||0)>.25)tyres.add(t.x,t.z,t.yaw,t.index);if(Math.abs(state.driveSpeed||0)>.08)tracks.add(state.baseX,state.baseZ,0);if(clock<.32)return;clock=0;for(const t of trucks)if((t.route?.speed||0)>2.2){const x=t.x-Math.cos(t.yaw)*1.4,z=t.z+Math.sin(t.yaw)*1.4;rocks.puff(V(x,height(x,z)+.08,z),.045);}if(rig&&pressure>.35){const p=rig.house.localToWorld(V(-1.2,1.2,.5));rocks.puff(p,.012);}},reset(){tyres.clear();tracks.clear();clock=0;}};
+ return {group:details.group,road,trees,tracks,tyres,update(dt,trucks,state,rocks,rig,pressure=0){clock+=dt;for(const t of trucks)if((t.route?.speed||0)>.25)tyres.add(t.x,t.z,t.yaw,t.index);if(Math.abs(state.driveSpeed||0)>.08)tracks.add(state.baseX,state.baseZ,0);if(clock<.32)return;clock=0;details.updateStage();for(const t of trucks)if((t.route?.speed||0)>2.2){const x=t.x-Math.cos(t.yaw)*1.4,z=t.z+Math.sin(t.yaw)*1.4;rocks.puff(V(x,height(x,z)+.08,z),.045);}if(rig&&pressure>.35){const p=rig.house.localToWorld(V(-1.2,1.2,.5));rocks.puff(p,.012);}},reset(){tyres.clear();tracks.clear();details.updateStage();clock=0;}};
 }

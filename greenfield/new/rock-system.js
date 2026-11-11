@@ -1,16 +1,17 @@
-import {aggregateMaterial} from './dry-fines.js?build=boom-20261107-30';
-import {aggregateClusterGeometry} from './aggregate-cluster.js?build=boom-20261107-30';
-import {loadImpact} from './truck-suspension.js?build=boom-20261107-30';
-import {oreGeometry} from './ore-geometry.js?build=boom-20261107-30';
-import * as T from '../three.module.js?build=boom-20261107-30';
-import {V} from './geometry.js?build=boom-20261107-30';
-import {ground,depositLoose} from './world.js?build=boom-20261107-30';
-import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js?build=boom-20261107-30';
-import {catches} from './haul.js?build=boom-20261107-30';
-import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js?build=boom-20261107-30';
-import {TRUCK_CAPACITY,recordLoaded} from './levels.js?build=boom-20261107-30';
-import {hardTruckSurface} from './truck-contact.js?build=boom-20261107-30';
-import {dryGrainVelocity} from './dry-material.js?build=boom-20261107-30';
+import {aggregateMaterial} from './dry-fines.js';
+import {aggregateClusterGeometry} from './aggregate-cluster.js';
+import {loadImpact} from './truck-suspension.js';
+import {oreGeometry} from './ore-geometry.js';
+import * as T from '../three.module.js';
+import {V} from './geometry.js';
+import {ground,depositLoose} from './world.js';
+import {BED,bedCoordinates,bedWorldPoint} from './truck-load.js';
+import {catches} from './haul.js';
+import {ORE,BUCKET_STREAM_WIDTH,BUCKET_TONNES,MACHINE} from './material-volume.js';
+import {TRUCK_CAPACITY,recordLoaded} from './levels.js';
+import {hardTruckSurface} from './truck-contact.js';
+import {dryGrainVelocity} from './dry-material.js';
+import {GREENFIELD_ACTIVE} from './development-config.js';
 
 export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDelivery=()=>{}){
  const count=720,particles=Array.from({length:count},()=>({life:0,mass:0,p:V(),v:V(),rotation:V(),r:.1,kind:'fall',captureMass:0,landed:false,start:V(),target:V()})),mesh=new T.InstancedMesh(oreGeometry(),material,count*2),dummy=new T.Object3D(),up=V(0,1,0);
@@ -24,7 +25,7 @@ export function makeRockSystem(scene,material,onImpact=()=>{},dumpSite=null,onDe
  function puff(point,energy=.2){const n=Math.min(7,1+Math.floor(energy*6));for(let i=0;i<n;i++){const d=puffs[puffCursor++%dustCount];d.p.copy(point);d.v.set((Math.random()-.5)*.45,.12+Math.random()*.35,(Math.random()-.5)*.45);d.total=d.life=.45+Math.random()*.65;d.size=.18+Math.random()*.24+Math.min(.45,energy*.25)}}
  function slot(){for(let n=0;n<count;n++){const p=particles[cursor++%count];if(p.life<=0||p.mass<=1e-10&&p.life<.35&&!(p.kind==='scoop'&&p.captureMass>0))return p}return null}
  function emit(point,velocity,mass,kind='fall',deliveryId=null){
-  const p=slot();if(!p)return false;p.life=7;p.deliveryId=deliveryId;p.captureMass=0;p.mass=mass;p.p.copy(point);p.v.copy(velocity);const scatter=.08+.10/(1+mass*12);p.v.x+=(Math.random()-.5)*scatter;p.v.z+=(Math.random()-.5)*scatter;if(kind==='fall')p.v.y-=.12+Math.random()*.12;p.r=mass>0?Math.max(.025,Math.min(.24,Math.cbrt(mass/ORE.looseDensity/3.5))):.03+Math.random()*.045;p.rotation.set(Math.random()*6,Math.random()*6,Math.random()*6);p.kind=kind;p.landed=false;p.owner=null;return true;
+  const p=slot();if(!p)return false;p.life=7;p.deliveryId=deliveryId;p.captureMass=0;p.mass=mass;p.p.copy(point);p.v.copy(velocity);const scatter=.08+.10/(1+mass*12);p.v.x+=(Math.random()-.5)*scatter;p.v.z+=(Math.random()-.5)*scatter;if(kind==='fall')p.v.y-=.12+Math.random()*.12;const maxClod=GREENFIELD_ACTIVE ? .105 : .24;p.r=mass>0?Math.max(.018,Math.min(maxClod,Math.cbrt(mass/ORE.looseDensity/4.8))):.02+Math.random()*.035;p.rotation.set(Math.random()*6,Math.random()*6,Math.random()*6);p.kind=kind;p.landed=false;p.owner=null;return true;
  }
  function drainEmitter(flush=false){
   if(!lastEmitter)return;

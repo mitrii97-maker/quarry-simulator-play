@@ -1,18 +1,18 @@
-import {levelConfig} from './career-config.js?build=boom-20261107-30';
-import {levelState} from './levels.js?build=boom-20261107-30';
-import {bodyContains} from './hauler-body-config.js?build=boom-20261107-30';
-import {BED} from './truck-load.js?build=boom-20261107-30';
-import {takeRock} from './levels.js?build=boom-20261107-30';
-import {BUCKET,opening,FACE_SHOVEL} from './bucket-config.js?build=boom-20261107-30';
-import {forward,bucketWorldPoint,bucketFrame,framePoint} from './rig.js?build=boom-20261107-30';
-import {ground,canDig,excavateSweep,excavateFront,relieveFrontContact,gradeBucketSweep,benchFloor,isUpperFace,isFrontRegion,bankSolidAt,bankPenetration,supportFrontWithBucket,BENCH_HEIGHT} from './world.js?build=boom-20261107-30';
-import {BUCKET_TONNES,BUCKET_INNER_WIDTH,BUCKET_CUT_HALF_WIDTH,BUCKET_WORKING_WIDTH,MACHINE} from './material-volume.js?build=boom-20261107-30';
-import {hardTruckSurface,truckLocal} from './truck-contact.js?build=boom-20261107-30';
+import {levelConfig} from './career-config.js';
+import {levelState} from './levels.js';
+import {bodyContains} from './hauler-body-config.js';
+import {BED} from './truck-load.js';
+import {takeRock} from './levels.js';
+import {BUCKET,opening,FACE_SHOVEL} from './bucket-config.js';
+import {forward,bucketWorldPoint,bucketFrame,framePoint} from './rig.js';
+import {ground,canDig,excavateSweep,excavateFront,relieveFrontContact,gradeBucketSweep,benchFloor,isUpperFace,isFrontRegion,bankSolidAt,bankPenetration,supportFrontWithBucket,workingPlatformHeight} from './world.js';
+import {BUCKET_TONNES,BUCKET_INNER_WIDTH,BUCKET_CUT_HALF_WIDTH,BUCKET_WORKING_WIDTH,MACHINE} from './material-volume.js';
+import {hardTruckSurface,truckLocal} from './truck-contact.js';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export const START={yaw:FACE_SHOVEL?Math.PI:0,boom:FACE_SHOVEL?.8:.76,stick:FACE_SHOVEL?-1.65:-1.95,curl:FACE_SHOVEL?1:BUCKET.workOpen,shovelDoor:0,payload:0,baseX:FACE_SHOVEL?3:0,baseZ:0,baseY:FACE_SHOVEL?-.11:BENCH_HEIGHT-.11,pitch:0,roll:0,driveSpeed:0,velocity:{yaw:0,boom:0,stick:0,curl:0}};
+export const START={yaw:FACE_SHOVEL?Math.PI:0,boom:FACE_SHOVEL?.8:.76,stick:FACE_SHOVEL?-1.65:-1.95,curl:FACE_SHOVEL?1:BUCKET.workOpen,shovelDoor:0,payload:0,baseX:FACE_SHOVEL?3:0,baseZ:0,baseY:FACE_SHOVEL?-.11:workingPlatformHeight()-.11,pitch:0,roll:0,driveSpeed:0,velocity:{yaw:0,boom:0,stick:0,curl:0}};
 export function bucketSamples(s){const edge=BUCKET_INNER_WIDTH*.49;return offsets.flatMap(([x,y])=>[-edge,0,edge].map(z=>bucketWorldPoint(s,x,y-BUCKET.drop,z)))}
 const offsets=[[-1.72,-.73],[-.65,-1.26],[.22,-1.32],[.78,-.94]].map(([x,y])=>[FACE_SHOVEL?-x:x,y]),initialFrame={},nextFrame={},sampleFrame={},point={},previousEdge={},currentEdge={},oldPoint={};
-function contact(frame,workingY=BENCH_HEIGHT){const edge=BUCKET_INNER_WIDTH*.49;for(const [x,y] of offsets)for(const z of [-edge,0,edge]){framePoint(frame,x,y-BUCKET.drop,z,point);if(canDig(point.x,point.z)){if(isFrontRegion(point.x,point.z,workingY)){if(bankSolidAt(point.x,point.y,point.z,.015))return true;continue;}const h=ground(point.x,point.z);if(point.y<h+.3&&point.y>h-.9)return true}}return false;}
+function contact(frame,workingY=workingPlatformHeight()){const edge=BUCKET_INNER_WIDTH*.49;for(const [x,y] of offsets)for(const z of [-edge,0,edge]){framePoint(frame,x,y-BUCKET.drop,z,point);if(canDig(point.x,point.z)){if(isFrontRegion(point.x,point.z,workingY)){if(bankSolidAt(point.x,point.y,point.z,.015))return true;continue;}const h=ground(point.x,point.z);if(point.y<h+.3&&point.y>h-.9)return true}}return false;}
 function frontalContact(frame,workingY){const edge=BUCKET_INNER_WIDTH*.49;for(const [x,y] of offsets)for(const z of [-edge,0,edge]){framePoint(frame,x,y-BUCKET.drop,z,point);if(isFrontRegion(point.x,point.z,workingY)&&bankSolidAt(point.x,point.y,point.z,.015))return true;}return false;}
 const oldScore={count:0,depth:0},newScore={count:0,depth:0},floorScore={count:0,depth:0},fitFrame={},fitState={},heel={};
 const toolBounds={minX:0,maxX:0,minY:0,maxY:0,minZ:0,maxZ:0};

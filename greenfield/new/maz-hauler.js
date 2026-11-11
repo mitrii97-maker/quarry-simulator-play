@@ -19,24 +19,34 @@ function makeBed(root,M){
  return new T.Group();
 }
 
+function signMaterial(text,color='#e7e1d5'){
+ const canvas=document.createElement('canvas');canvas.width=512;canvas.height=128;const c=canvas.getContext('2d');c.clearRect(0,0,512,128);c.fillStyle=color;c.font='900 72px Arial';c.textAlign='center';c.textBaseline='middle';c.fillText(text,256,68);const map=new T.CanvasTexture(canvas);map.colorSpace=T.SRGBColorSpace;return new T.MeshBasicMaterial({map,transparent:true,depthWrite:false,side:T.DoubleSide});
+}
+
 export function makeMazHauler(root,source,index){
- const M={...source};M.paint=source.paint.clone();M.paint.color.set(index%2?'#4d8550':'#587c48');M.paint.roughness=.62;M.bodyDark=source.dark;M.tire=source.rubber;M.tread=source.track;
+ const M={...source};M.paint=source.paint.clone();M.paint.color.set(index%2?'#a44a27':'#b95729');M.paint.roughness=.72;M.bodyDark=source.dark;M.tire=source.rubber;M.tread=source.track;const cabPaint=source.paint.clone();cabPaint.color.set(index%2?'#ece8da':'#e4e7e1');cabPaint.roughness=.58;
  root.name=`МАЗ-5516 № ${index+1}`;
- roundedBlock(root,M.bodyDark,[4.55,.35,1.75],[.03,.78,0],.13);
- for(const x of [W.rearX,W.frontX])pin(root,M.dark,x,W.y,0,.14,2.12);
- // Forward cab with separate glazing, grille, bumper, mirrors and access steps.
- const cab=new T.Group();cab.position.set(1.72,1.08,0);root.add(cab);
- roundedBlock(cab,M.paint,[1.45,1.65,1.95],[0,.52,0],.18);
- roundedPlate(cab,M.dark,[[-.62,.42],[.62,.42],[.54,1.27],[-.51,1.27]],1.60,0,{corner:.06,bevel:.015});
- roundedPlate(cab,M.glass,[[-.52,.50],[-.04,.50],[-.04,1.18],[-.46,1.18]],.014,-.99,{corner:.035,bevel:.002});
- roundedPlate(cab,M.glass,[[.04,.50],[.52,.50],[.46,1.18],[.04,1.18]],.014,-.99,{corner:.035,bevel:.002});
- for(const z of [-1.0,1.0])roundedPlate(cab,M.glass,[[-.48,.48],[.44,.48],[.40,1.18],[-.43,1.18]],.014,z,{corner:.035,bevel:.002});
- roundedBlock(cab,M.bodyDark,[.22,.64,1.66],[.68,.17,0],.04);for(let i=0;i<7;i++)block(cab,M.steel,[.03,.05,1.25],[.80,-.02+i*.08,0],.003);
- roundedBlock(cab,M.dark,[.20,.25,2.08],[.77,-.40,0],.05);
- for(const z of [-.70,.70]){roundedBlock(cab,M.lamp,[.04,.18,.25],[.89,-.31,z],.03);rod(cab,M.dark,V(.28,.94,z),V(.67,1.04,z*1.25),.025);roundedBlock(cab,M.dark,[.12,.22,.30],[.69,1.04,z*1.25],.04);}
- for(const z of [-1.02,1.02]){rod(root,M.dark,V(.85,.72,z),V(.85,.30,z),.05);block(root,M.steel,[.46,.08,.34],[.85,.26,z],.015);}
+ roundedBlock(root,M.bodyDark,[5.05,.30,1.72],[-.12,.78,0],.10);roundedBlock(root,M.dark,[1.18,.28,1.78],[-1.52,.97,0],.06);
+ for(const x of [W.rearX,W.midX,W.frontX])pin(root,M.dark,x,W.y,0,.13,2.08);
+ // Cab-over-engine silhouette of the 5516: near-vertical split windscreen,
+ // short nose, broad grille, external mirrors, steps and raised roof hatch.
+ const cab=new T.Group();cab.position.set(1.63,1.02,0);root.add(cab);
+ roundedBlock(cab,cabPaint,[1.55,1.73,1.98],[0,.57,0],.14);roundedBlock(cab,cabPaint,[1.34,.17,1.90],[-.05,1.49,0],.07);roundedBlock(cab,M.dark,[.42,.05,.54],[-.05,1.59,0],.025);
+ roundedPlate(cab,M.dark,[[-.66,.45],[.67,.45],[.58,1.30],[-.57,1.30]],1.64,0,{corner:.05,bevel:.014});
+ roundedPlate(cab,M.glass,[[-.56,.52],[-.05,.52],[-.05,1.22],[-.50,1.22]],.016,-1.006,{corner:.03,bevel:.002});
+ roundedPlate(cab,M.glass,[[.05,.52],[.56,.52],[.50,1.22],[.05,1.22]],.016,-1.006,{corner:.03,bevel:.002});
+ for(const z of [-1.006,1.006]){roundedPlate(cab,M.glass,[[-.48,.54],[.44,.54],[.39,1.20],[-.43,1.20]],.016,z,{corner:.03,bevel:.002});roundedPlate(cab,M.bodyDark,[[-.52,.26],[.51,.26],[.48,.48],[-.50,.48]],.025,z*1.004,{corner:.025,bevel:.003});}
+ roundedBlock(cab,M.bodyDark,[.20,.67,1.70],[.72,.12,0],.035);for(let i=0;i<8;i++)block(cab,M.steel,[.028,.045,1.30],[.825,-.10+i*.075,0],.002);
+ const badge=add(cab,new T.PlaneGeometry(.64,.16),signMaterial('МАЗ'),.837,.18,0);badge.rotation.y=Math.PI/2;
+ roundedBlock(cab,M.dark,[.22,.25,2.08],[.78,-.42,0],.045);for(const z of [-.69,.69])roundedBlock(cab,M.lamp,[.035,.18,.25],[.90,-.33,z],.025);
+ for(const z of [-.76,.76]){rod(cab,M.dark,V(.22,1.02,z),V(.66,1.16,z*1.30),.023);roundedBlock(cab,M.dark,[.11,.24,.32],[.68,1.17,z*1.30],.035);}
+ for(const z of [-1.04,1.04]){rod(root,M.dark,V(.82,.80,z),V(.82,.27,z),.042);block(root,M.steel,[.52,.07,.30],[.82,.23,z],.012);block(root,M.steel,[.42,.07,.27],[1.10,.39,z],.012);}
+ // Tanks, battery box, vertical exhaust and the characteristic spare wheel.
+ roundedBlock(root,M.steel,[.94,.46,.42],[.18,.76,-1.02],.08);roundedBlock(root,M.dark,[.72,.52,.42],[.10,.77,1.02],.06);rod(root,M.dark,V(.22,1.02,.78),V(.22,2.28,.78),.055);roundedBlock(root,M.dark,[.15,.20,.15],[.22,2.32,.78],.04);
+ const spare=add(root,new T.TorusGeometry(.48,.16,10,22),M.tire,.28,1.48,0);spare.rotation.x=Math.PI/2;
  const bedPivot=new T.Group();bedPivot.position.set(B.hingeX,B.hingeY,0);root.add(bedPivot);const bed=new T.Group();bed.position.set(-B.hingeX,-B.hingeY,0);bedPivot.add(bed);makeBed(bed,M);
- const wheels=[];for(const x of [W.rearX,W.frontX])for(const z of [-W.z,W.z])wheels.push(wheel(root,M,x,z,x===W.rearX));
+ const wheels=[];for(const z of [-W.z,W.z])wheels.push(wheel(root,M,W.frontX,z,false));for(const x of [W.midX,W.rearX])for(const z of [-W.z,-W.dualZ,W.dualZ,W.z])wheels.push(wheel(root,M,x,z,true));
+ for(const x of [W.midX,W.rearX])for(const z of [-1,1]){const guard=add(root,new T.TorusGeometry(W.radius+.08,.055,8,28,Math.PI),M.bodyDark,x,W.y+.03,z*W.z);guard.rotation.x=Math.PI/2;guard.rotation.z=z<0?Math.PI:0;}
  roundedBlock(root,M.dark,[.13,.22,1.72],[-2.22,.85,0],.04);for(const z of [-.62,.62])roundedBlock(root,M.lamp,[.025,.12,.18],[-2.30,.87,z],.02);
  const hoist=makeTruckHoist(root,M);return {wheels,bed,bedPivot,tailgate:null,hoist,signals:{brake:M.lamp,reverse:M.lamp}};
 }
