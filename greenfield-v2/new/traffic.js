@@ -1,4 +1,4 @@
-import {Vector3} from '../three.module.js?build=boom-20261107-30';
+import {Vector3} from '../three.module.js';
 // Heavy vehicles reserve a short swept corridor, not a single point. This
 // controller only supplies speed limits; routes, loads and tipping stay owned
 // by haul.js. All path buffers are reused and refreshed at 10 Hz.
@@ -26,7 +26,12 @@ export function createTraffic(){let clock=1,junctionOwner=null;const point=new V
   for(const obstacle of [machine?{x:machine.baseX||0,z:machine.baseZ||0,yaw:0}:null,d?{x:d.x,z:d.z,yaw:d.yaw||0}:null,dd?{x:dd.x,z:dd.z,yaw:dd.yaw||0}:null]){if(!obstacle)continue;const p=blockers[count++];p[0]=obstacle.x;p[1]=obstacle.z;p[2]=Math.cos(obstacle.yaw);p[3]=-Math.sin(obstacle.yaw);}
   for(const t of trucks)if(t.route)for(let j=0;j<count;j++)for(let i=1;i<SIZE;i++)if(conflict(t.trafficPath,i,blockers[j],0))limit(t,t.trafficPath[i*5+4]);
   for(let a=0;a<trucks.length;a++)for(let b=a+1;b<trucks.length;b++){const A=trucks[a],B=trucks[b],pa=A.trafficPath,pb=B.trafficPath;let aNow=Infinity,bNow=Infinity,bestA=Infinity,bestB=Infinity;
-   for(let i=1;i<SIZE;i++){if(A.route&&conflict(pa,i,pb,0))aNow=Math.min(aNow,pa[i*5+4]);if(B.route&&conflict(pb,i,pa,0))bNow=Math.min(bNow,pb[i*5+4]);}
+   // Trucks standing in their marked parking bays flank the departure lane;
+   // their generous swept safety boxes used to pin the first called MAZ in
+   // place. A coming truck may leave that row, while every moving vehicle and
+   // every parked vehicle encountered by other route phases stays protected.
+   const ignoreParkedForA=B.state==='parked'&&['coming','queueing'].includes(A.state),ignoreParkedForB=A.state==='parked'&&['coming','queueing'].includes(B.state);
+   for(let i=1;i<SIZE;i++){if(A.route&&!ignoreParkedForA&&conflict(pa,i,pb,0))aNow=Math.min(aNow,pa[i*5+4]);if(B.route&&!ignoreParkedForB&&conflict(pb,i,pa,0))bNow=Math.min(bNow,pb[i*5+4]);}
    if(Number.isFinite(aNow)&&Number.isFinite(bNow)&&A.route&&B.route){
     const aClears=first(A,B);
     if(aClears)limit(B,bNow);else limit(A,aNow);

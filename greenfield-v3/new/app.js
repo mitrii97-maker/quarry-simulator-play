@@ -15,7 +15,7 @@ import {addMountainBackdrop} from './mountain-backdrop.js';
 import {CarryAssist} from './carry-assist.js';
 import {CameraResponse} from './camera-response.js';
 import {PARKING} from './production-layout.js';
-import {createTraffic} from './traffic.js';
+import {createTraffic} from './traffic.js?build=greenfield-parking-egress-1';
 import {parkedTruckIndex,validActiveTruck} from './dispatch-logic.js';
 import {OperatorShift,loadOptions,saveOptions,loadCareer,completeCareer} from './operator.js';
 import {createOperatorPanel} from './operator-panel.js';
