@@ -1,10 +1,10 @@
-import {createHeightFines} from './dry-fines.js?build=boom-20261107-30';
-import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js?build=boom-20261107-30';
-import {createChargeProfile,chargeSurfacePoint,CHARGE_GRID,RIM_CENTER,RIM_UP,RIM_ALONG} from './heaped-charge.js?build=boom-20261107-30';
-import * as T from '../three.module.js?build=boom-20261107-30';
-import {bucketUp} from './charge-shape.js?build=boom-20261107-30';
-import {DryChargeSurface} from './dry-material.js?build=boom-20261107-30';
-import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP} from './material-volume.js?build=boom-20261107-30';
+import {createHeightFines} from './dry-fines.js';
+import {chunkBatch,stoneKey,stoneRandom} from './chunk-packing.js';
+import {createChargeProfile,chargeSurfacePoint,CHARGE_GRID,RIM_CENTER,RIM_UP,RIM_ALONG} from './heaped-charge.js?build=greenfield-bucket-3m-1';
+import * as T from '../three.module.js';
+import {bucketUp} from './charge-shape.js?build=greenfield-bucket-3m-1';
+import {DryChargeSurface} from './dry-material.js';
+import {BUCKET_CONTAINER,BUCKET_INNER_WIDTH,BUCKET_SHELL_DROP} from './material-volume.js?build=greenfield-bucket-3m-1';
 // A fixed dry packing is built once. Filling only exposes occupied cells;
 // changing the fill must never inflate a stone or shuffle the previous layer.
 const PACKING=(()=>{

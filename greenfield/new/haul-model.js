@@ -6,7 +6,7 @@ import {batchMeshes} from '../batching.js';
 import {HAULER_BODY as B,bodyRear,bodyFront,bodyTopRear,bodyTopFront,bodyRimAt} from './hauler-body-config.js';
 import {makeTruckHoist} from './truck-hoist.js';
 import {GREENFIELD_ACTIVE} from './development-config.js';
-import {makeMazHauler} from './maz-hauler.js?build=greenfield-maz-body-1';
+import {makeMazHauler} from './maz-hauler.js?build=greenfield-maz-body-2';
 
 const cache=new WeakMap();
 function haulerMaterials(source){

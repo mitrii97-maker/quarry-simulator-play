@@ -1,4 +1,4 @@
-import {currentMachine} from './machine-config.js';
+import {currentMachine} from './machine-config.js?build=greenfield-bucket-3m-1';
 import {GREENFIELD_ACTIVE} from './development-config.js';
 // One length unit is one metre. Loose ore expands when cut out of the bank.
 export const MACHINE = currentMachine();

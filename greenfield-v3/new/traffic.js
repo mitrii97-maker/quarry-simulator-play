@@ -7,7 +7,7 @@ function segmentDistance(ax,az,bx,bz,cx,cz,dx,dz){
  const ux=bx-ax,uz=bz-az,vx=dx-cx,vz=dz-cz,wx=ax-cx,wz=az-cz,a=ux*ux+uz*uz,b=ux*vx+uz*vz,c=vx*vx+vz*vz,d=ux*wx+uz*wz,e=vx*wx+vz*wz,den=a*c-b*b;let s=den>1e-9?Math.max(0,Math.min(1,(b*e-c*d)/den)):0,t=c>1e-9?(b*s+e)/c:0;if(t<0){t=0;s=a?Math.max(0,Math.min(1,-d/a)):0}else if(t>1){t=1;s=a?Math.max(0,Math.min(1,(b-d)/a)):0}return Math.hypot(wx+s*ux-t*vx,wz+s*uz-t*vz);
 }
 function conflict(a,i,b,j){const ai=i*5,bj=j*5,ax=a[ai],az=a[ai+1],ac=a[ai+2]*1.8,as=a[ai+3]*1.8,bx=b[bj],bz=b[bj+1],bc=b[bj+2]*1.8,bs=b[bj+3]*1.8;return segmentDistance(ax-ac,az-as,ax+ac,az+as,bx-bc,bz-bs,bx+bc,bz+bs)<6.5;}
-export function createTraffic(){let clock=1,junctionOwner=null;const point=new Vector3(),out={waiting:0,moving:0},blockers=[new Float64Array(SIZE*5),new Float64Array(SIZE*5),new Float64Array(SIZE*5)];
+export function createTraffic(){let clock=1,junctionOwner=null;const point=new Vector3(),out={waiting:0,moving:0},blockers=[new Float64Array(SIZE*5),new Float64Array(SIZE*5),new Float64Array(SIZE*5)],blockerKinds=[];
  function update(trucks,dt,machine=null,dozer=null,dumpDozer=null){clock+=dt;if(clock<.1)return out;clock=0;out.waiting=out.moving=0;
   // A stopped gate queue occupies its current footprint, not the future tipping loop.
   for(const t of trucks){const p=t.trafficPath??=new Float64Array(SIZE*5),r=t.state==='leaving'&&!t.dumpSlot&&t.x>48&&(t.route?.speed||0)<.2?null:t.route;t.trafficLimit=Infinity;t.trafficWaiting=false;for(let i=0;i<SIZE;i++){let x=t.x,z=t.z,c=Math.cos(t.yaw),s=-Math.sin(t.yaw),distance=0;if(r&&i>0){distance=Math.min(DIST[i],r.length-r.distance);const u=Math.min(1,(r.distance+distance)/r.length);r.curve.getPointAt(u,point);x=point.x;z=point.z;r.curve.getTangentAt(u,point);c=point.x;s=point.z;}const k=i*5;p[k]=x;p[k+1]=z;p[k+2]=c;p[k+3]=s;p[k+4]=distance;}}
@@ -23,8 +23,8 @@ export function createTraffic(){let clock=1,junctionOwner=null;const point=new V
   }
   for(const t of trucks)if(junction(t)&&t!==junctionOwner){t.trafficLimit=0;t.trafficWaiting=true;const p=t.trafficPath;for(let i=1;i<SIZE;i++){p[i*5]=t.x;p[i*5+1]=t.z;p[i*5+2]=Math.cos(t.yaw);p[i*5+3]=-Math.sin(t.yaw);p[i*5+4]=0;}}
   const d=dozer?.snapshot?.()??dozer,dd=dumpDozer?.snapshot?.()??dumpDozer;let count=0;
-  for(const obstacle of [machine?{x:machine.baseX||0,z:machine.baseZ||0,yaw:0}:null,d?{x:d.x,z:d.z,yaw:d.yaw||0}:null,dd?{x:dd.x,z:dd.z,yaw:dd.yaw||0}:null]){if(!obstacle)continue;const p=blockers[count++];p[0]=obstacle.x;p[1]=obstacle.z;p[2]=Math.cos(obstacle.yaw);p[3]=-Math.sin(obstacle.yaw);}
-  for(const t of trucks)if(t.route)for(let j=0;j<count;j++)for(let i=1;i<SIZE;i++)if(conflict(t.trafficPath,i,blockers[j],0))limit(t,t.trafficPath[i*5+4]);
+  for(const obstacle of [machine?{x:machine.baseX||0,z:machine.baseZ||0,yaw:0,kind:'machine'}:null,d?{x:d.x,z:d.z,yaw:d.yaw||0,kind:'dozer'}:null,dd?{x:dd.x,z:dd.z,yaw:dd.yaw||0,kind:'dumpDozer'}:null]){if(!obstacle)continue;const p=blockers[count];blockerKinds[count++]=obstacle.kind;p[0]=obstacle.x;p[1]=obstacle.z;p[2]=Math.cos(obstacle.yaw);p[3]=-Math.sin(obstacle.yaw);}
+  for(const t of trucks)if(t.route)for(let j=0;j<count;j++){if(blockerKinds[j]==='machine'&&['backing','repositioning'].includes(t.state))continue;for(let i=1;i<SIZE;i++)if(conflict(t.trafficPath,i,blockers[j],0))limit(t,t.trafficPath[i*5+4]);}
   for(let a=0;a<trucks.length;a++)for(let b=a+1;b<trucks.length;b++){const A=trucks[a],B=trucks[b],pa=A.trafficPath,pb=B.trafficPath;let aNow=Infinity,bNow=Infinity,bestA=Infinity,bestB=Infinity;
    // Trucks standing in their marked parking bays flank the departure lane;
    // their generous swept safety boxes used to pin the first called MAZ in
